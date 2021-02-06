@@ -4,14 +4,10 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Documento extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+
         static associate(models) {
-            // DOCUMENTO ESTA EN UNA COMISION
-            Documento.belongsTo(models.Comision, { as: "comision" });
+            // Un documento pertenece a una comision
+            Documento.belongsTo(models.Comision, { as: "comisiones", foreignKey: "comision_id" });
         }
     };
     Documento.init({

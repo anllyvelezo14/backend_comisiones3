@@ -4,14 +4,17 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Comision extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+
         static associate(models) {
-            //Una comision tiene muchos documentos 
-            Comision.hasMany(models.Documento, { as: "documentos" });
+            //Una comision tiene muchos documentos, cumplidos
+            Comision.hasMany(models.Documento, { as: "documentos", foreignKey: "comision_id" });
+            Comision.hasMany(models.Cumplido, { as: "cumplidos", foreignKey: "comision_id" });
+
+            //Una comision tiene pertenece a un tipo de solicitud
+            Comision.belongsTo(models.TipoSolicitud, { as: "tipos_solicitud", foreignKey: "tipos_solicitud_id" });
+
+            //Muchas comisiones tienen muchos estados 
+            Comision.belongsToMany(models.Estado, { through: "comisiones_has_estados" });
         }
     };
     Comision.init({

@@ -1,15 +1,15 @@
 const { all } = require("../routes");
 
-const { Documento } = require('../models/index')
+const { Cumplido } = require('../models/index')
 
 module.exports = {
 
     async all(req, res) {
-        let documentos = await Documento.findAll({
+        let cumplidos = await Cumplido.findAll({
             include: {
                 association: "comisiones"
             }
         });
-        res.json(documentos);
+        res.json(cumplidos);
     }
 }

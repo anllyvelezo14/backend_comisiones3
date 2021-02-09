@@ -40,7 +40,15 @@ module.exports = {
             },
             updatedAt: {
                 type: Sequelize.DATE
-            }
+            },
+            // tipoSolicitud_id: {
+            //     type: Sequelize.INTEGER,
+            //     references: {
+            //         models: "tipos_solicitud",
+            //         key: "id"
+            //     },
+            //     onDelete: "CASCADE"
+            // }
         });
     },
     down: async(queryInterface, Sequelize) => {

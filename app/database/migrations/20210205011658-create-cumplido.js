@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: async(queryInterface, Sequelize) => {
-        await queryInterface.createTable('Cumplidos', {
+        await queryInterface.createTable('cumplidos', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -22,10 +22,19 @@ module.exports = {
             correos: {
                 allowNull: false,
                 type: Sequelize.STRING(255)
-            }
+            },
+            // comision_id: {
+            //     type: Sequelize.INTEGER,
+            //     references: {
+            //         models: "comisiones",
+            //         key: "id"
+            //     },
+            //     onDelete: "CASCADE"
+            // }
+
         });
     },
     down: async(queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Cumplidos');
+        await queryInterface.dropTable('cumplidos');
     }
 };

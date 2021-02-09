@@ -18,7 +18,15 @@ module.exports = {
             es_cumplido: {
                 allowNull: false,
                 type: Sequelize.BOOLEAN
-            }
+            },
+            // comision_id: {
+            //     type: Sequelize.INTEGER,
+            //     references: {
+            //         models: "comisiones",
+            //         key: "id"
+            //     },
+            //     onDelete: "CASCADE"
+            // }
         });
     },
     down: async(queryInterface, Sequelize) => {

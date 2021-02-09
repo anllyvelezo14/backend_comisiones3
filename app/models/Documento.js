@@ -7,11 +7,19 @@ module.exports = (sequelize, DataTypes) => {
 
         static associate(models) {
             // Un documento pertenece a una comision
-            Documento.belongsTo(models.Comision, { as: "comisiones", foreignKey: "comision_id" });
+            Documento.belongsTo(models.Comision, { as: "comisiones", foreignKey: "comisiones_id" });
         }
     };
     Documento.init({
-        nombre: DataTypes.STRING,
+        nombre: {
+            type: DataTypes.STRING,
+            validate: {
+                len: {
+                    args: [0, 45],
+                    msg: "No puede ser mayor de 45 caracteres"
+                }
+            }
+        },
         es_anexo: DataTypes.BOOLEAN,
         es_cumplido: DataTypes.BOOLEAN
     }, {

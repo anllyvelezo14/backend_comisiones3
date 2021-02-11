@@ -12,19 +12,27 @@ module.exports = (sequelize, DataTypes) => {
     TipoSolicitud.init({
         nombre: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
                 len: {
                     args: [0, 45],
-                    msg: "No puede ser mayor de 45 caracteres"
+                    msg: "El nombre no puede ser mayor de 45 caracteres!",
+                },
+                notNull: {
+                    msg: "El nombre no debe estar en blanco!"
                 }
             }
         },
         descripcion: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
                 len: {
                     args: [0, 255],
-                    msg: "No puede ser mayor de 255 caracteres"
+                    msg: "La descripción no puede ser mayor de 255 caracteres"
+                },
+                notNull: {
+                    msg: "La descripción no debe estar en blanco!"
                 }
             }
         },

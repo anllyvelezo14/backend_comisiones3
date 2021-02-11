@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: async(queryInterface, Sequelize) => {
-        await queryInterface.createTable('Comisiones', {
+        await queryInterface.createTable('comisiones', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -41,8 +41,9 @@ module.exports = {
             updatedAt: {
                 type: Sequelize.DATE
             },
-            // tipoSolicitud_id: {
+            // tipoSolicitudId: {
             //     type: Sequelize.INTEGER,
+            //     allowNull: false,
             //     references: {
             //         models: "tipos_solicitud",
             //         key: "id"
@@ -52,6 +53,6 @@ module.exports = {
         });
     },
     down: async(queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Comisiones');
+        await queryInterface.dropTable('comisiones');
     }
 };

@@ -22,16 +22,7 @@ module.exports = {
             correos: {
                 allowNull: false,
                 type: Sequelize.STRING(255)
-            },
-            // comision_id: {
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         models: "comisiones",
-            //         key: "id"
-            //     },
-            //     onDelete: "CASCADE"
-            // }
-
+            }
         });
     },
     down: async(queryInterface, Sequelize) => {

@@ -12,10 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     Estado.init({
         nombre: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
                 len: {
                     args: [0, 45],
-                    msg: "No puede ser mayor de 45 caracteres"
+                    msg: "El nombre no puede ser mayor de 45 caracteres"
+                },
+                notNull: {
+                    msg: "El nombre no debe estar en blanco!"
                 }
             }
         },
@@ -24,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 len: {
                     args: [0, 255],
-                    msg: "No puede ser mayor de 255 caracteres"
+                    msg: "La descripción no puede ser mayor de 255 caracteres"
                 }
             }
         },

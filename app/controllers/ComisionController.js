@@ -12,7 +12,9 @@ module.exports = {
     },
     //SHOW ID
     async show(req, res) {
-        let comision = await Comision.findByPk(req.params.id);
+        let comision = await Comision.findByPk(req.params.id, {
+            include: ["cumplidos", "documentos", "tipos_solicitud"]
+        });
 
         if (!comision) {
             res.status(404).json({ msg: "Comision no encontrada!" });
@@ -33,7 +35,8 @@ module.exports = {
             idioma: req.body.idioma,
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
-
+            tipos_solicitud_id: req.body.tipos_solicitud_id,
+            //include: "tipos_solicitud"
         });
         await comision.save()
         if (!comision) {

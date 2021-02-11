@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     up: async(queryInterface, Sequelize) => {
-        await queryInterface.createTable('Documentos', {
+        await queryInterface.createTable('documentos', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -18,18 +18,10 @@ module.exports = {
             es_cumplido: {
                 allowNull: false,
                 type: Sequelize.BOOLEAN
-            },
-            // comision_id: {
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         models: "comisiones",
-            //         key: "id"
-            //     },
-            //     onDelete: "CASCADE"
-            // }
+            }
         });
     },
     down: async(queryInterface, Sequelize) => {
-        await queryInterface.dropTable('Documentos');
+        await queryInterface.dropTable('documentos');
     }
 };

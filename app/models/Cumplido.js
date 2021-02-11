@@ -7,22 +7,40 @@ module.exports = (sequelize, DataTypes) => {
     class Cumplido extends Model {
 
         static associate(models) {
-            Cumplido.belongsTo(models.Comision, { as: "comisiones", foreignKey: "comisiones_id" });
+            Cumplido.belongsTo(models.Comision, { as: "comisiones", foreignKey: "comisiones_id", targetKey: "id" });
         }
     };
     Cumplido.init({
-        fecha_envio: DataTypes.DATE,
-        fecha_confirmacion: DataTypes.DATE,
+        fecha_envio: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "La fecha de envío no debe estar en blanco!"
+                }
+            }
+        },
+        fecha_confirmacion: {
+            type: DataTypes.DATE,
+        },
         informacion_complementaria: {
             type: DataTypes.STRING,
             validate: {
                 len: {
                     args: [0, 255],
-                    msg: "No puede ser mayor de  255 caracteres"
+                    msg: "La  informacion complementaria no puede ser mayor de  255 caracteres"
                 }
             }
         },
-        correos: DataTypes.STRING
+        correos: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "Los correos no debe estar en blanco!"
+                }
+            }
+        }
     }, {
         sequelize,
         modelName: 'Cumplido',

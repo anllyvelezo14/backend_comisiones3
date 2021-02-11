@@ -12,16 +12,32 @@ module.exports = (sequelize, DataTypes) => {
 
             // //Una comision tiene pertenece a un tipo de solicitud y a un usuario
             Comision.belongsTo(models.TipoSolicitud, { as: "tipos_solicitud", foreignKey: "tipos_solicitud_id" });
-            Comision.belongsTo(models.Usuario, { as: "usuario" , foreignKey: "usuario_id"})
+            Comision.belongsTo(models.Usuario, { as: "usuario", foreignKey: "usuario_id" })
 
             // //Muchas comisiones tienen muchos estados 
             Comision.belongsToMany(models.Estado, { as: "estados", through: "comisiones_has_estados", foreignKey: "comisiones_id" });
         }
     };
     Comision.init({
-        fecha_inicio: DataTypes.DATE,
+        fecha_inicio: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "La fecha de inicio no debe estar en blanco!"
+                }
+            }
+        },
 
-        fecha_fin: DataTypes.DATE,
+        fecha_fin: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    msg: "La fecha de terminación no debe estar en blanco!"
+                }
+            }
+        },
 
         fecha_resolucion: DataTypes.DATE,
 
@@ -30,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 len: {
                     args: [0, 45],
-                    msg: "No puede ser mayor de 45 caracteres"
+                    msg: "La resolución No puede ser mayor de 45 caracteres"
                 }
             }
         },
@@ -39,17 +55,21 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 len: {
                     args: [0, 255],
-                    msg: "No puede ser mayor de 255 caracteres"
+                    msg: "La respuesta de devolución no puede ser mayor de 255 caracteres"
                 }
             }
         },
 
         justificacion: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
                 len: {
                     args: [0, 300],
-                    msg: "No puede ser mayor de 300 caracteres"
+                    msg: "La justificación no puede ser mayor de 300 caracteres"
+                },
+                notNull: {
+                    msg: "La justificación no debe estar en blanco!"
                 }
             }
         },
@@ -59,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 len: {
                     args: [0, 45],
-                    msg: "No puede ser mayor de 45 caracteres"
+                    msg: "El idioma no puede ser mayor de 45 caracteres"
                 }
             }
         },
@@ -68,10 +88,11 @@ module.exports = (sequelize, DataTypes) => {
             validate: {
                 len: {
                     args: [0, 45],
-                    msg: "No puede ser mayor de 45 caracteres"
+                    msg: "El lugar no puede ser mayor de 45 caracteres"
                 }
             }
-        }
+        },
+
     }, {
         sequelize,
         modelName: 'Comision',

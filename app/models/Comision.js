@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
             Comision.hasMany(models.Cumplido, { as: "cumplidos", foreignKey: "comisiones_id" });
 
             // //Una comision tiene pertenece a un tipo de solicitud y a un usuario
-            Comision.belongsTo(models.TipoSolicitud, { as: "tipos_solicitud", foreignKey: "tipos_solicitud_id" });
-            Comision.belongsTo(models.Usuario, { as: "usuario", foreignKey: "usuario_id" })
+            Comision.belongsTo(models.TipoSolicitud, { as: "tipos_solicitud", foreignKey: "tipos_solicitud_id", targetKey: "id" });
+            Comision.belongsTo(models.Usuario, { as: "usuario", foreignKey: "usuario_id", targetKey: "id" })
 
             // //Muchas comisiones tienen muchos estados 
-            Comision.belongsToMany(models.Estado, { as: "estados", through: "comisiones_has_estados", foreignKey: "comisiones_id" });
+            Comision.belongsToMany(models.Estado, { as: "estados", through: "comisiones_has_estados", foreignKey: "comisiones_id", targetKey: "id" });
         }
     };
     Comision.init({
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
             validate: {
-                notNull: {
+                notEmpty: {
                     msg: "La fecha de inicio no debe estar en blanco!"
                 }
             }
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
             validate: {
-                notNull: {
+                notEmpty: {
                     msg: "La fecha de terminación no debe estar en blanco!"
                 }
             }
@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [0, 300],
                     msg: "La justificación no puede ser mayor de 300 caracteres"
                 },
-                notNull: {
+                notEmpty: {
                     msg: "La justificación no debe estar en blanco!"
                 }
             }

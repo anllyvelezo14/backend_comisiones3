@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [0, 45],
                     msg: "El nombre no puede ser mayor de 45 caracteres"
                 },
-                notNull: {
+                notEmpty: {
                     msg: "El nombre no debe estar en blanco!"
                 }
             }
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             validate: {
-                notNull: {
+                notEmpty: {
                     msg: "Debe verificar si es un anexo"
                 }
             }
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             validate: {
-                notNull: {
+                notEmpty: {
                     msg: "Debe verificar si es un cumplido"
                 }
             }

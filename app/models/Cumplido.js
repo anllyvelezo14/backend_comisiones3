@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
             validate: {
-                notNull: {
+                notEmpty: {
                     msg: "La fecha de envío no debe estar en blanco!"
                 }
             }
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notNull: {
+                notEmpty: {
                     msg: "Los correos no debe estar en blanco!"
                 }
             }

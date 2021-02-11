@@ -6,13 +6,21 @@ module.exports = {
 
     //SHOW ALL
     async all(req, res) {
-        let estados = await Estado.findAll();
+        let estados = await Estado.findAll({
+            include: {
+                association: "comisiones"
+            }
+        });
         res.json(estados);
     },
 
     //SHOW ID
     async show(req, res) {
-        let estados = await Estado.findByPk(req.params.id);
+        let estados = await Estado.findByPk(req.params.id, {
+            include: {
+                association: "comisiones"
+            }
+        });
 
         if (!estados) {
             res.status(404).json({ msg: "Estado no encontrado!" });
@@ -26,18 +34,21 @@ module.exports = {
         const estados = await Estado.build({
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,
+
         });
-        await estados.save()
-        if (!Estado) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        await estados.save().then(function(newestados) {
+            console.log(newestados);
+            res.status(200).send({
+                status: 200,
+                message: 'El estado se creó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'El Estado se creó con éxito!'
-        });
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
+        })
     },
 
     //UPDATE
@@ -50,16 +61,18 @@ module.exports = {
             where: {
                 id: req.params.id,
             }
-        });
-        if (!estados) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        }).then(function(newestados) {
+            console.log(newestados);
+            res.status(200).send({
+                status: 200,
+                message: 'El estado se actualizó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'Estado actualizado con éxito!'
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
         });
     },
 

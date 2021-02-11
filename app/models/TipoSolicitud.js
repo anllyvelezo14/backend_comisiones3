@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [0, 45],
                     msg: "El nombre no puede ser mayor de 45 caracteres!",
                 },
-                notNull: {
+                notEmpty: {
                     msg: "El nombre no debe estar en blanco!"
                 }
             }
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [0, 255],
                     msg: "La descripción no puede ser mayor de 255 caracteres"
                 },
-                notNull: {
+                notEmpty: {
                     msg: "La descripción no debe estar en blanco!"
                 }
             }

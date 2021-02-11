@@ -37,17 +37,20 @@ module.exports = {
             es_cumplido: req.body.es_cumplido,
             comisiones_id: req.body.comisiones_id,
         });
-        await documentos.save()
-        if (!documentos) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        await documentos.save().then(function(newdocumento) {
+            console.log(newdocumento);
+            res.status(200).send({
+                status: 200,
+                message: 'El Documento se creó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'El Documento se creó con éxito!'
-        });
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
+        })
+
     },
 
     //UPDATE
@@ -57,20 +60,23 @@ module.exports = {
             nombre: req.body.nombre,
             es_anexo: req.body.es_anexo,
             es_cumplido: req.body.es_cumplido,
+            comisiones_id: req.body.comisiones_id,
         }, {
             where: {
                 id: req.params.id,
             }
-        });
-        if (!documentos) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        }).then(function(newdocumento) {
+            console.log(newdocumento);
+            res.status(200).send({
+                status: 200,
+                message: 'El Documento se actualizó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'Documento actualizado con éxito!'
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
         });
     },
 

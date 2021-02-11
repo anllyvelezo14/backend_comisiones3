@@ -38,17 +38,19 @@ module.exports = {
             correos: req.body.correos,
             comisiones_id: req.body.comisiones_id,
         });
-        await cumplidos.save()
-        if (!cumplidos) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        await cumplidos.save().then(function(newcumplidos) {
+            console.log(newcumplidos);
+            res.status(200).send({
+                status: 200,
+                message: 'El cumplido se creó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'El cumplido se creó con éxito!'
-        });
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
+        })
     },
 
     //UPDATE
@@ -64,16 +66,18 @@ module.exports = {
             where: {
                 id: req.params.id,
             }
-        });
-        if (!cumplidos) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        }).then(function(newcumplidos) {
+            console.log(newcumplidos);
+            res.status(200).send({
+                status: 200,
+                message: 'El cumplido se actualizó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'Cumplido actualizado con éxito!'
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
         });
     },
 

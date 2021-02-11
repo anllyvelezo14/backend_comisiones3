@@ -11,27 +11,10 @@ module.exports = {
             },
             createdAt: {
                 type: Sequelize.DATE
+            },
+            updatedAt: {
+                type: Sequelize.DATE
             }
-            // comision_id: {
-            //     allowNull: false,
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         model: "comsiones",
-            //         key: "id"
-            //     }
-            // },
-            // estado_id: {
-            //     allowNull: false,
-            //     type: Sequelize.INTEGER,
-            //     references: {
-            //         model: "estados",
-            //         key: "id"
-            //     },
-            //     createdAt: {
-            //         type: Sequelize.DATE
-            //     },
-            // },
-
         });
     },
 

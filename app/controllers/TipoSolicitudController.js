@@ -14,7 +14,9 @@ module.exports = {
 
     //SHOW ID
     async show(req, res) {
-        let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id);
+        let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id, {
+            include: "comisiones"
+        });
 
         if (!tipos_solicitud) {
             res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
@@ -29,17 +31,19 @@ module.exports = {
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,
         });
-        await tipos_solicitud.save()
-        if (!tipos_solicitud) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        await tipos_solicitud.save().then(function(newtipos_solicitud) {
+            console.log(newtipos_solicitud);
+            res.status(200).send({
+                status: 200,
+                message: 'El tipo de solicitud se creó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'El Tipo de Solicitud se creó con éxito!'
-        });
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
+        })
     },
 
     //UPDATE
@@ -52,16 +56,18 @@ module.exports = {
             where: {
                 id: req.params.id,
             }
-        });
-        if (!tipos_solicitud) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
+        }).then(function(newtipos_solicitud) {
+            console.log(newtipos_solicitud);
+            res.status(200).send({
+                status: 200,
+                message: 'El tipo de solicitud se actualizó con éxito!'
             });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'Tipo de Solicitud actualizado con éxito!'
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 404,
+                message: error.message
+            });
         });
     },
 
@@ -75,6 +81,21 @@ module.exports = {
             tipos_solicitud.destroy().then(tipos_solicitud => {
                 res.json({ msg: "El Tipo de Solicitud ha sido eliminado!" })
             })
+        }
+    },
+
+    //SHOW NAME
+    async showName(req, res) {
+        let tipos_solicitud = await TipoSolicitud.find({
+            where: {
+                nombre: req.params.nombre
+            }
+        });
+
+        if (!tipos_solicitud) {
+            res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
+        } else {
+            res.json(tipos_solicitud);
         }
     },
 }

@@ -29,8 +29,8 @@ module.exports = {
             nombre: req.body.nombre,
             apellido: req.body.apellido,
             email: req.body.email,
-            contraseña: req.body.contraseña
-            
+            contrasena: req.body.contrasena
+
         });
         res.json(usuario);
         await usuario.save()

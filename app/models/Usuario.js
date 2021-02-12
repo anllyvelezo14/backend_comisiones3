@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             //Un usuario tiene muchas comisiones
             Usuario.hasMany(models.Comision, { as: "comision", foreignKey: "usuarios_id" });
-            
+
             // //Un usuario tiene un rol y un departamento
-            Usuario.belongsTo(models.Rol, { as: "rol" , foreignKey: "usuarios_id" });
-            Usuario.belongsTo(models.Departamento, { as: "departamento",  foreignKey: "usuarios_id" });
+            Usuario.belongsTo(models.Rol, { as: "rol", foreignKey: "usuarios_id" });
+            Usuario.belongsTo(models.Departamento, { as: "departamento", foreignKey: "usuarios_id" });
         }
     };
     Usuario.init({
@@ -27,14 +27,14 @@ module.exports = (sequelize, DataTypes) => {
 
         identificacion: {
             type: DataTypes.INTEGER,
-            validation:{
+            validation: {
                 isInt: {
                     args: true,
                     msg: "La identificación debe contener solo números"
                 },
-                len:{
-                    args: [0,12],
-                    msg:"no puede contener más de 12 dígitos"
+                len: {
+                    args: [0, 12],
+                    msg: "no puede contener más de 12 dígitos"
                 },
                 min: {
                     args: 0,
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
         nombre: {
             type: DataTypes.STRING,
             allowNull: false,
-            validation:{
+            validation: {
                 notNull: {
                     msg: "Debe añadir un nombre"
                 },
@@ -54,9 +54,9 @@ module.exports = (sequelize, DataTypes) => {
                     args: true,
                     msg: "El nombre solo puede contener letras"
                 },
-                len:{
-                    args:[0,30],
-                    msg:"El nombre no puede contener más de 30 caracteres"
+                len: {
+                    args: [0, 30],
+                    msg: "El nombre no puede contener más de 30 caracteres"
                 }
             }
         },
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         apellido: {
             type: DataTypes.STRING,
             allowNull: false,
-            validation:{
+            validation: {
                 notNull: {
                     msg: "Debe añadir un apellido"
                 },
@@ -72,24 +72,24 @@ module.exports = (sequelize, DataTypes) => {
                     args: true,
                     msg: "El apellido solo puede contener letras"
                 },
-                len:{
-                    args:[0,30],
-                    msg:"El apellido no puede contener más de 30 caracteres"
+                len: {
+                    args: [0, 30],
+                    msg: "El apellido no puede contener más de 30 caracteres"
                 }
             }
         },
         email: {
             type: DataTypes.STRING,
-            validate:{
-                len:{
-                    args: [0,100],
+            validate: {
+                len: {
+                    args: [0, 100],
                     msg: "El correo debe contener menos de 100 caracteres"
                 },
-                isEmail:{
+                isEmail: {
                     args: true,
                     msg: "El campo debe ser un correo valido"
                 },
-    
+
             }
         },
         // 1 si esta activo 0 si no
@@ -97,20 +97,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 1
         },
-        contraseña: {
+        contrasena: {
             type: DataTypes.STRING,
-            allowNull:false,
-            validation:{
+            allowNull: false,
+            validation: {
                 notNull: {
                     msg: "Debe añadir una contraseña"
                 },
-                len:{
-                    args:[4,100],
+                len: {
+                    args: [4, 100],
                     msg: "La contraseña debe contener entre 4 y 100 caracteres"
                 }
             }
         }
-        
+
     }, {
         sequelize,
         modelName: 'Usuario',

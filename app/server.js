@@ -20,9 +20,13 @@ app.listen(PORT, () => {
     sequelize.sync({ force: true }).then(() => {
         console.log("Se ha establecido la conexión");
     });
+    sequelize.authenticate().then(() => {
+        console.log('Estas conectado a la BD');
+    })
     process.on('warning', (warning) => {
         console.warn(warning.name); // Print the warning name
         console.warn(warning.message); // Print the warning message
         console.warn(warning.stack); // Print the stack trace
     });
+
 });

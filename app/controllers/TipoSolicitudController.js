@@ -4,6 +4,20 @@ const { TipoSolicitud } = require('../models/index')
 
 module.exports = {
 
+    async find(req, res, next) {
+
+        let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id, {
+            include: "comisiones"
+        });
+
+        if (!tipos_solicitud) {
+            res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
+        } else {
+            req.tipos_solicitud = tipos_solicitud;
+            next();
+        }
+    },
+
     //SHOW ALL
     async all(req, res) {
         let tipos_solicitud = await TipoSolicitud.findAll({
@@ -14,15 +28,7 @@ module.exports = {
 
     //SHOW ID
     async show(req, res) {
-        let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id, {
-            include: "comisiones"
-        });
-
-        if (!tipos_solicitud) {
-            res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
-        } else {
-            res.json(tipos_solicitud);
-        }
+        res.json(req.tipos_solicitud);
     },
 
     //CREATE
@@ -73,15 +79,11 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id);
 
-        if (!tipos_solicitud) {
-            res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
-        } else {
-            tipos_solicitud.destroy().then(tipos_solicitud => {
-                res.json({ msg: "El Tipo de Solicitud ha sido eliminado!" })
-            })
-        }
+        req.tipos_solicitud.destroy().then(tipos_solicitud => {
+            res.json({ msg: "El Tipo de Solicitud ha sido eliminado!" })
+        })
+
     },
 
     //SHOW NAME

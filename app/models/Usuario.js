@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
 
         static associate(models) {
             //Un usuario tiene muchas comisiones
-            Usuario.hasMany(models.Comision, { as: "comision", foreignKey: "usuarios_id" });
+            Usuario.hasMany(models.Comision, { as: "comisiones", foreignKey: "usuarios_id" });
 
             // //Un usuario tiene un rol y un departamento
-            Usuario.belongsTo(models.Rol, { as: "rol", foreignKey: "usuarios_id" });
-            Usuario.belongsTo(models.Departamento, { as: "departamento", foreignKey: "usuarios_id" });
+            Usuario.belongsTo(models.Rol, { as: "roles", foreignKey: "roles_id", targetKey: "id" });
+            Usuario.belongsTo(models.Departamento, { as: "departamentos", foreignKey: "departamentos_id", targetKey: "id" });
         }
     };
     Usuario.init({
@@ -119,5 +119,6 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: true,
         updatedAt: 'fecha_actualizacion',
     });
+
     return Usuario;
 };

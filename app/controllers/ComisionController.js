@@ -4,23 +4,29 @@ const { Comision } = require('../models/index')
 
 module.exports = {
 
-    async all(req, res) {
-        let comsiones = await Comision.findAll({
-            include: ["cumplidos", "documentos", "tipos_solicitud", "estados"]
-        });
-        res.json(comsiones);
-    },
-    //SHOW ID
-    async show(req, res) {
+    async find(req, res, next) {
         let comision = await Comision.findByPk(req.params.id, {
-            include: ["cumplidos", "documentos", "tipos_solicitud", "estados"]
+            include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
         });
 
         if (!comision) {
             res.status(404).json({ msg: "Comisión no encontrada!" });
         } else {
-            res.json(comision);
+            req.comision = comision;
+            next();
         }
+    },
+
+    async all(req, res) {
+        let comsiones = await Comision.findAll({
+            include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
+        });
+        res.json(comsiones);
+    },
+
+    //SHOW ID
+    async show(req, res) {
+        res.json(req.comision);
     },
 
     //CREATE
@@ -58,6 +64,7 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
+
         const id = req.params.id;
         const comision = Comision.update({
 
@@ -93,15 +100,10 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        let comision = await Comision.findByPk(req.params.id);
+        req.comision.destroy().then(comision => {
+            res.json({ msg: "La Comisión ha sido eliminada!" })
+        });
 
-        if (!comision) {
-            res.status(404).json({ msg: "Comisión no encontrada!" });
-        } else {
-            comision.destroy().then(comision => {
-                res.json({ msg: "La Comisión ha sido eliminada!" })
-            })
-        }
     },
 
 }

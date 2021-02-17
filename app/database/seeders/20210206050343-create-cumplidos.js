@@ -3,7 +3,7 @@
 module.exports = {
     up: async(queryInterface, Sequelize) => {
         let cumplidos = [
-            { correos: "@udea.edu.co", comision_id: 1 },
+            { fecha_envio: '2001-01-01', fecha_confirmacion: '2001-01-01', correos: "@udea.edu.co", comisiones_id: 1 },
         ];
 
         return await queryInterface.bulkInsert('cumplidos', cumplidos, {});

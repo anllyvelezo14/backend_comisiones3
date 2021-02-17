@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
             // //Una comision tiene pertenece a un tipo de solicitud y a un usuario
             Comision.belongsTo(models.TipoSolicitud, { as: "tipos_solicitud", foreignKey: "tipos_solicitud_id", targetKey: "id" });
-            Comision.belongsTo(models.Usuario, { as: "usuario", foreignKey: "usuario_id", targetKey: "id" })
+            Comision.belongsTo(models.Usuario, { as: "usuarios", foreignKey: "usuarios_id", targetKey: "id" })
 
             // //Muchas comisiones tienen muchos estados 
             Comision.belongsToMany(models.Estado, { as: "estados", through: "comisiones_has_estados", foreignKey: "comisiones_id", targetKey: "id" });

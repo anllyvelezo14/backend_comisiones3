@@ -4,6 +4,21 @@ const { Estado } = require('../models/index')
 
 module.exports = {
 
+    async find(req, res, next) {
+        let estados = await Estado.findByPk(req.params.id, {
+            include: {
+                association: "comisiones"
+            }
+        });
+
+        if (!estados) {
+            res.status(404).json({ msg: "Estado no encontrado!" });
+        } else {
+            req.estados = estados;
+            next();
+        }
+    },
+
     //SHOW ALL
     async all(req, res) {
         let estados = await Estado.findAll({
@@ -16,17 +31,7 @@ module.exports = {
 
     //SHOW ID
     async show(req, res) {
-        let estados = await Estado.findByPk(req.params.id, {
-            include: {
-                association: "comisiones"
-            }
-        });
-
-        if (!estados) {
-            res.status(404).json({ msg: "Estado no encontrado!" });
-        } else {
-            res.json(estados);
-        }
+        res.json(req.estados);
     },
 
     //CREATE
@@ -78,14 +83,9 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        let estados = await Estado.findByPk(req.params.id);
+        req.estados.destroy().then(estados => {
+            res.json({ msg: "El Estado ha sido eliminado!" })
+        })
 
-        if (!estados) {
-            res.status(404).json({ msg: "Estado no encontrado!" });
-        } else {
-            estados.destroy().then(estados => {
-                res.json({ msg: "El Estado ha sido eliminado!" })
-            })
-        }
     },
 }

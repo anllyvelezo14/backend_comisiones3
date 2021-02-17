@@ -4,6 +4,21 @@ const { Documento } = require('../models/index')
 
 module.exports = {
 
+    async find(req, res, next) {
+        let documentos = await Documento.findByPk(req.params.id, {
+            include: {
+                association: "comisiones"
+            }
+        });
+
+        if (!documentos) {
+            res.status(404).json({ msg: "Documento no encontrado!" });
+        } else {
+            req.documentos = documentos;
+            next();
+        }
+    },
+
     //SHOW ALL
     async all(req, res) {
         let documentos = await Documento.findAll({
@@ -16,17 +31,7 @@ module.exports = {
 
     //SHOW ID
     async show(req, res) {
-        let documentos = await Documento.findByPk(req.params.id, {
-            include: {
-                association: "comisiones"
-            }
-        });
-
-        if (!documentos) {
-            res.status(404).json({ msg: "Documento no encontrado!" });
-        } else {
-            res.json(documentos);
-        }
+        res.json(req.documentos);
     },
 
     //CREATE
@@ -82,15 +87,11 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        let documentos = await Documento.findByPk(req.params.id);
 
-        if (!documentos) {
-            res.status(404).json({ msg: "Documento no encontrado!" });
-        } else {
-            documentos.destroy().then(documentos => {
-                res.json({ msg: "El Documento ha sido eliminado!" })
-            })
-        }
+        req.documentos.destroy().then(documentos => {
+            res.json({ msg: "El Documento ha sido eliminado!" })
+        })
+
     },
 
 }

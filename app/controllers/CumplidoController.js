@@ -4,6 +4,22 @@ const { Cumplido } = require('../models/index');
 
 module.exports = {
 
+    async find(req, res, next) {
+        let cumplidos = await Cumplido.findByPk(req.params.id, {
+            include: {
+                association: "comisiones"
+            }
+        });
+
+        if (!cumplidos) {
+            res.status(404).json({ msg: "Cumplido no encontrado!" });
+        } else {
+
+            req.cumplidos = cumplidos;
+            next();
+        }
+    },
+
     //SHOW ALL
     async all(req, res) {
         let cumplidos = await Cumplido.findAll({
@@ -16,17 +32,7 @@ module.exports = {
 
     //SHOW ID
     async show(req, res) {
-        let cumplidos = await Cumplido.findByPk(req.params.id, {
-            include: {
-                association: "comisiones"
-            }
-        });
-
-        if (!cumplidos) {
-            res.status(404).json({ msg: "Cumplido no encontrado!" });
-        } else {
-            res.json(cumplidos);
-        }
+        res.json(req.cumplidos);
     },
 
     //CREATE
@@ -83,15 +89,11 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        let cumplidos = await Cumplido.findByPk(req.params.id);
 
-        if (!cumplidos) {
-            res.status(404).json({ msg: "Cumplido no encontrado!" });
-        } else {
-            cumplidos.destroy().then(cumplidos => {
-                res.json({ msg: "El cumplido ha sido eliminado!" })
-            })
-        }
+        req.cumplidos.destroy().then(cumplidos => {
+            res.json({ msg: "El cumplido ha sido eliminado!" })
+        })
+
     },
 
 }

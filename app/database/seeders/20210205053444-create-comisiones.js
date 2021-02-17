@@ -9,23 +9,29 @@ module.exports = {
         //let tipos_solicitud = await TipoSolicitud.findAll();
 
         let comisiones = [{
+                created_at: '2002-02-20',
+                fecha_actualizacion: '2002-02-20',
+                fecha_inicio: '2002-02-20',
+                fecha_fin: '2002-02-20',
+                fecha_resolucion: '2002-02-20',
                 lugar: "DC",
                 idioma: "ingles",
                 justificacion: "---",
                 resolucion: "bla",
                 respuesta_devolucion: "bla",
-                created_at: "2000-01-01",
-                fecha_actualizacion: "2021-01-01",
                 tipos_solicitud_id: 1
             },
             {
+                created_at: '2002-02-20',
+                fecha_actualizacion: '2002-02-20',
+                fecha_inicio: '2002-02-20',
+                fecha_fin: '2002-02-20',
+                fecha_resolucion: '2002-02-20',
                 lugar: "New York",
                 idioma: "ingles",
                 justificacion: "---",
                 resolucion: "bla",
                 respuesta_devolucion: "bla",
-                created_at: "2000-01-01",
-                fecha_actualizacion: "2021-01-01",
                 tipos_solicitud_id: 1
             }
         ];

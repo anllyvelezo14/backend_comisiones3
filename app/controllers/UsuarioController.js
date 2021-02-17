@@ -6,7 +6,7 @@ module.exports = {
 
     async all(req, res) {
         let usuarios = await Usuario.findAll({
-            include: ["comision", "rol", "departamento"]
+            include: ["comisiones", "roles", "departamentos"]
         });
         res.json(usuarios);
     },

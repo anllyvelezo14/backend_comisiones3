@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/authConfig');
-//const { Usuario } = require('../models/index')
+const { Usuario } = require('../models/index')
 
 module.exports = (req, res, next) => {
 
@@ -17,11 +17,14 @@ module.exports = (req, res, next) => {
             if (err) {
                 res.status(500).json({ msg: "Ocurrió un problema al decodificar el token", err });
             } else {
-
                 //decoded: payload en signIn
                 console.log(decoded);
-                req.usuario = decoded.usuario;
-                next();
+
+                Usuario.findByPk(decoded.usuario.id, { include: 'roles' }).then(usuario => {
+                    req.usuario = usuario;
+                    console.log(usuario.roles);
+                    next();
+                })
             }
 
         })

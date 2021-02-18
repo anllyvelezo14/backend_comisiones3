@@ -5,7 +5,9 @@ const router = expres.Router();
 const auth = require('./middlerwares/auth');
 
 //POLICIES
-const ComisionPolicy = require('./policies/ComisionPolicy')
+const ComisionPolicy = require('./policies/ComisionPolicy');
+const DocumentoPolicy = require('./policies/DocumentoPolicy')
+const CumplidoPolicy = require('./policies/CumplidoPolicy')
 
 //IMPORTAR CONTROLLERS
 const AuthController = require('../app/controllers/AuthController');
@@ -37,8 +39,8 @@ router.get('/api/departamentos', auth, DepartamentoController.all);
 
 //GET BY ID
 router.get('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.show, ComisionController.show);
-router.get('/api/documentos/:id', auth, DocumentoController.find, DocumentoController.show);
-router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoController.show);
+router.get('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.show, DocumentoController.show);
+router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.show, CumplidoController.show);
 router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);
 router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.show);
 router.get('/api/comisiones-estados/:id', auth, ComisionHasEstado.show);
@@ -64,8 +66,8 @@ router.post('/api/departamentos', auth, DepartamentoController.create);
 
 //UPDATE
 router.patch('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.update, ComisionController.update);
-router.patch('/api/documentos/:id', auth, DocumentoController.find, DocumentoController.update);
-router.patch('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoController.update);
+router.patch('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.update, DocumentoController.update);
+router.patch('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.update, CumplidoController.update);
 router.patch('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.update);
 router.patch('/api/estados/:id', auth, EstadoController.find, EstadoController.update);
 //router.patch('/api/comisiones-estados/:id', auth,ComisionHasEstado.update);
@@ -75,8 +77,8 @@ router.patch('/api/departamentos/:id', auth, DepartamentoController.update);
 
 //Delete
 router.delete('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.delete, ComisionController.delete);
-router.delete('/api/documentos/:id', auth, DocumentoController.find, DocumentoController.delete);
-router.delete('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoController.delete);
+router.delete('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.delete, DocumentoController.delete);
+router.delete('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.delete, CumplidoController.delete);
 router.delete('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.delete);
 router.delete('/api/estados/:id', auth, EstadoController.find, EstadoController.delete);
 //router.delete('/api/comisiones-estados/:id', auth,ComisionHasEstado.delete);

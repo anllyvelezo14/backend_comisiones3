@@ -1,7 +1,7 @@
 //Servidor de Express
 const express = require('express');
 const app = express();
-const { sequelize } = require('./models/index')
+const { sequelize } = require('./models/index');
 
 //PUERTO
 const PORT = process.env.PORT || 3000;

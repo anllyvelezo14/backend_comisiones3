@@ -18,10 +18,10 @@ module.exports = {
     },
 
     async all(req, res) {
-        let comsiones = await Comision.findAll({
+        let comision = await Comision.findAll({
             include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
         });
-        res.json(comsiones);
+        res.json(comision);
     },
 
     //SHOW ID

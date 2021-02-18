@@ -20,9 +20,9 @@ module.exports = (req, res, next) => {
                 //decoded: payload en signIn
                 console.log(decoded);
 
-                Usuario.findByPk(decoded.usuario.id, { include: 'roles' }).then(usuario => {
+                Usuario.findByPk(decoded.usuario.id, { include: ['roles', 'comisiones'] }).then(usuario => {
                     req.usuario = usuario;
-                    console.log(usuario.roles);
+                    console.log(usuario.roles, usuario.comisiones);
                     next();
                 })
             }

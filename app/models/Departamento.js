@@ -45,9 +45,9 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'Departamento',
         tableName: 'departamento',
-        timestamps: true,
-        createdAt: true,
-        updatedAt: 'fecha_actualizacion',
+        // timestamps: true,
+        // createdAt: true,
+        // updatedAt: 'fecha_actualizacion',
     });
     return Departamento;
 };

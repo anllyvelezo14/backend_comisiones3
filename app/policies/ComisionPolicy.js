@@ -3,9 +3,9 @@
 module.exports = {
 
     // showAll(req, res, next) {
-    //     if (found(req) || idAuth === idUser || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
-
+    //     if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
     //         next();
+
     //     } else {
     //         res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
     //     }

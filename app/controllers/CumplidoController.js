@@ -7,7 +7,8 @@ module.exports = {
     async find(req, res, next) {
         let cumplidos = await Cumplido.findByPk(req.params.id, {
             include: {
-                association: "comisiones"
+                association: "comisiones",
+                include: "usuarios"
             }
         });
 

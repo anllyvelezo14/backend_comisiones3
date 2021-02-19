@@ -19,10 +19,11 @@ module.exports = {
         //FALTA QUE DECANATURA PUEDA VER LOS DE LA MISMA FACULTAD
 
         let rolAuth = req.usuario.roles.nombre;
-        // let depAuth = req.usuario.departamentos_id;
-        // let depUser = req.comision.usuarios.departamentos_id;
+        let depAuth = req.usuario.departamentos_id;
+        let depUser = req.documentos.comisiones.usuarios.departamentos_id;
+        console.log(req.documentos.comisiones.usuarios.departamentos_id);
 
-        if (found(req) || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') { //|| (depUser === depAuth && rolAuth === 'COORDINACION')) {
+        if (found(req) || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || (depUser === depAuth && rolAuth === 'COORDINACION')) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })

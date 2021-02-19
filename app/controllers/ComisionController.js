@@ -1,6 +1,8 @@
 const { all } = require("../routes");
 
 const { Comision } = require('../models/index')
+const Sequelize = require('sequelize');
+const { or, and, gt, lt } = Sequelize.Op;
 
 module.exports = {
 
@@ -17,7 +19,9 @@ module.exports = {
         }
     },
 
+    //SHOW ALL
     async all(req, res) {
+
         let comision = await Comision.findAll({
             include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
         });

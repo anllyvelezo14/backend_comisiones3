@@ -1,29 +1,29 @@
 'use strict'
-const {Model, DataTypes} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
     class Facultad extends Model {
-        static associate(models){
+        static associate(models) {
             //Una facultad tiene muchas dependencias
-            Facultad.hasMany(models.Departamento, {as: "departamentos", foreignKey: "facultades_id"});
+            Facultad.hasMany(models.Departamento, { as: "departamentos", foreignKey: "facultades_id" });
 
         }
     };
     Facultad.init({
-        centro_de_costo:{
+        centro_de_costo: {
             type: DataTypes.INTEGER,
-            validate:{
+            validate: {
                 isInt: {
                     args: true,
                     msg: "La identificación debe contener solo números"
                 },
-                
-                len:{
-                    args:[0,8],
+
+                len: {
+                    args: [0, 8],
                     msg: "Este valor no puede tener más de 8 dígitos"
                 },
-                mencero(value){
-                    if(value<0){
+                mencero(value) {
+                    if (value < 0) {
                         throw new Error("La identificación debe contener solo números")
                     }
 
@@ -32,30 +32,30 @@ module.exports = (sequelize, DataTypes) => {
         },
         nombre: {
             type: DataTypes.STRING,
-            allowNull:false,
-            validate:{
-                notNull:{
+            allowNull: false,
+            validate: {
+                notNull: {
                     msg: "Debe añadir un nombre"
                 },
-                len:{
-                    args:[0,50],
+                len: {
+                    args: [0, 50],
                     msg: "El nombre no puede superar los 50 caracteres"
                 },
-                isAlpha:{
-                    args:true,
+                isAlpha: {
+                    args: true,
                     msg: "El nombre solo puede contener letras"
                 }
             }
         },
         descripcion: {
             type: DataTypes.STRING,
-            allowNull:false,
-            validate:{
-                notNull:{
+            allowNull: false,
+            validate: {
+                notNull: {
                     msg: "Debe añadir una descripción"
                 },
-                len:{
-                    args:[0,255],
+                len: {
+                    args: [0, 255],
                     msg: "La descripción no puede superar los 255 caracteres"
                 }
             }
@@ -64,9 +64,9 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'Facultad',
         tableName: 'facultades',
-        timestamps: true,
-        createdAt: true,
-        updatedAt: 'fecha_actualizacion',
+        // timestamps: true,
+        // createdAt: true,
+        // updatedAt: 'fecha_actualizacion',
     });
     return Facultad;
 };

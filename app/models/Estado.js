@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     class Estado extends Model {
 
         static associate(models) {
+            //Estado.hasMany(models.ComisionHasEstados, { as: "comisiones_has_estados", foreignKey: "estados_id" });
+
             Estado.belongsToMany(models.Comision, { as: "comisiones", through: "comisiones_has_estados", foreignKey: "estados_id", targetKey: "id" });
         }
     };

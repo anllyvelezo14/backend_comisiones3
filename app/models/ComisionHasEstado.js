@@ -5,6 +5,12 @@ const {
 module.exports = (sequelize, DataTypes) => {
     class ComisionHasEstado extends Model {
 
+        static associate(models) {
+            //Una comision tiene muchos documentos, cumplidos
+            //ComisionHasEstado.belongsTo(models.Estados, { as: "comisiones_has_estados", foreignKey: "estados_id", targetKey: "id" });
+            //ComisionHasEstado.belongsTo(models.Comisiones, { as: "comisiones_has_estados", foreignKey: "comisiones_id", targetKey: "id" });
+        }
+
     };
     ComisionHasEstado.init({
         createdAt: {

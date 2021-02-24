@@ -28,7 +28,7 @@ const FacultadController = require('./controllers/FacultadController');
 router.get('/', (req, res) => res.json({ hola: "mundo" }));
 
 //GET
-router.get('/api/comisiones', auth, ComisionController.all);
+router.get('/api/comisiones', auth, ComisionPolicy.showAll, ComisionController.all);
 router.get('/api/documentos', auth, DocumentoController.all);
 router.get('/api/cumplidos', auth, CumplidoController.all);
 router.get('/api/estados', auth, EstadoController.all);

@@ -1,3 +1,5 @@
+const { Departamento } = require('../models/index')
+
 const found = (req) => {
     let temArray = [];
     let isMine = false;
@@ -15,18 +17,28 @@ const found = (req) => {
 
 module.exports = {
 
-    show(req, res, next) {
-        //FALTA QUE DECANATURA PUEDA VER LOS DE LA MISMA FACULTAD
+    async show(req, res, next) {
 
         let rolAuth = req.usuario.roles.nombre;
         let depAuth = req.usuario.departamentos_id;
         let depUser = req.documentos.comisiones.usuarios.departamentos_id;
-        console.log(req.documentos.comisiones.usuarios.departamentos_id);
 
         if (found(req) || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || (depUser === depAuth && rolAuth === 'COORDINACION')) {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
+            let deptoUser = await Departamento.findByPk(req.documentos.comisiones.usuarios.departamentos_id);
+            let deptoAuth = await Departamento.findByPk(req.usuario.departamentos_id);
+
+            let facAuth = deptoAuth.facultades_id;
+            let facUser = deptoUser.facultades_id;
+
+            if (facAuth == facUser && rolAuth === 'DECANATURA') {
+                next();
+
+            } else {
+                res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
+            }
+
         }
     },
     update(req, res, next) {

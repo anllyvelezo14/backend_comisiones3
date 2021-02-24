@@ -24,9 +24,9 @@ module.exports = {
 
         //comision: autenticado
         let comision = await Comision.findAll({
-            //where: { usuarios_id: req.usuario.id },
             include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
         });
+
         res.json(comision);
     },
 

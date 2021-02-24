@@ -1,15 +1,18 @@
 const { Departamento } = require('../models/index')
+const { Usuario } = require('../models/index')
 
 module.exports = {
 
-    // showAll(req, res, next) {
-    //     if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
-    //         next();
+    showAll(req, res, next) {
 
-    //     } else {
-    //         res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
-    //     }
-    // },
+        let rolAuth = req.usuario.roles.nombre;
+
+        if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
+            next();
+        } else {
+            res.json(req.usuario.comisiones);
+        }
+    },
 
     async show(req, res, next) {
 

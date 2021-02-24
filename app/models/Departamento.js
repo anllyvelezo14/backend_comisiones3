@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             //Un departamento tiene muchos usuarios
             Departamento.hasMany(models.Usuario, { as: "usuarios", foreignKey: "departamentos_id" });
             //un departamento pertenece a una facultad
-            Departamento.belongsTo(models.Facultad, { as: "facultad", foreignKey: "departamentos_id" });
+            Departamento.belongsTo(models.Facultad, { as: "facultad", foreignKey: "facultades_id" });
         }
     };
     Departamento.init({

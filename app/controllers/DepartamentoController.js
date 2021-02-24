@@ -1,18 +1,49 @@
 const { all } = require("../routes");
 
-const { Departamento } = require('../models/index')
+const { Departamento, Usuario, Facultad, Rol} = require('../models/index')
 
 module.exports = {
 
     async all(req, res) {
         let departamentos = await Departamento.findAll({
-            include: ["usuarios", "facultad"]
+            include: [{
+                model: Usuario,
+                as: "usuarios",
+                attributes: ["nombre","apellido", "email"],
+                include: [{
+                    model: Rol,
+                    as: 'roles',
+                    attributes: ["nombre"]
+                }]
+            },{
+                model: Facultad,
+                as: 'facultad',
+                attributes: ["nombre"]
+            },
+        ]
         });
         res.json(departamentos);
     },
     //SHOW ID
     async show(req, res) {
-        let departamento = await Departamento.findByPk(req.params.id);
+        let departamento = await Departamento.findByPk(req.params.id,{
+            include: [{
+                model: Usuario,
+                as: "usuarios",
+                attributes: ["nombre","apellido", "email"],
+                include: [{
+                    model: Rol,
+                    as: 'roles',
+                    attributes: ["nombre"]
+                }]
+            },{
+                model: Facultad,
+                as: 'facultad',
+                attributes: ["nombre"]
+            },
+            
+        ]
+        });
 
         if (!departamento) {
             res.status(404).json({ msg: "Departamento no encontrado!" });
@@ -20,7 +51,7 @@ module.exports = {
             res.json(departamento);
         }
     },
-
+    /*
     //CREATE
     async create(req, res) {
         const departamento = await Departamento.build({
@@ -75,4 +106,5 @@ module.exports = {
             })
         }
     },
+    */
 }

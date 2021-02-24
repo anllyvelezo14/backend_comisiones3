@@ -17,7 +17,7 @@ app.use(require('./routes'));
 app.listen(PORT, () => {
     console.log(`La app arrancó en http://localhost:${PORT}`);
 
-    sequelize.sync({ force: true }).then(() => {
+    sequelize.sync({ force: false }).then(() => {
         console.log("Se ha establecido la conexión");
     });
     sequelize.authenticate().then(() => {

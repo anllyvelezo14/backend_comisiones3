@@ -20,7 +20,7 @@ module.exports = {
                     msg: "Email o contraseña incorrectos"
                 })
             } else {
-                if (contrasena != Usuario.contrasena) {
+                if (contrasena == Usuario.contrasena) {
                     //falta encriptar
 
                     //token

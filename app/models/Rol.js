@@ -11,28 +11,28 @@ module.exports = (sequelize, DataTypes) => {
     Rol.init({
         nombre: {
             type: DataTypes.STRING,
-            allowNull: false,
+            //allowNull: false,
             validate: {
-                notNull: {
+                /* notNull: {
                     msg: "Debe añadir un nombre"
-                },
+                }, */
                 len: {
                     args: [0, 15],
                     msg: "El nombre no puede superar los 15 caracteres"
                 },
-                isAlpha: {
+                /* isAlpha: {
                     args: true,
                     msg: "El nombre solo puede contener letras"
-                }
+                } */
             }
         },
         descripcion: {
             type: DataTypes.STRING,
-            allowNull: false,
+            //allowNull: false,
             validate: {
-                notNull: {
+                /* notNull: {
                     msg: "Debe añadir una descripción"
-                },
+                }, */
                 len: {
                     args: [0, 255],
                     msg: "La descripción no puede superar los 255 caracteres"

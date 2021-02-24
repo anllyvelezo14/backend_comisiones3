@@ -45,17 +45,17 @@ module.exports = (sequelize, DataTypes) => {
 
         nombre: {
             type: DataTypes.STRING,
-            allowNull: false,
+            /* allowNull: false, */
             validation: {
-                notNull: {
+                /* notNull: {
                     msg: "Debe añadir un nombre"
-                },
+                }, */
                 isAlpha: {
                     args: true,
                     msg: "El nombre solo puede contener letras"
                 },
                 len: {
-                    args: [0, 30],
+                    args: [1, 30],
                     msg: "El nombre no puede contener más de 30 caracteres"
                 }
             }

@@ -19,7 +19,7 @@ module.exports = {
             res.json(facultad);
         }
     },
-
+    /*
     //CREATE
     async create(req, res) {
         const facultad = await Facultad.build({
@@ -76,4 +76,5 @@ module.exports = {
             })
         }
     },
+    */
 }

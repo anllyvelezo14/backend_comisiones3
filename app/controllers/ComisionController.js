@@ -1,8 +1,8 @@
 const { all } = require("../routes");
-
 const { Comision } = require('../models/index')
-const Sequelize = require('sequelize');
-const { or, and, gt, lt } = Sequelize.Op;
+var Sequelize = require('sequelize');
+const { or } = Sequelize.Op;
+
 
 module.exports = {
 
@@ -23,6 +23,11 @@ module.exports = {
     async all(req, res) {
 
         let comision = await Comision.findAll({
+            where: {
+                usuarios_id: {
+                    [or]: req.user,
+                }
+            },
             include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
         });
 

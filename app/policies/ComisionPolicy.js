@@ -1,6 +1,20 @@
-const { Departamento, Usuario } = require('../models/index');
-var Sequelize = require('sequelize');
-const { or } = Sequelize.Op;
+const { Departamento, Usuario, Comision } = require('../models/index');
+const { Op } = require("sequelize");
+
+
+async function find(departamento) {
+    //busca usuarios en uno de los departamentos de la facultad del autenticado
+    let user = await Usuario.findAll({
+        raw: true,
+        attributes: ["id"],
+        where: {
+            departamentos_id: {
+                [Op.in]: departamento
+            }
+        }
+    });
+    return user
+}
 
 module.exports = {
 
@@ -12,14 +26,16 @@ module.exports = {
             next();
 
         } else if (rolAuth === 'COORDINACION') {
+
             let depAuth = req.usuario.departamentos_id;
 
-            //usuarios con mismo depto del autenticado
-            let user = await Usuario.findAll({
-                where: { departamentos_id: depAuth },
-                include: "comisiones"
-            });
-            res.json(user);
+            //usuarios en el dto del autenticado
+            let user = await find([depAuth]);
+
+            //Se envian los usuarios al controlador de comisiones
+            req.user = user.map(a => a.id)
+            next();
+
 
         } else if (rolAuth === 'DECANATURA') {
 
@@ -34,24 +50,15 @@ module.exports = {
                 }
             });
 
-            console.log(deptoUser.map(a => a.id));
+            let user = await find(deptoUser.map(a => a.id))
 
-            //usuarios con mismo depto del autenticado
-            let user = await Usuario.findAll({
-                where: {
-                    departamentos_id: {
-                        [or]: deptoUser.map(a => a.id),
-                    }
-                },
-                include: "comisiones"
-            });
-            res.json(user);
-
+            //Se envian los usuarios al controlador de comisiones
+            req.user = user.map(a => a.id)
+            next();
 
         } else {
             res.json(req.usuario.comisiones);
         }
-
     },
 
     async show(req, res, next) {
@@ -65,7 +72,6 @@ module.exports = {
         let depAuth = req.usuario.departamentos_id; //depto del autenticado
         let depUser = req.comision.usuarios.departamentos_id; //depto del usuario de la comision
 
-        console.log(depAuth, depUser);
 
         if (idAuth === idUser || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || (depUser === depAuth && rolAuth === 'COORDINACION')) {
             next();
@@ -81,6 +87,7 @@ module.exports = {
                 next();
 
             } else {
+
                 res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
             }
 

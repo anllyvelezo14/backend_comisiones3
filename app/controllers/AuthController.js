@@ -10,7 +10,7 @@ module.exports = {
 
         let { email, contrasena } = req.body;
 
-        let usuario = await Usuario.findOne({
+        await Usuario.findOne({
             where: {
                 email: email
             }
@@ -31,7 +31,6 @@ module.exports = {
                         usuario: usuario,
                         token: token,
                     })
-                    console.log(contrasena, usuario.contrasena, 'es el password');
 
                 } else {
                     res.status(401).json({

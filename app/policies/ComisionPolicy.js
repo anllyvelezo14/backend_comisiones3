@@ -1,17 +1,57 @@
-const { Departamento } = require('../models/index')
-const { Usuario } = require('../models/index')
+const { Departamento, Usuario } = require('../models/index');
+var Sequelize = require('sequelize');
+const { or } = Sequelize.Op;
 
 module.exports = {
 
-    showAll(req, res, next) {
+    async showAll(req, res, next) {
 
         let rolAuth = req.usuario.roles.nombre;
 
         if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
             next();
+
+        } else if (rolAuth === 'COORDINACION') {
+            let depAuth = req.usuario.departamentos_id;
+
+            //usuarios con mismo depto del autenticado
+            let user = await Usuario.findAll({
+                where: { departamentos_id: depAuth },
+                include: "comisiones"
+            });
+            res.json(user);
+
+        } else if (rolAuth === 'DECANATURA') {
+
+            let deptoAuth = await Departamento.findByPk(req.usuario.departamentos_id);
+            let facAuth = deptoAuth.facultades_id;
+
+            let deptoUser = await Departamento.findAll({
+                raw: true,
+                attributes: ["id"],
+                where: {
+                    facultades_id: facAuth,
+                }
+            });
+
+            console.log(deptoUser.map(a => a.id));
+
+            //usuarios con mismo depto del autenticado
+            let user = await Usuario.findAll({
+                where: {
+                    departamentos_id: {
+                        [or]: deptoUser.map(a => a.id),
+                    }
+                },
+                include: "comisiones"
+            });
+            res.json(user);
+
+
         } else {
             res.json(req.usuario.comisiones);
         }
+
     },
 
     async show(req, res, next) {
@@ -24,6 +64,8 @@ module.exports = {
         let idAuth = req.usuario.id;
         let depAuth = req.usuario.departamentos_id; //depto del autenticado
         let depUser = req.comision.usuarios.departamentos_id; //depto del usuario de la comision
+
+        console.log(depAuth, depUser);
 
         if (idAuth === idUser || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || (depUser === depAuth && rolAuth === 'COORDINACION')) {
             next();

@@ -1,4 +1,4 @@
-const { Departamento, Comision } = require('../models/index')
+const { Departamento } = require('../models/index')
 
 
 module.exports = {

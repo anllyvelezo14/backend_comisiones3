@@ -6,11 +6,11 @@ const authConfig = require('../../config/authConfig')
 module.exports = {
 
     //login
-    signIn(req, res) {
+    async signIn(req, res) {
 
         let { email, contrasena } = req.body;
 
-        Usuario.findOne({
+        let usuario = await Usuario.findOne({
             where: {
                 email: email
             }
@@ -20,7 +20,7 @@ module.exports = {
                     msg: "Email o contraseña incorrectos"
                 })
             } else {
-                if (contrasena == Usuario.contrasena) {
+                if (contrasena == usuario.contrasena) {
                     //falta encriptar
 
                     //token
@@ -31,6 +31,7 @@ module.exports = {
                         usuario: usuario,
                         token: token,
                     })
+                    console.log(contrasena, usuario.contrasena, 'es el password');
 
                 } else {
                     res.status(401).json({

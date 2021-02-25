@@ -22,7 +22,6 @@ module.exports = {
     //SHOW ALL
     async all(req, res) {
 
-        //comision: autenticado
         let comision = await Comision.findAll({
             include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
         });

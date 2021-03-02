@@ -11,9 +11,10 @@ module.exports = {
     },
     async show(req, res) {
         let rol = await Rol.findByPk(req.params.id,{
+            attributes: ["nombre"],
             include:{
                 model: Usuario,
-                as: Usuario,
+                as: 'usuarios',
                 attributes: ["nombre","apellido", "email"]
             }
         });

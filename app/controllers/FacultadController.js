@@ -1,17 +1,37 @@
 const { all } = require("../routes");
 
-const { Facultad } = require('../models/index')
+const { Facultad, Departamento, Usuario} = require('../models/index')
 
 module.exports = {
 
     async all(req, res) {
         let facultades = await Facultad.findAll({
-            include: "departamentos"
+            include: {
+                model: Departamento,
+                as: "departamentos",
+                attributes: ["nombre"],
+                include: {
+                    model: Usuario,
+                    as: "usuarios",
+                    attributes: ["nombre","apellido", "email"]
+                }
+            }
         });
         res.json(facultades);
     },
     async show(req, res) {
-        let facultad = await Facultad.findByPk(req.params.id);
+        let facultad = await Facultad.findByPk(req.params.id,{
+            include: {
+                model: Departamento,
+                as: "departamentos",
+                attributes: ["nombre"],
+                include: {
+                    model: Usuario,
+                    as: "usuarios",
+                    attributes: ["nombre","apellido", "email"]
+                }
+            }
+        });
 
         if (!facultad) {
             res.status(404).json({ msg: "Facultad no encontrado!" });

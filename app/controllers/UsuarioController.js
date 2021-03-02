@@ -59,29 +59,7 @@ module.exports = {
     },
 
     //CREATE
-    async create(req, res) {
-        const usuario = await Usuario.build({
-            tipo_identificacion: req.body.tipo_identificacion,
-            identificacion: req.body.identificacion,
-            nombre: req.body.nombre,
-            apellido: req.body.apellido,
-            email: req.body.email,
-            contrasena: req.body.contrasena,
-            roles_id: req.body.rol,
-            departamentos_id: req.body.departamentos
-        });
-        await usuario.save()
-        if (!usuario) {
-            return res.status(200).send({
-                status: 404,
-                message: 'No se encontraron datos'
-            });
-        }
-        res.status(200).send({
-            status: 200,
-            message: 'El usuario se creó con éxito!'
-        });
-    },
+    
 
     //UPDATE
     async update(req, res) {

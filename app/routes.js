@@ -56,13 +56,13 @@ router.get('/api/tipos-solicitud/:nombre', auth, TipoSolicitudController.showNam
 
 
 //CREATE
-router.post('/api/comisiones',  ComisionController.create);
+router.post('/api/comisiones', auth, ComisionController.create);
 router.post('/api/documentos', auth, DocumentoController.create);
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
 router.post('/api/estados', auth, EstadoPolicy.create, EstadoController.create);
 //router.post('/api/comisiones-estados', auth,ComisionHasEstado.create);
-router.post('/api/usuarios', UsuarioController.create);
+//router.post('/api/usuarios', UsuarioController.create);
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);
 

@@ -1,13 +1,13 @@
 const { all } = require("../routes");
 
-const { Comision } = require('../models/index');
+const { ComisionHasEstados } = require('../models/index');
 
 //const { Estado } = require('../models/index');
 
 module.exports = {
     //SHOW ALL
     async all(req, res) {
-        let comisiones_has_estados = await Comision.findAll({
+        let comisiones_has_estados = await ComisionHasEstados.findAll({
             include: {
                 association: "estados"
             }
@@ -16,7 +16,7 @@ module.exports = {
     },
     //SHOW ID
     async show(req, res) {
-        let comisiones_has_estados = await Comision.findByPk(req.params.id, {
+        let comisiones_has_estados = await ComisionHasEstados.findByPk(req.params.id, {
             include: {
                 association: "estados"
             }
@@ -28,7 +28,6 @@ module.exports = {
             res.json(comisiones_has_estados);
         }
     },
-
 }
 
 // const { ComisionHasEstado } = require('../models/index');

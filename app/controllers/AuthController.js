@@ -6,11 +6,11 @@ const authConfig = require('../../config/authConfig')
 module.exports = {
 
     //login
-    signIn(req, res) {
+    async signIn(req, res) {
 
         let { email, contrasena } = req.body;
 
-        Usuario.findOne({
+        await Usuario.findOne({
             where: {
                 email: email
             }

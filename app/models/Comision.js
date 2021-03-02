@@ -10,12 +10,16 @@ module.exports = (sequelize, DataTypes) => {
             Comision.hasMany(models.Documento, { as: "documentos", foreignKey: "comisiones_id" });
             Comision.hasMany(models.Cumplido, { as: "cumplidos", foreignKey: "comisiones_id" });
 
-            // //Una comision tiene pertenece a un tipo de solicitud y a un usuario
+            //.---------------------
+            //Comision.hasMany(models.ComisionHasEstado, { as: "comisiones_has_estados", foreignKey: "comisiones_id" });
+
+            // //Una comision pertenece a un tipo de solicitud y a un usuario
             Comision.belongsTo(models.TipoSolicitud, { as: "tipos_solicitud", foreignKey: "tipos_solicitud_id", targetKey: "id" });
             Comision.belongsTo(models.Usuario, { as: "usuarios", foreignKey: "usuarios_id", targetKey: "id" })
 
             // //Muchas comisiones tienen muchos estados 
             Comision.belongsToMany(models.Estado, { as: "estados", through: "comisiones_has_estados", foreignKey: "comisiones_id", targetKey: "id" });
+
         }
     };
     Comision.init({

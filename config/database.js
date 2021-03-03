@@ -13,8 +13,8 @@ module.exports = {
         underscored: true
     },
     //Configurar Seeds
-    /* seederStorage: "sequelize",
-    seederStorageTableName: "SequelizeSeeds", */
+    seederStorage: "sequelize",
+    seederStorageTableName: "SequelizeSeeds",
 
     //Configurar Migrations
     migrationsStorage: "sequelize",

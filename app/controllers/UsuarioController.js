@@ -27,7 +27,7 @@ module.exports = {
         ]
         });
         res.json(usuarios);
-        console.log(usuarios[0].dataValues.departamentos.facultad.nombre);
+        //console.log(usuarios[0].dataValues.departamentos.facultad.nombre);
     },
     //SHOW ID
     async show(req, res) {
@@ -89,15 +89,43 @@ module.exports = {
     },
 
     //DELETE
-    async delete(req, res) {
-        let usuario = await Usuario.findByPk(req.params.id);
-
+    async desactive(req, res) {
+        const usuario = await Usuario.update({
+            estado: 0
+        }, {
+            where: {
+                id: req.params.id,
+            }
+        });
         if (!usuario) {
-            res.status(404).json({ msg: "Usuario no encontrado!" });
-        } else {
-            usuario.destroy().then(usuario => {
-                res.json({ msg: "El Usuario ha sido eliminado!" })
-            })
+            return res.status(200).send({
+                status: 404,
+                message: 'No se encontraron datos'
+            });
         }
+        res.status(200).send({
+            status: 200,
+            message: 'Usuario desactivado satisfactoriamente!'
+        });
+    },
+
+    async active(req, res) {
+        const usuario = await Usuario.update({
+            estado: 1
+        }, {
+            where: {
+                id: req.params.id,
+            }
+        });
+        if (!usuario) {
+            return res.status(200).send({
+                status: 404,
+                message: 'No se encontraron datos'
+            });
+        }
+        res.status(200).send({
+            status: 200,
+            message: 'Usuario activado satisfactoriamente!'
+        });
     },
 }

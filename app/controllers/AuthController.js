@@ -45,9 +45,9 @@ module.exports = {
     //registro
     signUp(req, res) {
         let contrasena = bcrypt.hashSync(req.body.contrasena, Number.parseInt(authConfig.rounds));
-
+        console.log(req.body);
         Usuario.create({
-            tipo_identificacion: req.body.tipo_identificacion,
+            tipo_identificacion: req.body.tipoidentificacion,
             identificacion: req.body.identificacion,
             nombre: req.body.nombre,
             apellido: req.body.apellido,

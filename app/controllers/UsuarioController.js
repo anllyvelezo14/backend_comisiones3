@@ -8,6 +8,7 @@ module.exports = {
 
     async all(req, res) {
         let usuarios = await Usuario.findAll({
+            where: req.where,
             include: [{
                 model: Rol,
                 as: "roles",
@@ -31,36 +32,13 @@ module.exports = {
     },
     //SHOW ID
     async show(req, res) {
-        let usuario = await Usuario.findByPk(req.params.id,{
-            include: [{
-                model: Rol,
-                as: "roles",
-                attributes: ["nombre"]
-            },{
-                model: Departamento,
-                as: 'departamentos',
-                attributes: ["nombre"],
-                include: [{
-                    model: Facultad,
-                    as: 'facultad',
-                    attributes: ["nombre"]
-                }]
-
-            },
-            "comisiones"
-            ]
-        });
-
+        let usuario = req.usuarioid
         if (!usuario) {
             res.status(404).json({ msg: "Usuario no encontrado!" });
         } else {
             res.json(usuario);
         }
     },
-
-    //CREATE
-    
-
     //UPDATE
     async update(req, res) {
         const id = req.params.id;

@@ -10,6 +10,7 @@ const DocumentoPolicy = require('./policies/DocumentoPolicy')
 const CumplidoPolicy = require('./policies/CumplidoPolicy');
 const TipoSolicitudPolicy = require('./policies/TipoSolicitudPolicy');
 const EstadoPolicy = require('./policies/EstadoPolicy');
+const UsuariosPolicy = require('./policies/UsuariosPolicy');
 
 //IMPORTAR CONTROLLERS
 const AuthController = require('../app/controllers/AuthController');
@@ -34,7 +35,7 @@ router.get('/api/cumplidos', auth, CumplidoController.all);
 router.get('/api/estados', auth, EstadoController.all);
 router.get('/api/comisiones-estados', auth, ComisionHasEstado.all);
 router.get('/api/tipos-solicitud', auth, TipoSolicitudController.all);
-router.get('/api/usuarios',auth, UsuarioController.all);
+router.get('/api/usuarios',auth, UsuariosPolicy.all,UsuarioController.all);
 router.get('/api/facultades', auth, FacultadController.all);
 router.get('/api/roles', auth,RolController.all);
 router.get('/api/departamentos', auth,  DepartamentoController.all);
@@ -46,7 +47,7 @@ router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.s
 router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);
 router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.show);
 router.get('/api/comisiones-estados/:id', auth, ComisionHasEstado.show);
-router.get('/api/usuarios/:id', auth, UsuarioController.show);
+router.get('/api/usuarios/:id', auth,UsuariosPolicy.show, UsuarioController.show);
 router.get('/api/facultades/:id',  auth, FacultadController.show);
 router.get('/api/roles/:id', auth, RolController.show);
 router.get('/api/departamentos/:id',  auth, DepartamentoController.show);

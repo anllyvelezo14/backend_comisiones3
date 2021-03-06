@@ -1,6 +1,6 @@
 module.exports = {
 
-    async showAll(req, res, next) {
+    showAll(req, res, next) {
 
         let rolAuth = req.usuario.roles.nombre;
 
@@ -25,7 +25,7 @@ module.exports = {
         }
     },
 
-    async show(req, res, next) {
+    show(req, res, next) {
 
         let rolAuth = req.usuario.roles.nombre;
         let idUser = req.cumplidos.comisiones.usuarios_id;

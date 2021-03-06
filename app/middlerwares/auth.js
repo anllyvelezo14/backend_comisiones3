@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/authConfig');
-const { Usuario, Rol, Departamento, Facultad, Comision, Documento, Cumplido } = require('../models/index')
+const { Usuario, Rol, Departamento, TipoSolicitud, Facultad, Comision, Documento, Cumplido } = require('../models/index')
 
 module.exports = (req, res, next) => {
 
@@ -23,54 +23,35 @@ module.exports = (req, res, next) => {
 
                 Usuario.findByPk(decoded.usuario.id, {
                     include: [{
-                            model: Rol,
-                            as: "roles",
-                            attributes: ["id", "nombre"]
+                        model: Rol,
+                        as: "roles",
+                        attributes: ["id", "nombre"]
+                    }, {
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["id", "nombre", "facultades_id"],
+                        include: [{
+                            model: Facultad,
+                            as: 'facultad',
+                            attributes: ["id", "nombre"],
+                        }],
+                    }, {
+                        model: Comision,
+                        as: "comisiones",
+                        include: [{
+                            model: TipoSolicitud,
+                            as: "tipos_solicitud",
+                            attributes: ["nombre"]
                         }, {
-                            model: Departamento,
-                            as: 'departamentos',
-                            attributes: ["id", "nombre", "facultades_id"],
-                            include: [{
-                                model: Facultad,
-                                as: 'facultad',
-                                attributes: ["id", "nombre"],
-                            }]
-
+                            model: Documento,
+                            as: "documentos",
+                            attributes: ["id", "nombre", "es_anexo"]
                         }, {
-                            model: Comision,
-                            as: "comisiones",
-                            attributes: ["id", "usuarios_id"],
-                            include: [{
-                                model: Documento,
-                                association: "documentos",
-                                attributes: ["id", "comisiones_id"],
-                                include: [{
-                                    model: Comision,
-                                    association: "comisiones",
-                                    attributes: ["id"],
-                                    include: [{
-                                        model: Usuario,
-                                        association: "usuarios",
-                                        attributes: ["id"],
-                                        include: [{
-                                            model: Departamento,
-                                            association: "departamentos",
-                                            attributes: ["id", "nombre"],
-
-                                        }]
-
-                                    }]
-
-                                }]
-
-                            }, {
-                                model: Cumplido,
-                                association: 'cumplidos',
-                                attributes: ["id", "comisiones_id"],
-                            }]
-                        }
-
-                    ]
+                            model: Cumplido,
+                            as: "cumplidos",
+                            attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+                        }, "estados"]
+                    }]
 
                 }).then(usuario => {
                     req.usuario = usuario;

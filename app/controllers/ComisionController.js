@@ -1,53 +1,15 @@
-const { all } = require("../routes");
-const { Comision, TipoSolicitud, Usuario, Departamento, Documento, Cumplido, Estado } = require('../models/index')
-var Sequelize = require('sequelize');
-const { or } = Sequelize.Op;
-const { Op } = require("sequelize");
-
+const { Comision, TipoSolicitud, Usuario, Departamento, Facultad, Documento, Cumplido } = require('../models/index')
 
 
 module.exports = {
 
+    //FIND By ID
     async find(req, res, next) {
-        let comision = await Comision.findByPk(req.params.id, {
-            include: [{
-                model: Usuario,
-                as: "usuarios",
-                attributes: ["nombre"]
-
-            }, "cumplidos", "documentos", "tipos_solicitud", "estados"]
-        });
-
-        if (!comision) {
-            res.status(404).json({ msg: "Comisión no encontrada!" });
-        } else {
-            req.comision = comision;
-            next();
-        }
-    },
-
-    //SHOW ALL
-    async all(req, res) {
-
-        let comision = await Comision.findAll({
-            where: {
-                usuarios_id: {
-                    [Op.in]: req.user,
-                }
-            },
+        let comisiones = await Comision.findByPk(req.params.id, {
             include: [{
                     model: TipoSolicitud,
                     as: "tipos_solicitud",
                     attributes: ["nombre"]
-                }, {
-                    model: Usuario,
-                    as: "usuarios",
-                    attributes: ["nombre"],
-                    include: [{
-                        model: Departamento,
-                        as: 'departamentos',
-                        attributes: ["nombre"]
-                    }]
                 }, {
                     model: Documento,
                     as: "documentos",
@@ -56,17 +18,77 @@ module.exports = {
                     model: Cumplido,
                     as: "cumplidos",
                     attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+                }, {
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre", "facultades_id"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+                },
+                "estados"
+            ]
+        });
+
+        console.log(comisiones);
+
+        if (!comisiones) {
+            res.status(404).json({ msg: "Comisión no encontrada!" });
+        } else {
+            req.comisiones = comisiones;
+            next();
+        }
+    },
+
+    //SHOW ID
+    async show(req, res) {
+        res.json(req.comisiones);
+    },
+
+    //SHOW ALL
+    async all(req, res) {
+
+        let comision = await Comision.findAll({
+            where: req.where,
+            include: [{
+                    model: TipoSolicitud,
+                    as: "tipos_solicitud",
+                    attributes: ["nombre"]
+                }, {
+                    model: Documento,
+                    as: "documentos",
+                    attributes: ["id", "nombre", "es_anexo"]
+                }, {
+                    model: Cumplido,
+                    as: "cumplidos",
+                    attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+                }, {
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
                 },
                 "estados"
             ]
         });
 
         res.json(comision);
-    },
-
-    //SHOW ID
-    async show(req, res) {
-        res.json(req.comision);
     },
 
     //CREATE

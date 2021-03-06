@@ -31,7 +31,7 @@ router.get('/', (req, res) => res.json({ hola: "mundo" }));
 //GET
 router.get('/api/comisiones', auth, ComisionPolicy.showAll, ComisionController.all);
 router.get('/api/documentos', auth, DocumentoPolicy.showAll, DocumentoController.all);
-router.get('/api/cumplidos', auth, CumplidoController.all);
+router.get('/api/cumplidos', auth, CumplidoPolicy.showAll, CumplidoController.all);
 router.get('/api/estados', auth, EstadoController.all);
 router.get('/api/comisiones-estados', auth, ComisionHasEstado.all);
 router.get('/api/tipos-solicitud', auth, TipoSolicitudController.all);

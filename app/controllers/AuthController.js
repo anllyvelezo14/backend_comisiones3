@@ -20,7 +20,8 @@ module.exports = {
                     msg: "Email o contraseña incorrectos"
                 })
             } else {
-                if (bcrypt.compareSync(contrasena,usuario.contrasena)) {
+
+                if (bcrypt.compareSync(contrasena, usuario.contrasena)) {
 
                     //token
                     let token = jwt.sign({ usuario: usuario }, authConfig.secret, {
@@ -56,15 +57,15 @@ module.exports = {
             roles_id: req.body.rol,
             departamentos_id: req.body.departamentos
         }).then(usuario => {
-            let token = jwt.sign({usuario: usuario}, authConfig.secret,{
+            let token = jwt.sign({ usuario: usuario }, authConfig.secret, {
                 expiresIn: authConfig.expires
             });
             /* res.json({
                 usuario: usuario,
                 token: token
             }); */
-            
-             if (!usuario) {
+
+            if (!usuario) {
                 return res.status(200).send({
                     status: 404,
                     message: 'No se encontraron datos'
@@ -73,11 +74,11 @@ module.exports = {
             res.status(200).send({
                 status: 200,
                 message: 'El usuario se creó con éxito!'
-            }); 
+            });
         });
 
-        
-        
-        
+
+
+
     },
 }

@@ -3,7 +3,8 @@ const { Op } = require("sequelize");
 
 
 async function find(departamento) {
-    //busca usuarios en uno de los departamentos de la facultad del autenticado
+
+    //busca los usuarios en los departamentos de la facultad del autenticado
     let user = await Usuario.findAll({
         raw: true,
         attributes: ["id"],
@@ -23,14 +24,16 @@ module.exports = {
         let rolAuth = req.usuario.roles.nombre;
 
         if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
+
             next();
 
         } else if (rolAuth === 'COORDINACION') {
 
             let depAuth = req.usuario.departamentos_id;
 
-            //usuarios en el dto del autenticado
+            //usuarios en el departamento del autenticado
             let user = await find([depAuth]);
+
 
             //Se envian los usuarios al controlador de comisiones
             req.user = user.map(a => a.id)
@@ -39,9 +42,15 @@ module.exports = {
 
         } else if (rolAuth === 'DECANATURA') {
 
+            prueba = { 'estado': 1, '$departamentos.facultad.nombre$': req.usuario.departamentos.facultad.nombre };
+
+
             let deptoAuth = await Departamento.findByPk(req.usuario.departamentos_id);
+
+            //facultad del autenticado
             let facAuth = deptoAuth.facultades_id;
 
+            //departamentos de la facultad del autenticado
             let deptoUser = await Departamento.findAll({
                 raw: true,
                 attributes: ["id"],
@@ -57,7 +66,10 @@ module.exports = {
             next();
 
         } else {
-            res.json(req.usuario.comisiones);
+            console.log('usuario id: ', req.usuario.id);
+            req.user = [req.usuario.id]
+            next();
+            //res.json(req.usuario.comisiones);
         }
     },
 

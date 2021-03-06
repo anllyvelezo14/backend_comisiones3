@@ -1,13 +1,17 @@
 const { all } = require("../routes");
 
-const { TipoSolicitud } = require('../models/index')
+const { TipoSolicitud, Comision } = require('../models/index')
 
 module.exports = {
 
     async find(req, res, next) {
 
         let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id, {
-            include: "comisiones"
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+            }]
         });
 
         if (!tipos_solicitud) {
@@ -21,7 +25,11 @@ module.exports = {
     //SHOW ALL
     async all(req, res) {
         let tipos_solicitud = await TipoSolicitud.findAll({
-            include: "comisiones"
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+            }]
         });
         res.json(tipos_solicitud);
     },
@@ -39,14 +47,14 @@ module.exports = {
         });
         await tipos_solicitud.save().then(function(newtipos_solicitud) {
             console.log(newtipos_solicitud);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El tipo de solicitud se creó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         })
@@ -64,14 +72,14 @@ module.exports = {
             }
         }).then(function(newtipos_solicitud) {
             console.log(newtipos_solicitud);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El tipo de solicitud se actualizó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         });

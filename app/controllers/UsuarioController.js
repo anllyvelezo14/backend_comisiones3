@@ -10,25 +10,26 @@ module.exports = {
         let usuarios = await Usuario.findAll({
             where: req.where,
             include: [{
-                model: Rol,
-                as: "roles",
-                attributes: ["nombre"]
-            },{
-                model: Departamento,
-                as: 'departamentos',
-                attributes: ["nombre"],
-                include: [{
-                    model: Facultad,
-                    as: 'facultad',
+                    model: Rol,
+                    as: "roles",
                     attributes: ["nombre"]
-                }]
+                }, {
+                    model: Departamento,
+                    as: 'departamentos',
+                    attributes: ["nombre"],
+                    include: [{
+                        model: Facultad,
+                        as: 'facultad',
+                        attributes: ["nombre"]
+                    }]
 
-            },
-            "comisiones"
-        ]
+                },
+                "comisiones"
+            ]
         });
         res.json(usuarios);
         //console.log(usuarios[0].dataValues.departamentos.facultad.nombre);
+        //console.log(req.where);
     },
     //SHOW ID
     async show(req, res) {

@@ -1,15 +1,32 @@
-const { all } = require("../routes");
+const { Departamento, Comision, Usuario, Cumplido, Facultad } = require('../models/index')
 
-const { Cumplido } = require('../models/index');
 
 module.exports = {
 
+    //FIND ID
     async find(req, res, next) {
         let cumplidos = await Cumplido.findByPk(req.params.id, {
-            include: {
-                association: "comisiones",
-                include: "usuarios"
-            }
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt", "usuarios_id"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre", "facultades_id"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
         });
 
         if (!cumplidos) {
@@ -21,19 +38,38 @@ module.exports = {
         }
     },
 
-    //SHOW ALL
-    async all(req, res) {
-        let cumplidos = await Cumplido.findAll({
-            include: {
-                association: "comisiones"
-            }
-        });
-        res.json(cumplidos);
-    },
-
     //SHOW ID
     async show(req, res) {
         res.json(req.cumplidos);
+    },
+
+    //SHOW ALL
+    async all(req, res) {
+        let cumplidos = await Cumplido.findAll({
+            where: req.where,
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
+        });
+        res.json(cumplidos);
     },
 
     //CREATE
@@ -47,14 +83,14 @@ module.exports = {
         });
         await cumplidos.save().then(function(newcumplidos) {
             console.log(newcumplidos);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El cumplido se creó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         })
@@ -75,14 +111,14 @@ module.exports = {
             }
         }).then(function(newcumplidos) {
             console.log(newcumplidos);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El cumplido se actualizó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         });

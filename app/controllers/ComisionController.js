@@ -1,14 +1,21 @@
 const { all } = require("../routes");
-const { Comision } = require('../models/index')
+const { Comision, TipoSolicitud, Usuario, Departamento, Documento, Cumplido, Estado } = require('../models/index')
 var Sequelize = require('sequelize');
 const { or } = Sequelize.Op;
+const { Op } = require("sequelize");
+
 
 
 module.exports = {
 
     async find(req, res, next) {
         let comision = await Comision.findByPk(req.params.id, {
-            include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
+            include: [{
+                model: Usuario,
+                as: "usuarios",
+                attributes: ["nombre"]
+
+            }, "cumplidos", "documentos", "tipos_solicitud", "estados"]
         });
 
         if (!comision) {
@@ -25,10 +32,33 @@ module.exports = {
         let comision = await Comision.findAll({
             where: {
                 usuarios_id: {
-                    [or]: req.user,
+                    [Op.in]: req.user,
                 }
             },
-            include: ["cumplidos", "documentos", "tipos_solicitud", "estados", "usuarios"]
+            include: [{
+                    model: TipoSolicitud,
+                    as: "tipos_solicitud",
+                    attributes: ["nombre"]
+                }, {
+                    model: Usuario,
+                    as: "usuarios",
+                    attributes: ["nombre"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"]
+                    }]
+                }, {
+                    model: Documento,
+                    as: "documentos",
+                    attributes: ["id", "nombre", "es_anexo"]
+                }, {
+                    model: Cumplido,
+                    as: "cumplidos",
+                    attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+                },
+                "estados"
+            ]
         });
 
         res.json(comision);
@@ -56,14 +86,14 @@ module.exports = {
         })
         await comision.save().then(function(newcomision) {
             console.log(newcomision);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'La Comisión se creó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         })
@@ -73,8 +103,8 @@ module.exports = {
     //UPDATE
     async update(req, res) {
 
-        const id = req.params.id;
-        const comision = Comision.update({
+        //const id = req.params.id;
+        Comision.update({
 
             fecha_inicio: req.body.fecha_inicio,
             fecha_fin: req.body.fecha_fin,
@@ -93,14 +123,14 @@ module.exports = {
             }
         }).then(function(newcomision) {
             console.log(newcomision);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'La Comisión se actualizó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         });

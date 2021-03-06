@@ -1,15 +1,33 @@
-const { all } = require("../routes");
+const { Departamento, Comision, Usuario, Documento, Facultad } = require('../models/index')
 
-const { Documento } = require('../models/index')
 
 module.exports = {
 
+    //FIND ID
     async find(req, res, next) {
+
         let documentos = await Documento.findByPk(req.params.id, {
-            include: {
-                association: "comisiones",
-                include: "usuarios"
-            }
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt", "usuarios_id"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre", "facultades_id"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
         });
 
         if (!documentos) {
@@ -20,19 +38,39 @@ module.exports = {
         }
     },
 
-    //SHOW ALL
-    async all(req, res) {
-        let documentos = await Documento.findAll({
-            include: {
-                association: "comisiones"
-            }
-        });
-        res.json(documentos);
-    },
-
     //SHOW ID
     async show(req, res) {
         res.json(req.documentos);
+    },
+
+    //SHOW ALL
+    async all(req, res) {
+
+        let documentos = await Documento.findAll({
+            where: req.where,
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
+        });
+        res.json(documentos);
     },
 
     //CREATE
@@ -45,14 +83,14 @@ module.exports = {
         });
         await documentos.save().then(function(newdocumento) {
             console.log(newdocumento);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El Documento se creó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         })
@@ -73,14 +111,14 @@ module.exports = {
             }
         }).then(function(newdocumento) {
             console.log(newdocumento);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El Documento se actualizó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         });

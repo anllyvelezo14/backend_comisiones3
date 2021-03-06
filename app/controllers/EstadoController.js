@@ -43,14 +43,14 @@ module.exports = {
         });
         await estados.save().then(function(newestados) {
             console.log(newestados);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El estado se creó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         })
@@ -68,14 +68,14 @@ module.exports = {
             }
         }).then(function(newestados) {
             console.log(newestados);
-            res.status(200).send({
-                status: 200,
+            res.status(201).send({
+                status: 201,
                 message: 'El estado se actualizó con éxito!'
             });
         }).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
-                status: 404,
+                status: 400,
                 message: error.message
             });
         });

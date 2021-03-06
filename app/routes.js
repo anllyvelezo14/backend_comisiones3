@@ -30,15 +30,15 @@ router.get('/', (req, res) => res.json({ hola: "mundo" }));
 
 //GET
 router.get('/api/comisiones', auth, ComisionPolicy.showAll, ComisionController.all);
-router.get('/api/documentos', auth, DocumentoController.all);
+router.get('/api/documentos', auth, DocumentoPolicy.showAll, DocumentoController.all);
 router.get('/api/cumplidos', auth, CumplidoController.all);
 router.get('/api/estados', auth, EstadoController.all);
 router.get('/api/comisiones-estados', auth, ComisionHasEstado.all);
 router.get('/api/tipos-solicitud', auth, TipoSolicitudController.all);
-router.get('/api/usuarios',auth, UsuariosPolicy.all,UsuarioController.all);
+router.get('/api/usuarios', auth, UsuariosPolicy.all, UsuarioController.all);
 router.get('/api/facultades', auth, FacultadController.all);
-router.get('/api/roles', auth,RolController.all);
-router.get('/api/departamentos', auth,  DepartamentoController.all);
+router.get('/api/roles', auth, RolController.all);
+router.get('/api/departamentos', auth, DepartamentoController.all);
 
 //GET BY ID
 router.get('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.show, ComisionController.show);
@@ -47,10 +47,10 @@ router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.s
 router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);
 router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.show);
 router.get('/api/comisiones-estados/:id', auth, ComisionHasEstado.show);
-router.get('/api/usuarios/:id', auth,UsuariosPolicy.show, UsuarioController.show);
-router.get('/api/facultades/:id',  auth, FacultadController.show);
+router.get('/api/usuarios/:id', auth, UsuariosPolicy.show, UsuarioController.show);
+router.get('/api/facultades/:id', auth, FacultadController.show);
 router.get('/api/roles/:id', auth, RolController.show);
-router.get('/api/departamentos/:id',  auth, DepartamentoController.show);
+router.get('/api/departamentos/:id', auth, DepartamentoController.show);
 
 //GET NAME
 router.get('/api/tipos-solicitud/:nombre', auth, TipoSolicitudController.showName);
@@ -88,8 +88,8 @@ router.delete('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.dele
 //router.delete('/api/facultades/:id', auth, FacultadController.delete);
 //router.delete('/api/departamentos/:id', auth, DepartamentoController.delete);
 //Desactive and active users
-router.patch('/api/usuarios/desactive/:id',auth, UsuarioController.desactive);
-router.patch('/api/usuarios/active/:id',auth, UsuarioController.active);
+router.patch('/api/usuarios/desactive/:id', auth, UsuarioController.desactive);
+router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
 
 //Registro y login
 router.post('/api/signin', AuthController.signIn);

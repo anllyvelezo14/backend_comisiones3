@@ -1,31 +1,6 @@
 module.exports = {
 
-    showAll(req, res, next) {
-
-        let rolAuth = req.usuario.roles.nombre;
-
-        if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
-            next();
-
-        } else if (rolAuth === 'COORDINACION') {
-            const depAuth = req.usuario.departamentos.nombre
-            req.where = { '$comisiones.usuarios.departamentos.nombre$': depAuth };
-            next();
-
-        } else if (rolAuth === 'DECANATURA') {
-            const facAuth = req.usuario.departamentos.facultad.nombre
-            req.where = { '$comisiones.usuarios.departamentos.facultad.nombre$': facAuth };
-            next();
-
-        } else {
-            const idAuth = req.usuario.id
-            req.where = { '$comisiones.usuarios.id$': idAuth };
-            next();
-
-        }
-    },
-
-    show(req, res, next) {
+    async show(req, res, next) {
 
         let rolAuth = req.usuario.roles.nombre;
         let idUser = req.documentos.comisiones.usuarios_id;
@@ -44,20 +19,26 @@ module.exports = {
         }
     },
 
-    update(req, res, next) {
+    async update(req, res, next) {
         let idUser = req.documentos.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
-        if (idUser === idAuth || req.usuario.roles.nombre === 'ADMIN') {
+        let enviado = req.documentos.enviado;
+        if (req.usuario.roles.nombre === 'ADMIN') {
+            next();
+        } else if (idUser === idAuth && !enviado) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado!' })
         }
     },
 
-    delete(req, res, next) {
+    async delete(req, res, next) {
         let idUser = req.documentos.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
-        if (idUser === idAuth || req.usuario.roles.nombre === 'ADMIN') {
+        let enviado = req.documentos.enviado;
+        if (req.usuario.roles.nombre === 'ADMIN') {
+            next();
+        } else if (idUser === idAuth && !enviado) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado!' })

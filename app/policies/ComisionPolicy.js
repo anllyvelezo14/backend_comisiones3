@@ -1,5 +1,3 @@
-const { Departamento, Usuario, Comision } = require('../models/index');
-
 module.exports = {
 
     async showAll(req, res, next) {
@@ -7,18 +5,14 @@ module.exports = {
         let rolAuth = req.usuario.roles.nombre;
 
         if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA') {
-
             next();
 
         } else if (rolAuth === 'COORDINACION') {
-
             const depAuth = req.usuario.departamentos.nombre
             req.where = { '$usuarios.departamentos.nombre$': depAuth };
             next();
 
-
         } else if (rolAuth === 'DECANATURA') {
-
             const facAuth = req.usuario.departamentos.facultad.nombre
             req.where = { '$usuarios.departamentos.facultad.nombre$': facAuth };
             next();
@@ -28,7 +22,7 @@ module.exports = {
         }
     },
 
-    show(req, res, next) {
+    async show(req, res, next) {
 
         // comision.usuarios_id viene del controller (por ruta), 
         //usuario.roles y usuario.id vienen del auth.js
@@ -48,15 +42,25 @@ module.exports = {
             res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
         }
     },
-    update(req, res, next) {
-        if (req.usuario.id === req.comision.usuarios_id || req.usuario.roles.nombre === 'ADMIN') {
+    async update(req, res, next) {
+        let idUser = req.comisiones.usuarios_id;
+        let idAuth = req.usuario.id;
+        let enviado = req.comisiones.enviada;
+        if (req.usuario.roles.nombre === 'ADMIN') {
+            next();
+        } else if (idUser === idAuth && !enviado) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado!' })
         }
     },
-    delete(req, res, next) {
-        if (req.usuario.id === req.comision.usuarios_id || req.usuario.roles.nombre === 'ADMIN') {
+    async delete(req, res, next) {
+        let idUser = req.comisiones.usuarios_id;
+        let idAuth = req.usuario.id;
+        let enviado = req.comisiones.enviada;
+        if (req.usuario.roles.nombre === 'ADMIN') {
+            next();
+        } else if (idUser === idAuth && !enviado) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado!' })

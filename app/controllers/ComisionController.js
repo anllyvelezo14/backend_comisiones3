@@ -55,7 +55,7 @@ module.exports = {
     //SHOW ALL
     async all(req, res) {
 
-        let comision = await Comision.findAll({
+        let comisiones = await Comision.findAll({
             where: req.where,
             include: [{
                     model: TipoSolicitud,
@@ -88,7 +88,7 @@ module.exports = {
             ]
         });
 
-        res.json(comision);
+        res.json(comisiones);
     },
 
     //CREATE
@@ -104,6 +104,7 @@ module.exports = {
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
+            enviada: req.body.enviada,
             usuarios_id: req.body.usuarios_id,
         })
         await comision.save().then(function(newcomision) {
@@ -138,6 +139,7 @@ module.exports = {
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
+            enviada: req.body.enviada,
             usuarios_id: req.body.usuarios_id,
         }, {
             where: {
@@ -160,7 +162,7 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        req.comision.destroy().then(comision => {
+        req.comisiones.destroy().then(comision => {
             res.json({ msg: "La Comisión ha sido eliminada!" })
         });
 

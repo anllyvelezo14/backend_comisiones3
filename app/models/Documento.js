@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "Debe verificar si es un cumplido"
                 }
             }
+        },
+        enviado: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         }
     }, {
         sequelize,

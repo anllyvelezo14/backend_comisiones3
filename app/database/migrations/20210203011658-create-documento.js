@@ -18,6 +18,10 @@ module.exports = {
             es_cumplido: {
                 allowNull: false,
                 type: Sequelize.BOOLEAN
+            },
+            enviado: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
             }
         });
     },

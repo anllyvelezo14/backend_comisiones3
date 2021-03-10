@@ -96,6 +96,10 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
+        enviada: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        }
 
     }, {
         sequelize,

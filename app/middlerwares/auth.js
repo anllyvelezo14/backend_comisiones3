@@ -19,7 +19,6 @@ module.exports = (req, res, next) => {
                 res.status(500).json({ msg: "Ocurrió un problema al decodificar el token", err });
             } else {
                 //decoded: payload en signIn
-                //console.log(decoded);
 
                 Usuario.findByPk(decoded.usuario.id, {
                     include: [{
@@ -55,12 +54,7 @@ module.exports = (req, res, next) => {
 
                 }).then(usuario => {
                     req.usuario = usuario;
-                    // console.log(usuario.roles.nombre);
-                    // console.log('facultad user:', usuario.departamentos.facultad.id);
-                    // console.log('depto user: ', usuario.departamentos);
-                    // console.log('comisiones del user:', usuario.comisiones);
                     // console.log('documentos del user: ', usuario.comisiones[0].dataValues.documentos);
-                    //console.log('cumplidos del user: ', usuario.comisiones.dataValues.cumplidos);
                     next();
                 })
             }

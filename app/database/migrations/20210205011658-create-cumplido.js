@@ -22,6 +22,10 @@ module.exports = {
             correos: {
                 allowNull: false,
                 type: Sequelize.STRING(255)
+            },
+            enviado: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
             }
         });
     },

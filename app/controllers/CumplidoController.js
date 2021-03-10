@@ -79,6 +79,7 @@ module.exports = {
             fecha_confirmacion: req.body.fecha_confirmacion,
             informacion_complementaria: req.body.informacion_complementaria,
             correos: req.body.correos,
+            enviado: req.body.enviado,
             comisiones_id: req.body.comisiones_id,
         });
         await cumplidos.save().then(function(newcumplidos) {
@@ -104,6 +105,7 @@ module.exports = {
             fecha_confirmacion: req.body.fecha_confirmacion,
             informacion_complementaria: req.body.informacion_complementaria,
             correos: req.body.correos,
+            enviado: req.body.enviado,
             comisiones_id: req.body.comisiones_id,
         }, {
             where: {

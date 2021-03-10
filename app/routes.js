@@ -11,6 +11,7 @@ const CumplidoPolicy = require('./policies/CumplidoPolicy');
 const TipoSolicitudPolicy = require('./policies/TipoSolicitudPolicy');
 const EstadoPolicy = require('./policies/EstadoPolicy');
 const UsuariosPolicy = require('./policies/UsuariosPolicy');
+const ShowAllDocsCumpl = require('./policies/ShowAllDocsCumpl')
 
 //IMPORTAR CONTROLLERS
 const AuthController = require('../app/controllers/AuthController');
@@ -30,8 +31,8 @@ router.get('/', (req, res) => res.json({ hola: "mundo" }));
 
 //GET
 router.get('/api/comisiones', auth, ComisionPolicy.showAll, ComisionController.all);
-router.get('/api/documentos', auth, DocumentoPolicy.showAll, DocumentoController.all);
-router.get('/api/cumplidos', auth, CumplidoPolicy.showAll, CumplidoController.all);
+router.get('/api/documentos', auth, ShowAllDocsCumpl.showAll, DocumentoController.all);
+router.get('/api/cumplidos', auth, ShowAllDocsCumpl.showAll, CumplidoController.all);
 router.get('/api/estados', auth, EstadoController.all);
 router.get('/api/comisiones-estados', auth, ComisionHasEstado.all);
 router.get('/api/tipos-solicitud', auth, TipoSolicitudController.all);

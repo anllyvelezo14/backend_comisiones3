@@ -79,6 +79,7 @@ module.exports = {
             nombre: req.body.nombre,
             es_anexo: req.body.es_anexo,
             es_cumplido: req.body.es_cumplido,
+            enviado: req.body.enviado,
             comisiones_id: req.body.comisiones_id,
         });
         await documentos.save().then(function(newdocumento) {
@@ -104,7 +105,9 @@ module.exports = {
             nombre: req.body.nombre,
             es_anexo: req.body.es_anexo,
             es_cumplido: req.body.es_cumplido,
+            enviado: req.body.enviado,
             comisiones_id: req.body.comisiones_id,
+
         }, {
             where: {
                 id: req.params.id,

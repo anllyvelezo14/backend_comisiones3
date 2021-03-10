@@ -8,13 +8,13 @@ module.exports = {
             next();
 
         } else if (rolAuth === 'COORDINACION') {
-            const depAuth = req.usuario.departamentos.nombre
-            req.where = { '$usuarios.departamentos.nombre$': depAuth };
+            const depAuth = req.usuario.departamentos.id
+            req.where = { '$usuarios.departamentos.id$': depAuth };
             next();
 
         } else if (rolAuth === 'DECANATURA') {
-            const facAuth = req.usuario.departamentos.facultad.nombre
-            req.where = { '$usuarios.departamentos.facultad.nombre$': facAuth };
+            const facAuth = req.usuario.departamentos.facultad.id
+            req.where = { '$usuarios.departamentos.facultad.id$': facAuth };
             next();
 
         } else {

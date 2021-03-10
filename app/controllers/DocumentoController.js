@@ -100,8 +100,7 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
-        const id = req.params.id;
-        const documentos = Documento.update({
+        Documento.update({
             nombre: req.body.nombre,
             es_anexo: req.body.es_anexo,
             es_cumplido: req.body.es_cumplido,

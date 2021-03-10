@@ -1,5 +1,3 @@
-const { all } = require("../routes");
-
 const { TipoSolicitud, Comision } = require('../models/index')
 
 module.exports = {
@@ -62,8 +60,7 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
-        const id = req.params.id;
-        const tipos_solicitud = TipoSolicitud.update({
+        TipoSolicitud.update({
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,
         }, {

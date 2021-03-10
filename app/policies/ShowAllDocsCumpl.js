@@ -9,13 +9,13 @@ module.exports = {
             next();
 
         } else if (rolAuth === 'COORDINACION') {
-            const depAuth = req.usuario.departamentos.nombre
-            req.where = { '$comisiones.usuarios.departamentos.nombre$': depAuth };
+            const depAuth = req.usuario.departamentos.id
+            req.where = { '$comisiones.usuarios.departamentos.id$': depAuth };
             next();
 
         } else if (rolAuth === 'DECANATURA') {
-            const facAuth = req.usuario.departamentos.facultad.nombre
-            req.where = { '$comisiones.usuarios.departamentos.facultad.nombre$': facAuth };
+            const facAuth = req.usuario.departamentos.facultad.id
+            req.where = { '$comisiones.usuarios.departamentos.facultad.id$': facAuth };
             next();
 
         } else {

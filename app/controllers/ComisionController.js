@@ -1,4 +1,4 @@
-const { Comision, TipoSolicitud, Usuario, Departamento, Facultad, Documento, Cumplido } = require('../models/index')
+const { Comision, TipoSolicitud, Usuario, Departamento, Facultad, Documento, Cumplido, Estado, ComisionHasEstado } = require('../models/index');
 
 
 module.exports = {
@@ -7,37 +7,44 @@ module.exports = {
     async find(req, res, next) {
         let comisiones = await Comision.findByPk(req.params.id, {
             include: [{
-                    model: TipoSolicitud,
-                    as: "tipos_solicitud",
-                    attributes: ["nombre"]
-                }, {
-                    model: Documento,
-                    as: "documentos",
-                    attributes: ["id", "nombre", "es_anexo"]
-                }, {
-                    model: Cumplido,
-                    as: "cumplidos",
-                    attributes: ["id", "fecha_envio", "fecha_confirmacion"]
-                }, {
-                    model: Usuario,
-                    as: 'usuarios',
-                    attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                model: TipoSolicitud,
+                as: "tipos_solicitud",
+                attributes: ["nombre"]
+            }, {
+                model: Documento,
+                as: "documentos",
+                attributes: ["id", "nombre", "es_anexo"]
+            }, {
+                model: Cumplido,
+                as: "cumplidos",
+                attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+            }, {
+                model: Usuario,
+                as: 'usuarios',
+                attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                include: [{
+                    model: Departamento,
+                    as: 'departamentos',
+                    attributes: ["nombre", "facultades_id"],
                     include: [{
-                        model: Departamento,
-                        as: 'departamentos',
-                        attributes: ["nombre", "facultades_id"],
-                        include: [{
-                            model: Facultad,
-                            as: "facultad",
-                            attributes: ["nombre"],
-                        }]
+                        model: Facultad,
+                        as: "facultad",
+                        attributes: ["nombre"],
                     }]
-                },
-                "estados"
-            ]
+                }]
+            }, {
+                model: ComisionHasEstado,
+                as: "intermediate_comisiones",
+                attributes: ["createdAt", "fecha_actualizacion"],
+                include: [{
+                    model: Estado,
+                    as: "intermediate_estados",
+                    attributes: ["nombre"],
+                }]
+            }, ]
         });
 
-        console.log(comisiones);
+        //console.log(comisiones);
 
         if (!comisiones) {
             res.status(404).json({ msg: "Comisión no encontrada!" });
@@ -84,7 +91,16 @@ module.exports = {
                         }]
                     }]
                 },
-                "estados"
+                {
+                    model: ComisionHasEstado,
+                    as: "intermediate_comisiones",
+                    attributes: ["createdAt", "fecha_actualizacion"],
+                    include: [{
+                        model: Estado,
+                        as: "intermediate_estados",
+                        attributes: ["nombre"],
+                    }]
+                }
             ]
         });
 
@@ -108,7 +124,7 @@ module.exports = {
             usuarios_id: req.body.usuarios_id,
         })
         await comision.save().then(function(newcomision) {
-            console.log(newcomision);
+            //console.log(newcomision);
             res.status(201).send({
                 status: 201,
                 message: 'La Comisión se creó con éxito!'
@@ -125,8 +141,6 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
-
-        //const id = req.params.id;
         Comision.update({
 
             fecha_inicio: req.body.fecha_inicio,
@@ -146,7 +160,7 @@ module.exports = {
                 id: req.params.id,
             }
         }).then(function(newcomision) {
-            console.log(newcomision);
+            //console.log(newcomision);
             res.status(201).send({
                 status: 201,
                 message: 'La Comisión se actualizó con éxito!'

@@ -49,7 +49,7 @@ module.exports = (req, res, next) => {
                             model: Cumplido,
                             as: "cumplidos",
                             attributes: ["id", "fecha_envio", "fecha_confirmacion"]
-                        }, "estados"]
+                        }]
                     }]
 
                 }).then(usuario => {

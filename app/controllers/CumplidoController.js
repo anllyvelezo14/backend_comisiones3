@@ -99,8 +99,7 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
-        const id = req.params.id;
-        const cumplidos = Cumplido.update({
+        Cumplido.update({
             fecha_envio: req.body.fecha_envio,
             fecha_confirmacion: req.body.fecha_confirmacion,
             informacion_complementaria: req.body.informacion_complementaria,

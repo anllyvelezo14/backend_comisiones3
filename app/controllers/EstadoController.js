@@ -1,14 +1,30 @@
-const { all } = require("../routes");
-
-const { Estado } = require('../models/index')
+const { Estado, Comision, Usuario, Departamento, Facultad } = require('../models/index')
 
 module.exports = {
 
     async find(req, res, next) {
         let estados = await Estado.findByPk(req.params.id, {
-            include: {
-                association: "comisiones"
-            }
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
         });
 
         if (!estados) {
@@ -19,19 +35,37 @@ module.exports = {
         }
     },
 
-    //SHOW ALL
-    async all(req, res) {
-        let estados = await Estado.findAll({
-            include: {
-                association: "comisiones"
-            }
-        });
-        res.json(estados);
-    },
-
     //SHOW ID
     async show(req, res) {
         res.json(req.estados);
+    },
+
+    //SHOW ALL
+    async all(req, res) {
+        let estados = await Estado.findAll({
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
+        });
+        res.json(estados);
     },
 
     //CREATE
@@ -58,8 +92,7 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
-        const id = req.params.id;
-        const estados = Estado.update({
+        Estado.update({
             nombre: req.body.nombre,
             descripcion: req.body.descripcion,
         }, {

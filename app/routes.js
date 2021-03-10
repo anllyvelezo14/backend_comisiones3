@@ -63,7 +63,7 @@ router.post('/api/documentos', auth, DocumentoController.create);
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
 router.post('/api/estados', auth, EstadoPolicy.create, EstadoController.create);
-//router.post('/api/comisiones-estados', auth,ComisionHasEstado.create);
+router.post('/api/comisiones-estados', auth, ComisionHasEstado.create);
 //router.post('/api/usuarios', UsuarioController.create);
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);
@@ -74,7 +74,7 @@ router.patch('/api/documentos/:id', auth, DocumentoController.find, DocumentoPol
 router.patch('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.update, CumplidoController.update);
 router.patch('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudPolicy.update, TipoSolicitudController.update);
 router.patch('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.update, EstadoController.update);
-//router.patch('/api/comisiones-estados/:id', auth,ComisionHasEstado.update);
+router.patch('/api/comisiones-estados/:id', auth, ComisionHasEstado.update);
 router.patch('/api/usuarios/:id', auth, UsuarioController.update);
 //router.patch('/api/facultades/:id', auth, FacultadController.update);
 //router.patch('/api/departamentos/:id', auth, DepartamentoController.update);
@@ -85,7 +85,7 @@ router.delete('/api/documentos/:id', auth, DocumentoController.find, DocumentoPo
 router.delete('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.delete, CumplidoController.delete);
 router.delete('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudPolicy.delete, TipoSolicitudController.delete);
 router.delete('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.delete, EstadoController.delete);
-//router.delete('/api/comisiones-estados/:id', auth,ComisionHasEstado.delete);
+router.delete('/api/comisiones-estados/:id', auth, ComisionHasEstado.delete);
 //router.delete('/api/facultades/:id', auth, FacultadController.delete);
 //router.delete('/api/departamentos/:id', auth, DepartamentoController.delete);
 //Desactive and active users

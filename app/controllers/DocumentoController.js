@@ -3,6 +3,36 @@ const { Departamento, Comision, Usuario, Documento, Facultad } = require('../mod
 
 module.exports = {
 
+    //SHOW ALL
+    async all(req, res) {
+
+        let documentos = await Documento.findAll({
+            where: req.where,
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
+        });
+        res.json(documentos);
+    },
+
     //FIND ID
     async find(req, res, next) {
 
@@ -41,36 +71,6 @@ module.exports = {
     //SHOW ID
     async show(req, res) {
         res.json(req.documentos);
-    },
-
-    //SHOW ALL
-    async all(req, res) {
-
-        let documentos = await Documento.findAll({
-            where: req.where,
-            include: [{
-                model: Comision,
-                as: 'comisiones',
-                attributes: ["id", "createdAt"],
-                include: [{
-                    model: Usuario,
-                    as: 'usuarios',
-                    attributes: ["nombre", "apellido", "identificacion", "email"],
-                    include: [{
-                        model: Departamento,
-                        as: 'departamentos',
-                        attributes: ["nombre"],
-                        include: [{
-                            model: Facultad,
-                            as: "facultad",
-                            attributes: ["nombre"],
-                        }]
-                    }]
-
-                }]
-            }]
-        });
-        res.json(documentos);
     },
 
     //CREATE

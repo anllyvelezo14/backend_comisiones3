@@ -1,4 +1,4 @@
-const { ComisionHasEstado } = require('../models/index');
+const { ComisionHasEstado, Comision, Usuario, Departamento, Facultad, Estado } = require('../models/index');
 
 
 module.exports = {
@@ -7,22 +7,76 @@ module.exports = {
     async all(req, res) {
 
         let comisiones_has_estados = await ComisionHasEstado.findAll({
-            include: ["intermediate_comisiones", "intermediate_estados"]
+            where: req.where,
+            include: [{
+                model: Comision,
+                as: "intermediate_comisiones",
+                attributes: ["id", "createdAt", "fecha_actualizacion"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+                }]
+            }, {
+                model: Estado,
+                as: "intermediate_estados",
+                attributes: ["nombre", "descripcion"]
+            }]
         });
 
         res.json(comisiones_has_estados);
     },
-    //SHOW ID
-    async show(req, res) {
+
+    //FIND By ID
+    async find(req, res, next) {
         let comisiones_has_estados = await ComisionHasEstado.findByPk(req.params.id, {
-            include: ["intermediate_estados", "intermediate_comisiones"]
+            include: [{
+                model: Comision,
+                as: "intermediate_comisiones",
+                attributes: ["id", "createdAt", "fecha_actualizacion", "usuarios_id"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre", "facultades_id"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+                }]
+            }, {
+                model: Estado,
+                as: "intermediate_estados",
+                attributes: ["nombre", "descripcion"]
+            }]
         });
 
         if (!comisiones_has_estados) {
-            res.status(404).json({ msg: "Comisión sin Estados!" });
+            res.status(404).json({ msg: "Estados de Comisión no encontrados!" });
         } else {
-            res.json(comisiones_has_estados);
+            req.comisiones_has_estados = comisiones_has_estados;
+            next();
         }
+    },
+
+    //SHOW ID
+    async show(req, res) {
+        res.json(req.comisiones_has_estados);
     },
 
     //CREATE
@@ -33,6 +87,8 @@ module.exports = {
             comisiones_id: req.body.comisiones_id,
             estados_id: req.body.estados_id
         })
+
+
         await comisiones_has_estados.save().then(function(newcomisiones_has_estados) {
             res.status(201).send({
                 status: 201,
@@ -45,6 +101,8 @@ module.exports = {
                 message: error.message
             });
         })
+
+
 
     },
 

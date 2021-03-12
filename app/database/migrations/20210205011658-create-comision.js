@@ -40,10 +40,6 @@ module.exports = {
             },
             updatedAt: {
                 type: Sequelize.DATE
-            },
-            enviada: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false,
             }
         });
     },

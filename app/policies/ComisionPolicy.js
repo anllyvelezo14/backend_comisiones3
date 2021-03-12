@@ -45,10 +45,10 @@ module.exports = {
     async update(req, res, next) {
         let idUser = req.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
-        let enviado = req.comisiones.enviada;
+
         if (req.usuario.roles.nombre === 'ADMIN') {
             next();
-        } else if (idUser === idAuth && !enviado) {
+        } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado!' })
@@ -57,10 +57,10 @@ module.exports = {
     async delete(req, res, next) {
         let idUser = req.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
-        let enviado = req.comisiones.enviada;
+
         if (req.usuario.roles.nombre === 'ADMIN') {
             next();
-        } else if (idUser === idAuth && !enviado) {
+        } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
             res.status(401).json({ msg: 'No estas autorizado!' })

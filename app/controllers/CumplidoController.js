@@ -3,6 +3,35 @@ const { Departamento, Comision, Usuario, Cumplido, Facultad } = require('../mode
 
 module.exports = {
 
+    //SHOW ALL
+    async all(req, res) {
+        let cumplidos = await Cumplido.findAll({
+            where: req.where,
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+                include: [{
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+
+                }]
+            }]
+        });
+        res.json(cumplidos);
+    },
+
     //FIND ID
     async find(req, res, next) {
         let cumplidos = await Cumplido.findByPk(req.params.id, {
@@ -41,35 +70,6 @@ module.exports = {
     //SHOW ID
     async show(req, res) {
         res.json(req.cumplidos);
-    },
-
-    //SHOW ALL
-    async all(req, res) {
-        let cumplidos = await Cumplido.findAll({
-            where: req.where,
-            include: [{
-                model: Comision,
-                as: 'comisiones',
-                attributes: ["id", "createdAt"],
-                include: [{
-                    model: Usuario,
-                    as: 'usuarios',
-                    attributes: ["nombre", "apellido", "identificacion", "email"],
-                    include: [{
-                        model: Departamento,
-                        as: 'departamentos',
-                        attributes: ["nombre"],
-                        include: [{
-                            model: Facultad,
-                            as: "facultad",
-                            attributes: ["nombre"],
-                        }]
-                    }]
-
-                }]
-            }]
-        });
-        res.json(cumplidos);
     },
 
     //CREATE

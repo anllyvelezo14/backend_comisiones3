@@ -3,62 +3,6 @@ const { Comision, TipoSolicitud, Usuario, Departamento, Facultad, Documento, Cum
 
 module.exports = {
 
-    //FIND By ID
-    async find(req, res, next) {
-        let comisiones = await Comision.findByPk(req.params.id, {
-            include: [{
-                model: TipoSolicitud,
-                as: "tipos_solicitud",
-                attributes: ["nombre"]
-            }, {
-                model: Documento,
-                as: "documentos",
-                attributes: ["id", "nombre", "es_anexo"]
-            }, {
-                model: Cumplido,
-                as: "cumplidos",
-                attributes: ["id", "fecha_envio", "fecha_confirmacion"]
-            }, {
-                model: Usuario,
-                as: 'usuarios',
-                attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
-                include: [{
-                    model: Departamento,
-                    as: 'departamentos',
-                    attributes: ["nombre", "facultades_id"],
-                    include: [{
-                        model: Facultad,
-                        as: "facultad",
-                        attributes: ["nombre"],
-                    }]
-                }]
-            }, {
-                model: ComisionHasEstado,
-                as: "intermediate_comisiones",
-                attributes: ["createdAt", "fecha_actualizacion"],
-                include: [{
-                    model: Estado,
-                    as: "intermediate_estados",
-                    attributes: ["nombre"],
-                }]
-            }, ]
-        });
-
-        //console.log(comisiones);
-
-        if (!comisiones) {
-            res.status(404).json({ msg: "Comisión no encontrada!" });
-        } else {
-            req.comisiones = comisiones;
-            next();
-        }
-    },
-
-    //SHOW ID
-    async show(req, res) {
-        res.json(req.comisiones);
-    },
-
     //SHOW ALL
     async all(req, res) {
 
@@ -107,6 +51,61 @@ module.exports = {
         res.json(comisiones);
     },
 
+    //FIND By ID
+    async find(req, res, next) {
+        let comisiones = await Comision.findByPk(req.params.id, {
+            include: [{
+                model: TipoSolicitud,
+                as: "tipos_solicitud",
+                attributes: ["nombre"]
+            }, {
+                model: Documento,
+                as: "documentos",
+                attributes: ["id", "nombre", "es_anexo"]
+            }, {
+                model: Cumplido,
+                as: "cumplidos",
+                attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+            }, {
+                model: Usuario,
+                as: 'usuarios',
+                attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                include: [{
+                    model: Departamento,
+                    as: 'departamentos',
+                    attributes: ["nombre", "facultades_id"],
+                    include: [{
+                        model: Facultad,
+                        as: "facultad",
+                        attributes: ["nombre"],
+                    }]
+                }]
+            }, {
+                model: ComisionHasEstado,
+                as: "intermediate_comisiones",
+                attributes: ["createdAt", "fecha_actualizacion"],
+                include: [{
+                    model: Estado,
+                    as: "intermediate_estados",
+                    attributes: ["id", "nombre"],
+                }]
+            }, ]
+        });
+
+
+        if (!comisiones) {
+            res.status(404).json({ msg: "Comisión no encontrada!" });
+        } else {
+            req.comisiones = comisiones;
+            next();
+        }
+    },
+
+    //SHOW ID
+    async show(req, res) {
+        res.json(req.comisiones);
+    },
+
     //CREATE
     async create(req, res) {
         const comision = await Comision.build({
@@ -120,7 +119,6 @@ module.exports = {
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
-            enviada: req.body.enviada,
             usuarios_id: req.body.usuarios_id,
         })
         await comision.save().then(function(newcomision) {
@@ -139,6 +137,31 @@ module.exports = {
 
     },
 
+    //FIND VISTO BUENO
+    async vistobueno(req, res, next) {
+
+        let idAuth = req.usuario.id;
+        let vistoBueno = await Comision.findAll({
+            where: { '$usuarios.id$': idAuth, '$intermediate_comisiones.intermediate_estados.nombre$': 'VISTO BUENO' },
+            include: [{
+                model: ComisionHasEstado,
+                as: "intermediate_comisiones",
+                include: [{
+                    model: Estado,
+                    as: "intermediate_estados",
+                    attributes: ["nombre"],
+                }]
+            }, {
+                model: Usuario,
+                as: 'usuarios',
+                attributes: ["id"],
+            }]
+        });
+
+        req.vistoBueno = vistoBueno;
+        next();
+    },
+
     //UPDATE
     async update(req, res) {
         Comision.update({
@@ -153,14 +176,12 @@ module.exports = {
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
-            enviada: req.body.enviada,
             usuarios_id: req.body.usuarios_id,
         }, {
             where: {
                 id: req.params.id,
             }
         }).then(function(newcomision) {
-            //console.log(newcomision);
             res.status(201).send({
                 status: 201,
                 message: 'La Comisión se actualizó con éxito!'

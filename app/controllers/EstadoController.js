@@ -1,31 +1,9 @@
-const { Estado, Comision, Usuario, Departamento, Facultad } = require('../models/index')
+const { Estado } = require('../models/index')
 
 module.exports = {
 
     async find(req, res, next) {
-        let estados = await Estado.findByPk(req.params.id, {
-            include: [{
-                model: Comision,
-                as: 'comisiones',
-                attributes: ["id", "createdAt"],
-                include: [{
-                    model: Usuario,
-                    as: 'usuarios',
-                    attributes: ["nombre", "apellido", "identificacion", "email"],
-                    include: [{
-                        model: Departamento,
-                        as: 'departamentos',
-                        attributes: ["nombre"],
-                        include: [{
-                            model: Facultad,
-                            as: "facultad",
-                            attributes: ["nombre"],
-                        }]
-                    }]
-
-                }]
-            }]
-        });
+        let estados = await Estado.findByPk(req.params.id);
 
         if (!estados) {
             res.status(404).json({ msg: "Estado no encontrado!" });
@@ -42,29 +20,7 @@ module.exports = {
 
     //SHOW ALL
     async all(req, res) {
-        let estados = await Estado.findAll({
-            include: [{
-                model: Comision,
-                as: 'comisiones',
-                attributes: ["id", "createdAt"],
-                include: [{
-                    model: Usuario,
-                    as: 'usuarios',
-                    attributes: ["nombre", "apellido", "identificacion", "email"],
-                    include: [{
-                        model: Departamento,
-                        as: 'departamentos',
-                        attributes: ["nombre"],
-                        include: [{
-                            model: Facultad,
-                            as: "facultad",
-                            attributes: ["nombre"],
-                        }]
-                    }]
-
-                }]
-            }]
-        });
+        let estados = await Estado.findAll();
         res.json(estados);
     },
 

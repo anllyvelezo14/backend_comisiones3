@@ -2,6 +2,20 @@ const { TipoSolicitud, Comision } = require('../models/index')
 
 module.exports = {
 
+
+    //SHOW ALL
+    async all(req, res) {
+        let tipos_solicitud = await TipoSolicitud.findAll({
+            include: [{
+                model: Comision,
+                as: 'comisiones',
+                attributes: ["id", "createdAt"],
+            }]
+        });
+        res.json(tipos_solicitud);
+    },
+
+    //FIND BY ID
     async find(req, res, next) {
 
         let tipos_solicitud = await TipoSolicitud.findByPk(req.params.id, {
@@ -18,18 +32,6 @@ module.exports = {
             req.tipos_solicitud = tipos_solicitud;
             next();
         }
-    },
-
-    //SHOW ALL
-    async all(req, res) {
-        let tipos_solicitud = await TipoSolicitud.findAll({
-            include: [{
-                model: Comision,
-                as: 'comisiones',
-                attributes: ["id", "createdAt"],
-            }]
-        });
-        res.json(tipos_solicitud);
     },
 
     //SHOW ID

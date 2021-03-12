@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
             Comision.belongsTo(models.Usuario, { as: "usuarios", foreignKey: "usuarios_id", targetKey: "id" })
 
             // //Muchas comisiones tienen muchos estados 
-            //Comision.belongsToMany(models.Estado, { as: "estados", through: "comisiones_has_estados", foreignKey: "comisiones_id", targetKey: "id" });
             Comision.hasMany(models.ComisionHasEstado, { as: "intermediate_comisiones", foreignKey: "comisiones_id" });
 
 
@@ -94,10 +93,6 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "El lugar no puede ser mayor de 45 caracteres"
                 }
             }
-        },
-        enviada: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
         }
 
     }, {

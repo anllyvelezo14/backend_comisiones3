@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/authConfig');
-const { Usuario, Rol, Departamento, TipoSolicitud, Facultad, Comision, Documento, Cumplido } = require('../models/index')
+const { Usuario, Rol, Departamento, TipoSolicitud, Facultad, Comision, Documento, Cumplido, ComisionHasEstado, Estado } = require('../models/index')
 
 module.exports = (req, res, next) => {
 
@@ -49,6 +49,15 @@ module.exports = (req, res, next) => {
                             model: Cumplido,
                             as: "cumplidos",
                             attributes: ["id", "fecha_envio", "fecha_confirmacion"]
+                        }, {
+                            model: ComisionHasEstado,
+                            as: "intermediate_comisiones",
+                            attributes: ["createdAt", "fecha_actualizacion"],
+                            include: [{
+                                model: Estado,
+                                as: "intermediate_estados",
+                                attributes: ["nombre"],
+                            }]
                         }]
                     }]
 

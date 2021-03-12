@@ -12,19 +12,20 @@ const TipoSolicitudPolicy = require('./policies/TipoSolicitudPolicy');
 const EstadoPolicy = require('./policies/EstadoPolicy');
 const UsuariosPolicy = require('./policies/UsuariosPolicy');
 const ShowAllDocsCumpl = require('./policies/ShowAllDocsCumpl')
+const ComisionHasEstadoPolicy = require('./policies/ComisionHasEstadoPolicy')
 
-//IMPORTAR CONTROLLERS
+//CONTROLLERS
 const AuthController = require('../app/controllers/AuthController');
 const ComisionController = require('./controllers/ComisionController');
 const DocumentoController = require('./controllers/DocumentoController');
 const CumplidoController = require('./controllers/CumplidoController');
 const EstadoController = require('./controllers/EstadoController');
-const ComisionHasEstado = require('./controllers/ComisionHasEstadoController');
 const TipoSolicitudController = require('./controllers/TipoSolicitudController');
 const DepartamentoController = require('./controllers/DepartamentoController');
 const UsuarioController = require('./controllers/UsuarioController');
 const RolController = require('./controllers/RolController');
 const FacultadController = require('./controllers/FacultadController');
+const ComisionHasEstadoController = require('./controllers/ComisionHasEstadoController');
 
 //HOME
 router.get('/', (req, res) => res.json({ hola: "mundo" }));
@@ -34,7 +35,7 @@ router.get('/api/comisiones', auth, ComisionPolicy.showAll, ComisionController.a
 router.get('/api/documentos', auth, ShowAllDocsCumpl.showAll, DocumentoController.all);
 router.get('/api/cumplidos', auth, ShowAllDocsCumpl.showAll, CumplidoController.all);
 router.get('/api/estados', auth, EstadoController.all);
-router.get('/api/comisiones-estados', auth, ComisionHasEstado.all);
+router.get('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.showAll, ComisionHasEstadoController.all);
 router.get('/api/tipos-solicitud', auth, TipoSolicitudController.all);
 router.get('/api/usuarios', auth, UsuariosPolicy.all, UsuarioController.all);
 router.get('/api/facultades', auth, FacultadController.all);
@@ -47,7 +48,7 @@ router.get('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolic
 router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.show, CumplidoController.show);
 router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);
 router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.show);
-router.get('/api/comisiones-estados/:id', auth, ComisionHasEstado.show);
+router.get('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.find, ComisionHasEstadoPolicy.show, ComisionHasEstadoController.show);
 router.get('/api/usuarios/:id', auth, UsuariosPolicy.show, UsuarioController.show);
 router.get('/api/facultades/:id', auth, FacultadController.show);
 router.get('/api/roles/:id', auth, RolController.show);
@@ -63,31 +64,32 @@ router.post('/api/documentos', auth, DocumentoController.create);
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
 router.post('/api/estados', auth, EstadoPolicy.create, EstadoController.create);
-router.post('/api/comisiones-estados', auth, ComisionHasEstado.create);
+router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create);
 //router.post('/api/usuarios', UsuarioController.create);
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);
 
 //UPDATE
-router.patch('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.update, ComisionController.update);
+router.patch('/api/comisiones/:id', auth, ComisionController.find, ComisionController.vistobueno, ComisionPolicy.update, ComisionController.update);
 router.patch('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.update, DocumentoController.update);
 router.patch('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.update, CumplidoController.update);
 router.patch('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudPolicy.update, TipoSolicitudController.update);
 router.patch('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.update, EstadoController.update);
-router.patch('/api/comisiones-estados/:id', auth, ComisionHasEstado.update);
+//router.patch('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.update);
 router.patch('/api/usuarios/:id', auth, UsuarioController.update);
 //router.patch('/api/facultades/:id', auth, FacultadController.update);
 //router.patch('/api/departamentos/:id', auth, DepartamentoController.update);
 
 //Delete
-router.delete('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.delete, ComisionController.delete);
+router.delete('/api/comisiones/:id', auth, ComisionController.find, ComisionController.vistobueno, ComisionPolicy.delete, ComisionController.delete);
 router.delete('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.delete, DocumentoController.delete);
 router.delete('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.delete, CumplidoController.delete);
 router.delete('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudPolicy.delete, TipoSolicitudController.delete);
 router.delete('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.delete, EstadoController.delete);
-router.delete('/api/comisiones-estados/:id', auth, ComisionHasEstado.delete);
+//router.delete('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.delete);
 //router.delete('/api/facultades/:id', auth, FacultadController.delete);
 //router.delete('/api/departamentos/:id', auth, DepartamentoController.delete);
+
 //Desactive and active users
 router.patch('/api/usuarios/desactive/:id', auth, UsuarioController.desactive);
 router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);

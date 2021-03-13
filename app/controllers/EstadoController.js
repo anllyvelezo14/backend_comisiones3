@@ -6,7 +6,7 @@ module.exports = {
         let estados = await Estado.findByPk(req.params.id);
 
         if (!estados) {
-            res.status(404).json({ msg: "Estado no encontrado!" });
+            res.status(404).json({ msg: `Estado ${req.params.id} no encontrado!` });
         } else {
             req.estados = estados;
             next();
@@ -35,7 +35,7 @@ module.exports = {
             console.log(newestados);
             res.status(201).send({
                 status: 201,
-                message: 'El estado se creó con éxito!'
+                message: `El estado ${newestados.nombre} se creó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -59,7 +59,7 @@ module.exports = {
             console.log(newestados);
             res.status(201).send({
                 status: 201,
-                message: 'El estado se actualizó con éxito!'
+                message: `El estado ${req.body.nombre} se actualizó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -73,7 +73,7 @@ module.exports = {
     //DELETE
     async delete(req, res) {
         req.estados.destroy().then(estados => {
-            res.json({ msg: "El Estado ha sido eliminado!" })
+            res.json({ msg: `El Estado ${estados.nombre} ha sido eliminado!` })
         })
 
     },

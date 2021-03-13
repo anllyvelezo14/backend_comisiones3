@@ -39,7 +39,7 @@ module.exports = {
             next();
 
         } else {
-            res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
     async update(req, res, next) {
@@ -51,7 +51,7 @@ module.exports = {
         } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado!' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO, no puedes modificarla' })
         }
     },
     async delete(req, res, next) {
@@ -63,7 +63,7 @@ module.exports = {
         } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado!' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO, no puedes eliminarla' })
         }
     },
 }

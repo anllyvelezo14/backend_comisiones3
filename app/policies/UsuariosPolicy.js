@@ -18,7 +18,7 @@ module.exports = {
             next();
 
         } else {
-            res.status(401).json({ msg: '¡No esta autorizado para ver esta página!' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
     async show(req, res, next) {
@@ -47,20 +47,20 @@ module.exports = {
             if (req.usuario.departamentos.facultad.nombre === req.usuarioid.departamentos.facultad.nombre) {
                 next();
             } else {
-                res.status(401).json({ msg: '¡No esta autorizado para ver esta página!' })
+                res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
             }
 
         } else if (req.usuario.roles.nombre === "COORDINACION") {
             if (req.usuario.departamentos.nombre === req.usuarioid.departamentos.nombre) {
                 next();
             } else {
-                res.status(401).json({ msg: '¡No esta autorizado para ver esta página!' })
+                res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
             }
 
         } else if (req.usuario.roles.nombre === "VICERRECTORIA") {
             next();
         } else {
-            res.status(401).json({ msg: '¡No esta autorizado para ver esta página!' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     }
 

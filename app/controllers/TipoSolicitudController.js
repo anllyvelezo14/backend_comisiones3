@@ -27,7 +27,7 @@ module.exports = {
         });
 
         if (!tipos_solicitud) {
-            res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
+            res.status(404).json({ msg: `El Tipo de Solicitud ${req.params.id} no ha sido encontrado!` });
         } else {
             req.tipos_solicitud = tipos_solicitud;
             next();
@@ -49,7 +49,7 @@ module.exports = {
             console.log(newtipos_solicitud);
             res.status(201).send({
                 status: 201,
-                message: 'El tipo de solicitud se creó con éxito!'
+                message: `El tipo de ${newtipos_solicitud.nombre} solicitud se creó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -73,7 +73,7 @@ module.exports = {
             console.log(newtipos_solicitud);
             res.status(201).send({
                 status: 201,
-                message: 'El tipo de solicitud se actualizó con éxito!'
+                message: `El tipo de solicitud ${req.body.nombre} se actualizó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -88,7 +88,7 @@ module.exports = {
     async delete(req, res) {
 
         req.tipos_solicitud.destroy().then(tipos_solicitud => {
-            res.json({ msg: "El Tipo de Solicitud ha sido eliminado!" })
+            res.json({ msg: `El Tipo de Solicitud ${tipos_solicitud.nombre} ha sido eliminado!` })
         })
 
     },
@@ -102,7 +102,7 @@ module.exports = {
         });
 
         if (!tipos_solicitud) {
-            res.status(404).json({ msg: "Tipo de Solicitud no encontrado!" });
+            res.status(404).json({ msg: `El Tipo de Solicitud ${req.params.nombre} no ha sido encontrado!` });
         } else {
             res.json(tipos_solicitud);
         }

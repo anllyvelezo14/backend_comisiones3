@@ -1,4 +1,4 @@
-const { Departamento, Comision, Usuario, Documento, Facultad } = require('../models/index')
+const { Departamento, Comision, Usuario, Documento, Facultad, ComisionHasEstado, Estado } = require('../models/index')
 
 
 module.exports = {
@@ -61,7 +61,7 @@ module.exports = {
         });
 
         if (!documentos) {
-            res.status(404).json({ msg: "Documento no encontrado!" });
+            res.status(404).json({ msg: `El Documento ${req.params.id} no ha sido encontrado!` });
         } else {
             req.documentos = documentos;
             next();
@@ -86,7 +86,7 @@ module.exports = {
             console.log(newdocumento);
             res.status(201).send({
                 status: 201,
-                message: 'El Documento se creó con éxito!'
+                message: `El Documento ${newdocumento.id} se creó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -98,8 +98,39 @@ module.exports = {
 
     },
 
+    //FIND VISTO BUENO
+    async vistobueno(req, res, next) {
+
+        let idAuth = req.usuario.id;
+        let vistoBueno = await Documento.findAll({
+            where: { '$comisiones.usuarios.id$': idAuth, '$comisiones.intermediate_comisiones.intermediate_estados.nombre$': 'VISTO BUENO' },
+            include: [{
+                model: Comision,
+                as: "comisiones",
+                include: [{
+                    model: ComisionHasEstado,
+                    as: "intermediate_comisiones",
+                    include: [{
+                        model: Estado,
+                        as: "intermediate_estados",
+                        attributes: ["nombre"],
+                    }]
+                }, {
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["id"],
+                }]
+            }]
+
+        });
+
+        req.vistoBueno = vistoBueno;
+        next();
+    },
+
     //UPDATE
     async update(req, res) {
+
         Documento.update({
             nombre: req.body.nombre,
             es_anexo: req.body.es_anexo,
@@ -115,7 +146,7 @@ module.exports = {
             console.log(newdocumento);
             res.status(201).send({
                 status: 201,
-                message: 'El Documento se actualizó con éxito!'
+                message: `El Documento ${req.params.id} se actualizó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -130,7 +161,7 @@ module.exports = {
     async delete(req, res) {
 
         req.documentos.destroy().then(documentos => {
-            res.json({ msg: "El Documento ha sido eliminado!" })
+            res.json({ msg: `El Documento ${documentos.id} ha sido eliminado!` })
         })
 
     },

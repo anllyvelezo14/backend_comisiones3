@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    msg: "La fecha de terminación no debe estar en blanco!"
+                    msg: "La fecha de finalización no debe estar en blanco!"
                 }
             }
         },

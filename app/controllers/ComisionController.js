@@ -94,7 +94,7 @@ module.exports = {
 
 
         if (!comisiones) {
-            res.status(404).json({ msg: "Comisión no encontrada!" });
+            res.status(404).json({ msg: `¡La Comisión ${req.params.id} no ha sido encontrada! ` });
         } else {
             req.comisiones = comisiones;
             next();
@@ -125,7 +125,7 @@ module.exports = {
             //console.log(newcomision);
             res.status(201).send({
                 status: 201,
-                message: 'La Comisión se creó con éxito!'
+                message: `¡La Comisión  ${newcomision.id} se creó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -184,7 +184,7 @@ module.exports = {
         }).then(function(newcomision) {
             res.status(201).send({
                 status: 201,
-                message: 'La Comisión se actualizó con éxito!'
+                message: `¡La Comisión ${req.params.id} se actualizó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -198,7 +198,7 @@ module.exports = {
     //DELETE
     async delete(req, res) {
         req.comisiones.destroy().then(comision => {
-            res.json({ msg: "La Comisión ha sido eliminada!" })
+            res.json({ msg: `¡La Comisión ${comision.id} ha sido eliminada!` })
         });
 
     },

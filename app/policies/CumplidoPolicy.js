@@ -15,31 +15,31 @@ module.exports = {
             next();
 
         } else {
-            res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
     async update(req, res, next) {
         let idUser = req.cumplidos.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
-        let enviado = req.cumplidos.enviado;
+
         if (req.usuario.roles.nombre === 'ADMIN') {
             next();
-        } else if (idUser === idAuth && !enviado) {
+        } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado!' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO, no puedes modificarla' })
         }
     },
     async delete(req, res, next) {
         let idUser = req.cumplidos.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
-        let enviado = req.cumplidos.enviado;
+
         if (req.usuario.roles.nombre === 'ADMIN') {
             next();
-        } else if (idUser === idAuth && !enviado) {
+        } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado!' })
+            res.status(401).json({ msg: '¡No tienes autorización!\n Si tu comisión tiene el VISTO BUENO, no puedes eliminarla' })
         }
     },
 }

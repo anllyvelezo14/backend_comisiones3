@@ -67,7 +67,7 @@ module.exports = {
         });
 
         if (!comisiones_has_estados) {
-            res.status(404).json({ msg: "Estados de Comisión no encontrados!" });
+            res.status(404).json({ msg: `No existe la asociación ${req.params.id} entre Estado - Comisión` });
         } else {
             req.comisiones_has_estados = comisiones_has_estados;
             next();
@@ -92,7 +92,7 @@ module.exports = {
         await comisiones_has_estados.save().then(function(newcomisiones_has_estados) {
             res.status(201).send({
                 status: 201,
-                message: 'El estado para la comisión se creó con éxito!'
+                message: `El estado ${newcomisiones_has_estados.estados_id} para la comisión ${newcomisiones_has_estados.comisiones_id} se creó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -120,7 +120,7 @@ module.exports = {
         }).then(function(newcomisiones_has_estados) {
             res.status(201).send({
                 status: 201,
-                message: 'El estado para la comisión  se actualizó con éxito!'
+                message: `El estado ${newcomisiones_has_estados.estados_id} para la comisión ${newcomisiones_has_estados.comisiones_id} se creó con éxito!`
             });
         }).catch(function(error) {
             console.log(error.message);
@@ -133,8 +133,8 @@ module.exports = {
 
     //DELETE
     async delete(req, res) {
-        req.comisiones_has_estadoses.destroy().then(comisiones_has_estados => {
-            res.json({ msg: "El estado para la comisión ha sido eliminado!" })
+        req.comisiones_has_estados.destroy().then(comisiones_has_estados => {
+            res.json({ msg: `El estado ${comisiones_has_estados.estados_id} para la comisión ${comisiones_has_estados.comisiones_id} se creó con éxito!` })
         });
 
     },

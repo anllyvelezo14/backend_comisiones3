@@ -36,7 +36,7 @@ module.exports = {
             next();
 
         } else {
-            res.status(401).json({ msg: 'No estas autorizado para ver esta página!' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
 
@@ -47,7 +47,7 @@ module.exports = {
         if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || rolAuth === 'DECANATURA' || rolAuth === 'COORDINACION') {
             next();
         } else {
-            res.status(401).json({ msg: 'No tienes Autorización!' })
+            res.status(401).json({ msg: '¡No tienes autorización!' })
         }
     },
     async update(req, res, next) {
@@ -56,7 +56,7 @@ module.exports = {
         if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || rolAuth === 'DECANATURA' || rolAuth === 'COORDINACION') {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado!' })
+            res.status(401).json({ msg: '¡No tienes autorización!' })
         }
     },
     async delete(req, res, next) {
@@ -65,7 +65,7 @@ module.exports = {
         if (rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || rolAuth === 'DECANATURA') {
             next();
         } else {
-            res.status(401).json({ msg: 'No estas autorizado!' })
+            res.status(401).json({ msg: '¡No tienes autorización!' })
         }
     },
 }

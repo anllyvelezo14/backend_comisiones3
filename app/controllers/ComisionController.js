@@ -1,5 +1,5 @@
 const { Comision, TipoSolicitud, Usuario, Departamento, Facultad, Documento, Cumplido, Estado, ComisionHasEstado } = require('../models/index');
-
+const { Op } = require("sequelize");
 
 module.exports = {
 
@@ -23,7 +23,7 @@ module.exports = {
                 }, {
                     model: Usuario,
                     as: 'usuarios',
-                    attributes: ["nombre", "apellido", "identificacion", "email"],
+                    attributes: ["nombre", "apellido", "identificacion", "email", "estado"],
                     include: [{
                         model: Departamento,
                         as: 'departamentos',
@@ -69,7 +69,7 @@ module.exports = {
             }, {
                 model: Usuario,
                 as: 'usuarios',
-                attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
+                attributes: ["nombre", "apellido", "identificacion", "email", "estado", "departamentos_id"],
                 include: [{
                     model: Departamento,
                     as: 'departamentos',
@@ -142,7 +142,12 @@ module.exports = {
 
         let idAuth = req.usuario.id;
         let vistoBueno = await Comision.findAll({
-            where: { '$usuarios.id$': idAuth, '$intermediate_comisiones.intermediate_estados.nombre$': 'VISTO BUENO' },
+            where: {
+                '$usuarios.id$': idAuth,
+                '$intermediate_comisiones.intermediate_estados.nombre$': {
+                    [Op.in]: ['VISTO BUENO', 'DEVUELTA']
+                }
+            },
             include: [{
                 model: ComisionHasEstado,
                 as: "intermediate_comisiones",

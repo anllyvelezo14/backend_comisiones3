@@ -9,12 +9,13 @@ module.exports = {
 
         } else if (rolAuth === 'COORDINACION') {
             const depAuth = req.usuario.departamentos.id
-            req.where = { '$usuarios.departamentos.id$': depAuth };
+            console.log(depAuth);
+            req.where = { '$usuarios.estado$': 1, '$usuarios.departamentos.id$': depAuth };
             next();
 
         } else if (rolAuth === 'DECANATURA') {
             const facAuth = req.usuario.departamentos.facultad.id
-            req.where = { '$usuarios.departamentos.facultad.id$': facAuth };
+            req.where = { '$usuarios.estado$': 1, '$usuarios.departamentos.facultad.id$': facAuth };
             next();
 
         } else {
@@ -51,7 +52,7 @@ module.exports = {
         } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
-            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO, no puedes modificarla' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO o está DEVUELTA, no puedes modificarla' })
         }
     },
     async delete(req, res, next) {
@@ -63,7 +64,7 @@ module.exports = {
         } else if (idUser === idAuth && req.vistoBueno.length === 0) {
             next();
         } else {
-            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO, no puedes eliminarla' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO o está DEVUELTA, no puedes eliminarla' })
         }
     },
 }

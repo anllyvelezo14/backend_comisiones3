@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     ComisionHasEstado.init({
         createdAt: {
             type: DataTypes.DATE,
+        },
+        observacion: {
+            type: DataTypes.STRING
         }
     }, {
         sequelize,

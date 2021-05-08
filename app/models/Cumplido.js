@@ -40,10 +40,6 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "Los correos no debe estar en blanco!"
                 }
             }
-        },
-        enviado: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
         }
     }, {
         sequelize,

@@ -137,33 +137,12 @@ module.exports = {
 
     },
 
-    //FIND VISTO BUENO
-    async vistobueno(req, res, next) {
+    //FIND: ULTIMO ESTADO DE LA COMISION
+    async estadoComision(req, res, next) {
 
-        let idAuth = req.usuario.id;
-        let vistoBueno = await Comision.findAll({
-            where: {
-                '$usuarios.id$': idAuth,
-                '$intermediate_comisiones.intermediate_estados.nombre$': {
-                    [Op.in]: ['VISTO BUENO', 'DEVUELTA']
-                }
-            },
-            include: [{
-                model: ComisionHasEstado,
-                as: "intermediate_comisiones",
-                include: [{
-                    model: Estado,
-                    as: "intermediate_estados",
-                    attributes: ["nombre"],
-                }]
-            }, {
-                model: Usuario,
-                as: 'usuarios',
-                attributes: ["id"],
-            }]
-        });
-
-        req.vistoBueno = vistoBueno;
+        let size = Object.keys(req.comisiones.intermediate_comisiones).length
+        let finalEstado = req.comisiones.intermediate_comisiones[size - 1].dataValues.intermediate_estados.dataValues.nombre;
+        req.finalEstado = finalEstado;
         next();
     },
 

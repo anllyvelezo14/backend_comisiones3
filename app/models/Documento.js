@@ -33,19 +33,6 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        es_cumplido: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    msg: "Debe verificar si es un cumplido"
-                }
-            }
-        },
-        enviado: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false,
-        }
     }, {
         sequelize,
         modelName: 'Documento',

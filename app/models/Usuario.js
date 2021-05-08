@@ -109,6 +109,10 @@ module.exports = (sequelize, DataTypes) => {
                     msg: "La contraseña debe contener entre 4 y 100 caracteres"
                 }
             }
+        },
+        dia_dispobible: {
+            type: DataTypes.INTEGER,
+            defaultValue: 3
         }
 
     }, {

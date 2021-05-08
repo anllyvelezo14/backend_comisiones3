@@ -40,6 +40,15 @@ module.exports = {
                 as: 'comisiones',
                 attributes: ["id", "createdAt", "usuarios_id"],
                 include: [{
+                    model: ComisionHasEstado,
+                    as: "intermediate_comisiones",
+                    attributes: ["id"],
+                    include: [{
+                        model: Estado,
+                        as: "intermediate_estados",
+                        attributes: ["nombre"],
+                    }]
+                }, {
                     model: Usuario,
                     as: 'usuarios',
                     attributes: ["nombre", "apellido", "identificacion", "email", "departamentos_id"],
@@ -96,33 +105,12 @@ module.exports = {
             });
         })
     },
-    //FIND VISTO BUENO
-    async vistobueno(req, res, next) {
+    //FIND: ULTIMO ESTADO DE LA COMISION
+    async estadoComision(req, res, next) {
 
-        let idAuth = req.usuario.id;
-        let vistoBueno = await Cumplido.findAll({
-            where: { '$comisiones.usuarios.id$': idAuth, '$comisiones.intermediate_comisiones.intermediate_estados.nombre$': 'VISTO BUENO' },
-            include: [{
-                model: Comision,
-                as: "comisiones",
-                include: [{
-                    model: ComisionHasEstado,
-                    as: "intermediate_comisiones",
-                    include: [{
-                        model: Estado,
-                        as: "intermediate_estados",
-                        attributes: ["nombre"],
-                    }]
-                }, {
-                    model: Usuario,
-                    as: 'usuarios',
-                    attributes: ["id"],
-                }]
-            }]
-
-        });
-
-        req.vistoBueno = vistoBueno;
+        let size = Object.keys(req.cumplidos.comisiones.intermediate_comisiones).length
+        let finalEstado = req.cumplidos.comisiones.intermediate_comisiones[size - 1].dataValues.intermediate_estados.dataValues.nombre;
+        req.finalEstado = finalEstado;
         next();
     },
 

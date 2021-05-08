@@ -49,10 +49,10 @@ module.exports = {
 
         if (req.usuario.roles.nombre === 'ADMIN') {
             next();
-        } else if (idUser === idAuth && req.vistoBueno.length === 0) {
+        } else if (idUser === idAuth && (req.finalEstado === 'SOLICITADA' || req.finalEstado === 'RECHAZADA DECANATO')) {
             next();
         } else {
-            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO o está DEVUELTA, no puedes modificarla' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Solo puedes editarla si el estado en que se encuentra es: SOLICITADA o RECHAZADA COORDINACIÓN' })
         }
     },
     async delete(req, res, next) {
@@ -61,10 +61,10 @@ module.exports = {
 
         if (req.usuario.roles.nombre === 'ADMIN') {
             next();
-        } else if (idUser === idAuth && req.vistoBueno.length === 0) {
+        } else if (idUser === idAuth && (req.finalEstado === 'SOLICITADA' || req.finalEstado === 'RECHAZADA DECANATO')) {
             next();
         } else {
-            res.status(401).json({ msg: '¡No tienes autorización! \n Si tu comisión tiene el VISTO BUENO o está DEVUELTA, no puedes eliminarla' })
+            res.status(401).json({ msg: '¡No tienes autorización! \n Solo puedes eliminarla si el estado en que se encuentra es: SOLICITADA o RECHAZADA COORDINACIÓN' })
         }
     },
 }

@@ -4,6 +4,7 @@ const router = expres.Router();
 //Middlerwares
 const auth = require('./middlerwares/auth');
 
+
 //POLICIES
 const ComisionPolicy = require('./policies/ComisionPolicy');
 const DocumentoPolicy = require('./policies/DocumentoPolicy')
@@ -11,8 +12,8 @@ const CumplidoPolicy = require('./policies/CumplidoPolicy');
 const TipoSolicitudPolicy = require('./policies/TipoSolicitudPolicy');
 const EstadoPolicy = require('./policies/EstadoPolicy');
 const UsuariosPolicy = require('./policies/UsuariosPolicy');
-const ShowAllDocsCumpl = require('./policies/ShowAllDocsCumpl')
-const ComisionHasEstadoPolicy = require('./policies/ComisionHasEstadoPolicy')
+const ShowAllDocsCumpl = require('./policies/ShowAllDocsCumpl');
+const ComisionHasEstadoPolicy = require('./policies/ComisionHasEstadoPolicy');
 
 //CONTROLLERS
 const AuthController = require('../app/controllers/AuthController');

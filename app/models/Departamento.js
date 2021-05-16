@@ -22,10 +22,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [0, 45],
                     msg: "El nombre no puede superar los 45 caracteres"
                 },
-                isAlpha: {
-                    args: true,
-                    msg: "El nombre solo puede contener letras"
-                }
+                
             }
         },
         descripcion: {

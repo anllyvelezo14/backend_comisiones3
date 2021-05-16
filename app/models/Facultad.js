@@ -41,10 +41,7 @@ module.exports = (sequelize, DataTypes) => {
                     args: [0, 50],
                     msg: "El nombre no puede superar los 50 caracteres"
                 },
-                isAlpha: {
-                    args: true,
-                    msg: "El nombre solo puede contener letras"
-                }
+                
             }
         },
         descripcion: {
@@ -67,6 +64,21 @@ module.exports = (sequelize, DataTypes) => {
         // timestamps: true,
         // createdAt: true,
         // updatedAt: 'fecha_actualizacion',
+    });
+
+    Facultad.sync();
+    Facultad.findAll()
+    .then(facultad => {
+        if (facultad.length === 0) {
+            Facultad.create([
+                {centro_de_costo: 254, nombre: 'ciencias exactas', descripcion: 'ciencias' },
+                {centro_de_costo: 259, nombre: 'idiomas', descripcion: 'shjdsuc' },
+                {centro_de_costo: 245, nombre: 'bienestar', descripcion: 'hfuef' },
+                {centro_de_costo: 254, nombre: 'ingenieria', descripcion: 'hzdjswdf' },
+                {centro_de_costo: 255, nombre: 'salud', descripcion: 'sbchf' },
+                {centro_de_costo: 235, nombre: 'eduacion', descripcion: 'sbchfbvjrg' }
+              ]);
+        }
     });
     return Facultad;
 };

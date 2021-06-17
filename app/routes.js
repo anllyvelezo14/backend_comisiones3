@@ -5,6 +5,7 @@ const router = expres.Router();
 const auth = require('./middlerwares/auth');
 
 
+
 //POLICIES
 const ComisionPolicy = require('./policies/ComisionPolicy');
 const DocumentoPolicy = require('./policies/DocumentoPolicy')
@@ -70,6 +71,9 @@ router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, Com
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);
 
+
+
+
 //UPDATE
 router.patch('/api/comisiones/:id', auth, ComisionController.find, ComisionController.estadoComision, ComisionPolicy.update, ComisionController.update);
 router.patch('/api/documentos/:id', auth, DocumentoController.find, DocumentoController.estadoComision, DocumentoPolicy.update, DocumentoController.update);
@@ -77,7 +81,7 @@ router.patch('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoContro
 router.patch('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudPolicy.update, TipoSolicitudController.update);
 router.patch('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.update, EstadoController.update);
 //router.patch('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.update);
-router.patch('/api/usuarios/:id', auth, UsuarioController.update);
+router.patch('/api/usuarios/:id',  UsuarioController.update);
 //router.patch('/api/facultades/:id', auth, FacultadController.update);
 //router.patch('/api/departamentos/:id', auth, DepartamentoController.update);
 
@@ -98,6 +102,9 @@ router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
 //Registro y login
 router.post('/api/signin', AuthController.signIn);
 router.post('/api/signup', AuthController.signUp);
+
+//prueba envio correo
+
 
 
 module.exports = router;

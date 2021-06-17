@@ -6,10 +6,10 @@ let  Createinitial= async (next)=>{
     facultades=[
       {centro_de_costo: 254, nombre: 'ciencias exactas', descripcion: 'ciencias' },
       {centro_de_costo: 259, nombre: 'idiomas', descripcion: 'shjdsuc' },
-      {centro_de_costo: 245, nombre: 'bienestar', descripcion: 'hfuef' },
+      {centro_de_costo: 245, nombre: 'Microbiología', descripcion: 'hfuef' },
       {centro_de_costo: 254, nombre: 'ingenieria', descripcion: 'hzdjswdf' },
       {centro_de_costo: 255, nombre: 'salud', descripcion: 'sbchf' },
-      {centro_de_costo: 235, nombre: 'eduacion', descripcion: 'sbchfbvjrg' }
+      {centro_de_costo: 235, nombre: 'Educación', descripcion: 'sbchfbvjrg' }
     ];
     const  departamentos= [
       {nombre: 'fisica', descripcion: 'shfduswfhe', facultades_id: 1 },
@@ -29,12 +29,11 @@ let  Createinitial= async (next)=>{
       {nombre: 'Lic lenguas', descripcion: 'huehv', facultades_id: 6 }
     ];
     const  roles=[
-      {nombre: 'ESTUDIANTE', descripcion: 'toda la U' },
-      {nombre: 'DECANATURA', descripcion: 'facultad' },
-      {nombre: 'VICERRECTORIA', descripcion: 'administrativos' },
-      {nombre: 'PROFESOR', descripcion: 'toda la U' },
-      {nombre: 'COORDINACION', descripcion: 'departamento' },
-      {nombre: 'ADMIN', descripcion: 'plataforma' }
+      {nombre: 'USUARIO', descripcion: 'Empleados UdeA' },
+      {nombre: 'DECANATO', descripcion: 'Facultad o Escuela' },
+      {nombre: 'VICERRECTORIA', descripcion: 'Vicerrectoria' },
+      {nombre: 'COORDINACION', descripcion: 'Departamento ó Instituto' },
+      {nombre: 'ADMIN', descripcion: 'Administrador plataforma' }
     ];
     for (var i=0; i<facultades.length; i++){
       const facultad= await Facultad.build(facultades[i]);

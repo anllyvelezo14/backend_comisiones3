@@ -1,5 +1,7 @@
 const { all } = require("../routes");
 
+const send= require('../middlerwares/email');
+
 const { Usuario, Rol, Departamento, Comision, Facultad } = require('../models/index');
 const RolController = require("./RolController");
 const { username } = require("../../config/database");
@@ -65,6 +67,12 @@ module.exports = {
             status: 200,
             message: 'Usuario actualizado con éxito!'
         });
+        not={
+            email: "raquijuan12@gmail.com",
+            subject: "prueba",
+            text: "<b>Esto es uan prueba!</b>"
+        };
+        send.sendMail(not);
     },
 
     //DELETE

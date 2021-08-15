@@ -1,6 +1,6 @@
-const { all } = require("../routes");
+// const { all } = require("../routes");
 
-const send= require('../middlerwares/email');
+const send = require('../middlerwares/email');
 
 const { Usuario, Rol, Departamento, Comision, Facultad } = require('../models/index');
 const RolController = require("./RolController");
@@ -67,7 +67,7 @@ module.exports = {
             status: 200,
             message: 'Usuario actualizado con éxito!'
         });
-        not={
+        not = {
             email: "raquijuan12@gmail.com",
             subject: "prueba",
             text: "<b>Esto es uan prueba!</b>"

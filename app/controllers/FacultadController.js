@@ -1,6 +1,6 @@
-const { all } = require("../routes");
+// const { all } = require("../routes");
 
-const { Facultad, Departamento, Usuario} = require('../models/index')
+const { Facultad, Departamento, Usuario } = require('../models/index')
 
 module.exports = {
 
@@ -13,14 +13,14 @@ module.exports = {
                 include: {
                     model: Usuario,
                     as: "usuarios",
-                    attributes: ["nombre","apellido", "email"]
+                    attributes: ["nombre", "apellido", "email"]
                 }
             }
         });
         res.json(facultades);
     },
     async show(req, res) {
-        let facultad = await Facultad.findByPk(req.params.id,{
+        let facultad = await Facultad.findByPk(req.params.id, {
             include: {
                 model: Departamento,
                 as: "departamentos",
@@ -28,7 +28,7 @@ module.exports = {
                 include: {
                     model: Usuario,
                     as: "usuarios",
-                    attributes: ["nombre","apellido", "email"]
+                    attributes: ["nombre", "apellido", "email"]
                 }
             }
         });

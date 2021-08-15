@@ -1,6 +1,6 @@
-const { all } = require("../routes");
+// const { all } = require("../routes");
 
-const { Departamento, Usuario, Facultad, Rol} = require('../models/index')
+const { Departamento, Usuario, Facultad, Rol } = require('../models/index')
 
 module.exports = {
 
@@ -9,40 +9,39 @@ module.exports = {
             include: [{
                 model: Usuario,
                 as: "usuarios",
-                attributes: ["nombre","apellido", "email"],
+                attributes: ["nombre", "apellido", "email"],
                 include: [{
                     model: Rol,
                     as: 'roles',
                     attributes: ["nombre"]
                 }]
-            },{
+            }, {
                 model: Facultad,
                 as: 'facultad',
                 attributes: ["nombre"]
-            },
-        ]
+            }, ]
         });
         res.json(departamentos);
     },
     //SHOW ID
     async show(req, res) {
-        let departamento = await Departamento.findByPk(req.params.id,{
+        let departamento = await Departamento.findByPk(req.params.id, {
             include: [{
-                model: Usuario,
-                as: "usuarios",
-                attributes: ["nombre","apellido", "email"],
-                include: [{
-                    model: Rol,
-                    as: 'roles',
+                    model: Usuario,
+                    as: "usuarios",
+                    attributes: ["nombre", "apellido", "email"],
+                    include: [{
+                        model: Rol,
+                        as: 'roles',
+                        attributes: ["nombre"]
+                    }]
+                }, {
+                    model: Facultad,
+                    as: 'facultad',
                     attributes: ["nombre"]
-                }]
-            },{
-                model: Facultad,
-                as: 'facultad',
-                attributes: ["nombre"]
-            },
-            
-        ]
+                },
+
+            ]
         });
 
         if (!departamento) {

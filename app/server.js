@@ -1,8 +1,8 @@
 //Servidor de Express
 const express = require('express');
 const app = express();
-const {Facultad, sequelize } = require('./models/index');
-//const Facultad = require('../models/Facultad');
+const cors = require('cors');
+const { Facultad, sequelize } = require('./models/index');
 const createinitial = require('./middlerwares/Createinitial');
 //PUERTO
 const PORT = process.env.PORT || 3000;
@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 //MIDDLEWARE - para rellenar el req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 //RUTAS
 app.use(require('./routes'));
@@ -19,14 +20,14 @@ app.use(require('./routes'));
 //Arrancar el Servidor
 app.listen(PORT, () => {
     console.log(`La app arrancó en http://localhost:${PORT}`);
-    
-    sequelize.sync({ force: false }).then(async () => {
-        facultad= await Facultad.findAll();
-        if(facultad.length==0){
-        createinitial.Createinitial();
+
+    sequelize.sync({ force: false }).then(async() => {
+        facultad = await Facultad.findAll();
+        if (facultad.length == 0) {
+            createinitial.Createinitial();
         };
         console.log("Se ha establecido la conexión");
-        
+
     });
     sequelize.authenticate().then(() => {
         console.log('Estas conectado a la BD');
@@ -38,5 +39,3 @@ app.listen(PORT, () => {
     });
 
 });
-
-

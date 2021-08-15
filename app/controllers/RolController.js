@@ -1,4 +1,4 @@
-const { all } = require("../routes");
+// const { all } = require("../routes");
 
 const { Rol, Usuario } = require('../models/index');
 const UsuarioController = require("./UsuarioController");
@@ -10,12 +10,12 @@ module.exports = {
         res.json(roles);
     },
     async show(req, res) {
-        let rol = await Rol.findByPk(req.params.id,{
+        let rol = await Rol.findByPk(req.params.id, {
             attributes: ["nombre"],
-            include:{
+            include: {
                 model: Usuario,
                 as: 'usuarios',
-                attributes: ["nombre","apellido", "email"]
+                attributes: ["nombre", "apellido", "email"]
             }
         });
 

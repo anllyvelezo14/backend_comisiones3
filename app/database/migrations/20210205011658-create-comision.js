@@ -9,11 +9,11 @@ module.exports = {
                 type: Sequelize.INTEGER
             },
             fecha_inicio: {
-                allowNull: false,
+                allowNull: true,
                 type: Sequelize.DATE
             },
             fecha_fin: {
-                allowNull: false,
+                allowNull: true,
                 type: Sequelize.DATE
             },
             fecha_resolucion: {
@@ -21,9 +21,6 @@ module.exports = {
             },
             resolucion: {
                 type: Sequelize.STRING(45)
-            },
-            respuesta_devolucion: {
-                type: Sequelize.STRING(255)
             },
             justificacion: {
                 allowNull: false,

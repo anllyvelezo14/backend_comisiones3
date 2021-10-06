@@ -43,7 +43,8 @@ module.exports = {
         });
 
     },
-    //registro
+
+    // Registro
     signUp(req, res) {
         let contrasena = bcrypt.hashSync(req.body.contrasena, Number.parseInt(authConfig.rounds));
         console.log(req.body);
@@ -76,9 +77,35 @@ module.exports = {
                 message: 'El usuario se creó con éxito!'
             });
         });
-
-
-
-
     },
+
+    // Cambio de contraseña
+    async changePassword(req, res) {
+
+        let { email } = req.body;
+
+
+        await Usuario.findOne({
+            where: {
+                email: email
+            }
+        }).then(usuario => {
+            if (usuario) {
+
+                //token
+                let token = jwt.sign({ usuario: usuario }, authConfig.secret, {
+                    expiresIn: authConfig.expires
+                });
+                let linkVerificacion = `http://localhost:3000/api/recuperar-contrasena/${token}`
+                res.json({
+                    usuario: usuario,
+                    token: token,
+                })
+
+            }
+        }).catch(err => {
+            res.json("Verifica la bandeja de entrada de tu email");
+        });
+    }
+
 }

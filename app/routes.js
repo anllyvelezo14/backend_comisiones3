@@ -61,7 +61,7 @@ router.get('/api/tipos-solicitud/:nombre', auth, TipoSolicitudController.showNam
 
 
 //CREATE
-router.post('/api/comisiones', auth, ComisionController.create);
+router.post('/api/comisiones', auth, ComisionController.create, ComisionHasEstadoController.createSolicitada);
 router.post('/api/documentos', auth, DocumentoController.create);
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
@@ -81,7 +81,7 @@ router.patch('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoContro
 router.patch('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudPolicy.update, TipoSolicitudController.update);
 router.patch('/api/estados/:id', auth, EstadoController.find, EstadoPolicy.update, EstadoController.update);
 //router.patch('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.update);
-router.patch('/api/usuarios/:id',  UsuarioController.update);
+router.patch('/api/usuarios/:id', UsuarioController.update);
 //router.patch('/api/facultades/:id', auth, FacultadController.update);
 //router.patch('/api/departamentos/:id', auth, DepartamentoController.update);
 
@@ -102,9 +102,8 @@ router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
 //Registro y login
 router.post('/api/signin', AuthController.signIn);
 router.post('/api/signup', AuthController.signUp);
+router.post('/api/recuperar-contrasena', AuthController.changePassword);
 
 //prueba envio correo
-
-
 
 module.exports = router;

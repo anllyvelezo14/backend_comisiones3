@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
         },
         observacion: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            defaultValue: 'Su solicitud está siendo evaluada'
         }
     }, {
         sequelize,

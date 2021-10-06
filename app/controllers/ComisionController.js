@@ -83,7 +83,7 @@ module.exports = {
             }, {
                 model: ComisionHasEstado,
                 as: "intermediate_comisiones",
-                attributes: ["createdAt", "fecha_actualizacion"],
+                attributes: ["createdAt", "fecha_actualizacion", "observacion"],
                 include: [{
                     model: Estado,
                     as: "intermediate_estados",
@@ -107,34 +107,37 @@ module.exports = {
     },
 
     //CREATE
-    async create(req, res) {
+    async create(req, res, next) {
         const comision = await Comision.build({
             fecha_inicio: req.body.fecha_inicio,
             fecha_fin: req.body.fecha_fin,
             fecha_resolucion: req.body.fecha_resolucion,
             resolucion: req.body.resolucion,
-            respuesta_devolucion: req.body.respuesta_devolucion,
             justificacion: req.body.justificacion,
             idioma: req.body.idioma,
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
-            usuarios_id: req.body.usuarios_id,
-        })
-        await comision.save().then(function(newcomision) {
-            //console.log(newcomision);
-            res.status(201).send({
-                status: 201,
-                message: `¡La Comisión  ${newcomision.id} se creó con éxito!`
-            });
-        }).catch(function(error) {
-            console.log(error.message);
-            return res.status(400).send({
-                status: 400,
-                message: error.message
-            });
+            usuarios_id: req.usuario.id,
         })
 
+        await comision.save();
+        // .then(function(newcomision) {
+        //     //console.log(newcomision);
+        //     res.status(201).send({
+        //         status: 201,
+        //         message: `¡La Comisión  ${newcomision.id} se creó con éxito!`
+        //     });
+        // })
+        // .catch(function(error) {
+        //     console.log(error.message);
+        //     return res.status(400).send({
+        //         status: 400,
+        //         message: error.message
+        //     });
+        // })
+        req.comision = comision;
+        next();
     },
 
     //FIND: ULTIMO ESTADO DE LA COMISION
@@ -154,13 +157,12 @@ module.exports = {
             fecha_fin: req.body.fecha_fin,
             fecha_resolucion: req.body.fecha_resolucion,
             resolucion: req.body.resolucion,
-            respuesta_devolucion: req.body.respuesta_devolucion,
             justificacion: req.body.justificacion,
             idioma: req.body.idioma,
             lugar: req.body.lugar,
             fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
-            usuarios_id: req.body.usuarios_id,
+            usuarios_id: req.usuario.id,
         }, {
             where: {
                 id: req.params.id,

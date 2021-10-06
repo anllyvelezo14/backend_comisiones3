@@ -42,6 +42,20 @@ module.exports = (req, res, next) => {
                             as: "tipos_solicitud",
                             attributes: ["nombre"]
                         }, {
+                            model: Usuario,
+                            as: "usuarios",
+                            attributes: ["nombre", "apellido", "identificacion"],
+                            include: [{
+                                model: Departamento,
+                                as: 'departamentos',
+                                attributes: ["nombre"],
+                                include: [{
+                                    model: Facultad,
+                                    as: 'facultad',
+                                    attributes: ["nombre"],
+                                }]
+                            }]
+                        }, {
                             model: Documento,
                             as: "documentos",
                             attributes: ["id", "nombre", "es_anexo"]

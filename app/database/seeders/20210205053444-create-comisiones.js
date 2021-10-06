@@ -18,7 +18,6 @@ module.exports = {
                 idioma: "ingles",
                 justificacion: "---",
                 resolucion: "bla",
-                respuesta_devolucion: "bla",
                 tipos_solicitud_id: 1
             },
             {
@@ -31,7 +30,6 @@ module.exports = {
                 idioma: "ingles",
                 justificacion: "---",
                 resolucion: "bla",
-                respuesta_devolucion: "bla",
                 tipos_solicitud_id: 1
             }
         ];

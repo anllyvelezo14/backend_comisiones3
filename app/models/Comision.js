@@ -23,22 +23,24 @@ module.exports = (sequelize, DataTypes) => {
     Comision.init({
         fecha_inicio: {
             type: DataTypes.DATE,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    msg: "La fecha de inicio no debe estar en blanco!"
-                }
-            }
+            allowNull: true,
+            //defaultValue: '2021-09-01T21:13:19.000Z'
+            // validate: {
+            //     notEmpty: {
+            //         msg: "La fecha de inicio no debe estar en blanco!"
+            //     }
+            // }
         },
 
         fecha_fin: {
             type: DataTypes.DATE,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    msg: "La fecha de finalización no debe estar en blanco!"
-                }
-            }
+            allowNull: true,
+            //defaultValue: '2021-09-01T21:13:19.000Z'
+            // validate: {
+            //     notEmpty: {
+            //         msg: "La fecha de finalización no debe estar en blanco!"
+            //     }
+            // }
         },
 
         fecha_resolucion: DataTypes.DATE,
@@ -49,15 +51,6 @@ module.exports = (sequelize, DataTypes) => {
                 len: {
                     args: [0, 45],
                     msg: "La resolución No puede ser mayor de 45 caracteres"
-                }
-            }
-        },
-        respuesta_devolucion: {
-            type: DataTypes.STRING,
-            validate: {
-                len: {
-                    args: [0, 255],
-                    msg: "La respuesta de devolución no puede ser mayor de 255 caracteres"
                 }
             }
         },

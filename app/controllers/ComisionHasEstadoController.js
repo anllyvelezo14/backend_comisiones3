@@ -138,4 +138,28 @@ module.exports = {
         });
 
     },
+
+    // CREAR COMISIÓN SOLICITADA
+    async createSolicitada(req, res) {
+        const comisiones_has_estados = await ComisionHasEstado.build({
+            createdAt: '2021-09-01T21:13:19.000Z',
+            fecha_actualizacion: '2021-09-01T21:13:19.000Z',
+            comisiones_id: req.comision.id,
+            estados_id: 1
+        })
+        console.log(comisiones_has_estados);
+
+        await comisiones_has_estados.save().then(function(newcomisiones_has_estados) {
+            res.status(201).send({
+                status: 201,
+                message: `El estado ${newcomisiones_has_estados.estados_id} para la comisión ${newcomisiones_has_estados.comisiones_id} se creó con éxito!`
+            });
+        }).catch(function(error) {
+            console.log(error.message);
+            return res.status(400).send({
+                status: 400,
+                message: error.message
+            });
+        })
+    }
 }

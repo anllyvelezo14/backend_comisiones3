@@ -2,6 +2,7 @@
 const {
     Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
     class Comision extends Model {
 
@@ -16,10 +17,9 @@ module.exports = (sequelize, DataTypes) => {
 
             // //Muchas comisiones tienen muchos estados 
             Comision.hasMany(models.ComisionHasEstado, { as: "intermediate_comisiones", foreignKey: "comisiones_id" });
-
-
         }
     };
+
     Comision.init({
         fecha_inicio: {
             type: DataTypes.DATE,
@@ -96,5 +96,6 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: true,
         updatedAt: 'fecha_actualizacion',
     });
+
     return Comision;
 };

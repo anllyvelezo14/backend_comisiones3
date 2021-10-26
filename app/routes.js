@@ -5,7 +5,6 @@ const router = expres.Router();
 const auth = require('./middlerwares/auth');
 
 
-
 //POLICIES
 const ComisionPolicy = require('./policies/ComisionPolicy');
 const DocumentoPolicy = require('./policies/DocumentoPolicy')
@@ -29,8 +28,10 @@ const RolController = require('./controllers/RolController');
 const FacultadController = require('./controllers/FacultadController');
 const ComisionHasEstadoController = require('./controllers/ComisionHasEstadoController');
 
+
 //HOME
 router.get('/', (req, res) => res.json({ hola: "mundo" }));
+
 
 //GET
 router.get('/api/comisiones', auth, ComisionPolicy.showAll, ComisionController.all);
@@ -73,7 +74,6 @@ router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, Com
 
 
 
-
 //UPDATE
 router.patch('/api/comisiones/:id', auth, ComisionController.find, ComisionController.estadoComision, ComisionPolicy.update, ComisionController.update);
 router.patch('/api/documentos/:id', auth, DocumentoController.find, DocumentoController.estadoComision, DocumentoPolicy.update, DocumentoController.update);
@@ -85,7 +85,8 @@ router.patch('/api/usuarios/:id', UsuarioController.update);
 //router.patch('/api/facultades/:id', auth, FacultadController.update);
 //router.patch('/api/departamentos/:id', auth, DepartamentoController.update);
 
-//Delete
+
+//DELETE
 router.delete('/api/comisiones/:id', auth, ComisionController.find, ComisionController.estadoComision, ComisionPolicy.delete, ComisionController.delete);
 router.delete('/api/documentos/:id', auth, DocumentoController.find, DocumentoController.estadoComision, DocumentoPolicy.delete, DocumentoController.delete);
 router.delete('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoController.estadoComision, CumplidoPolicy.delete, CumplidoController.delete);
@@ -95,14 +96,17 @@ router.delete('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.f
 //router.delete('/api/facultades/:id', auth, FacultadController.delete);
 //router.delete('/api/departamentos/:id', auth, DepartamentoController.delete);
 
+
 //Desactive and active users
 router.patch('/api/usuarios/desactive/:id', auth, UsuarioController.desactive);
 router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
+
 
 //Registro y login
 router.post('/api/signin', AuthController.signIn);
 router.post('/api/signup', AuthController.signUp);
 router.post('/api/recuperar-contrasena', AuthController.changePassword);
+
 
 //prueba envio correo
 

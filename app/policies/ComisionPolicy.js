@@ -8,7 +8,7 @@ module.exports = {
             next();
 
         } else if (rolAuth === 'COORDINACION') {
-            const depAuth = req.usuario.departamentos.id
+            const depAuth = req.usuario.departamentos.id //departamento del autenticado
             console.log(depAuth);
             req.where = { '$usuarios.estado$': 1, '$usuarios.departamentos.id$': depAuth };
             next();
@@ -43,6 +43,7 @@ module.exports = {
             res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
+
     async update(req, res, next) {
         let idUser = req.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
@@ -55,6 +56,7 @@ module.exports = {
             res.status(401).json({ msg: '¡No tienes autorización! \n Solo puedes editarla si el estado en que se encuentra es: SOLICITADA o RECHAZADA COORDINACIÓN' })
         }
     },
+
     async delete(req, res, next) {
         let idUser = req.comisiones.usuarios_id;
         let idAuth = req.usuario.id;

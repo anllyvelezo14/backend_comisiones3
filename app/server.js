@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { Facultad, sequelize } = require('./models/index');
+const { sequelize } = require('./models/index');
 const createinitial = require('./middlerwares/Createinitial');
 
 // PUERTO
@@ -23,14 +23,9 @@ app.use(require('./routes'));
 app.listen(PORT, () => {
     console.log(`La app arrancó en http://localhost:${PORT}`);
 
-    sequelize.sync({ force: true }) // true: elimina tablas
+    sequelize.sync({ force: false }) // true: elimina tablas
         .then(async() => {
-            // facultad = await Facultad.findAll();
-            // if (facultad.length == 0) {
-            //     createinitial.Createinitial();
-            // };
             console.log("Se ha establecido la conexión");
-
         });
     sequelize.authenticate().then(() => {
         console.log('Estas conectado a la BD');
@@ -40,5 +35,4 @@ app.listen(PORT, () => {
         console.warn(warning.message); // Print the warning message
         console.warn(warning.stack); // Print the stack trace
     });
-
 });

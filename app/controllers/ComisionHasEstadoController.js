@@ -142,6 +142,7 @@ module.exports = {
     // CREAR COMISIÓN SOLICITADA
     async createSolicitada(req, res) {
         const comisiones_has_estados = await ComisionHasEstado.build({
+            // MIRARLO ?????
             createdAt: '2021-09-01T21:13:19.000Z',
             fecha_actualizacion: '2021-09-01T21:13:19.000Z',
             comisiones_id: req.comision.id,

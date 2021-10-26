@@ -21,6 +21,8 @@ module.exports = {
             res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
+
+
     async show(req, res, next) {
         req.usuarioid = await Usuario.findByPk(req.params.id, {
             include: [{
@@ -41,26 +43,26 @@ module.exports = {
                 "comisiones"
             ]
         });
-        if (req.usuario.id === req.params.id) {
+
+        if (req.usuario.id === parseInt(req.params.id)) {
             next();
         } else if (req.usuario.roles.nombre === "DECANATURA") {
             if (req.usuario.departamentos.facultad.nombre === req.usuarioid.departamentos.facultad.nombre) {
                 next();
             } else {
-                res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
+                res.status(401).json({ msg: '¡No tienes autorización para ver esta página DECANO!' })
             }
 
         } else if (req.usuario.roles.nombre === "COORDINACION") {
             if (req.usuario.departamentos.nombre === req.usuarioid.departamentos.nombre) {
                 next();
             } else {
-                res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
+                res.status(401).json({ msg: '¡No tienes autorización para ver esta página! COOOR' })
             }
-
         } else if (req.usuario.roles.nombre === "VICERRECTORIA") {
             next();
         } else {
-            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página! VICE' })
         }
     }
 

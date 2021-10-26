@@ -2,6 +2,7 @@
 const {
     Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
     class Usuario extends Model {
 
@@ -110,7 +111,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        dia_dispobible: {
+        dia_disponible: {
             type: DataTypes.INTEGER,
             defaultValue: 3
         }

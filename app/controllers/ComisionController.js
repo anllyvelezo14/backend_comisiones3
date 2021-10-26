@@ -106,6 +106,7 @@ module.exports = {
         res.json(req.comisiones);
     },
 
+
     //CREATE
     async create(req, res, next) {
         const comision = await Comision.build({
@@ -188,5 +189,4 @@ module.exports = {
         });
 
     },
-
 }

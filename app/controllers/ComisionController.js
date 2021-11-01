@@ -117,26 +117,25 @@ module.exports = {
             justificacion: req.body.justificacion,
             idioma: req.body.idioma,
             lugar: req.body.lugar,
-            fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
             usuarios_id: req.usuario.id,
         })
 
-        await comision.save();
-        // .then(function(newcomision) {
-        //     //console.log(newcomision);
-        //     res.status(201).send({
-        //         status: 201,
-        //         message: `¡La Comisión  ${newcomision.id} se creó con éxito!`
-        //     });
-        // })
-        // .catch(function(error) {
-        //     console.log(error.message);
-        //     return res.status(400).send({
-        //         status: 400,
-        //         message: error.message
-        //     });
-        // })
+        await comision.save()
+            .then(function(newcomision) {
+                //console.log(newcomision);
+                res.status(201).send({
+                    status: 201,
+                    message: `¡La Comisión  ${newcomision.id} se creó con éxito!`
+                });
+            })
+            .catch(function(error) {
+                console.log(error.message);
+                return res.status(400).send({
+                    status: 400,
+                    message: error.message
+                });
+            })
         req.comision = comision;
         next();
     },
@@ -161,7 +160,6 @@ module.exports = {
             justificacion: req.body.justificacion,
             idioma: req.body.idioma,
             lugar: req.body.lugar,
-            fecha_actualizacion: req.body.fecha_actualizacion,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
             usuarios_id: req.usuario.id,
         }, {

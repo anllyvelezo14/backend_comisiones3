@@ -1,11 +1,11 @@
-const { find } = require('../controllers/ComisionController');
-const { Usuario, Rol, Departamento, Facultad } = require('../models/index');
-
 module.exports = {
 
     async all(req, res, next) {
-        console.log(req.usuario.roles.nombre);
-        if (req.usuario.roles.nombre === "DECANATURA") {
+
+        if (req.usuario.roles.nombre === "VICERRECTORIA") {
+            req.where = { 'estado': 1 };
+            next();
+        } else if (req.usuario.roles.nombre === "DECANATURA") {
             const facultad = req.usuario.departamentos.facultad
             req.where = { 'estado': 1, '$departamentos.facultad.nombre$': facultad.nombre };
             next();
@@ -13,56 +13,41 @@ module.exports = {
             const departamento = req.usuario.departamentos
             req.where = { 'estado': 1, '$departamentos.nombre$': departamento.nombre };
             next();
-        } else if (req.usuario.roles.nombre === "VICERRECTORIA") {
-            req.where = { 'estado': 1 };
-            next();
-
         } else {
             res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
 
+    async create(req, res, next) {
+
+        let rolAuth = req.usuario.roles.nombre;
+
+        if (rolAuth === 'USUARIO') {
+            res.status(401).json({ msg: 'Debes ser administrador para registrar usuarios' })
+        } else {
+            next();
+        }
+    },
+
 
     async show(req, res, next) {
-        req.usuarioid = await Usuario.findByPk(req.params.id, {
-            include: [{
-                    model: Rol,
-                    as: "roles",
-                    attributes: ["nombre"]
-                }, {
-                    model: Departamento,
-                    as: 'departamentos',
-                    attributes: ["nombre"],
-                    include: [{
-                        model: Facultad,
-                        as: 'facultad',
-                        attributes: ["nombre"],
-                    }]
 
-                },
-                "comisiones"
-            ]
-        });
+        let rolAuth = req.usuario.roles.nombre;
 
-        if (req.usuario.id === parseInt(req.params.id)) {
+        let idUser = req.user.id;
+        let idAuth = req.usuario.id;
+
+        let depAuth = req.usuario.departamentos_id; //depto del autenticado
+        let depUser = req.user.departamentos_id; //depto del usuario de la comision
+
+        let facAuth = req.usuario.departamentos.facultades_id;
+        let facUser = req.user.departamentos.facultades_id;
+
+        if (idUser === idAuth || rolAuth === 'ADMIN' || rolAuth === 'VICERRECTORIA' || (depUser === depAuth && rolAuth === 'COORDINACION') || (facAuth === facUser && rolAuth === 'DECANATURA')) {
             next();
-        } else if (req.usuario.roles.nombre === "DECANATURA") {
-            if (req.usuario.departamentos.facultad.nombre === req.usuarioid.departamentos.facultad.nombre) {
-                next();
-            } else {
-                res.status(401).json({ msg: '¡No tienes autorización para ver esta página DECANO!' })
-            }
 
-        } else if (req.usuario.roles.nombre === "COORDINACION") {
-            if (req.usuario.departamentos.nombre === req.usuarioid.departamentos.nombre) {
-                next();
-            } else {
-                res.status(401).json({ msg: '¡No tienes autorización para ver esta página! COOOR' })
-            }
-        } else if (req.usuario.roles.nombre === "VICERRECTORIA") {
-            next();
         } else {
-            res.status(401).json({ msg: '¡No tienes autorización para ver esta página! VICE' })
+            res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     }
 

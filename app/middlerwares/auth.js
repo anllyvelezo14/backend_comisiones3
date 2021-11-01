@@ -4,7 +4,6 @@ const { Usuario, Rol, Departamento, TipoSolicitud, Facultad, Comision, Documento
 
 module.exports = (req, res, next) => {
 
-    //console.log(req.headers);
 
     if (!req.headers.authorization) {
         //console.log(req.headers.authorization)

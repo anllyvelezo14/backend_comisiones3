@@ -29,6 +29,7 @@ module.exports = {
         //usuario.roles y usuario.id vienen del auth.js
 
         let rolAuth = req.usuario.roles.nombre;
+
         let idUser = req.comisiones.usuarios_id;
         let idAuth = req.usuario.id;
         let depAuth = req.usuario.departamentos_id; //depto del autenticado
@@ -43,6 +44,18 @@ module.exports = {
             res.status(401).json({ msg: '¡No tienes autorización para ver esta página!' })
         }
     },
+
+    async create(req, res, next) {
+
+        let rolAuth = req.usuario.roles.nombre;
+
+        if (rolAuth === 'ADMIN' || rolAuth === 'USUARIO') {
+            next();
+        } else {
+            res.status(401).json({ msg: 'Debes autenticarte con tu email personal para crear solicitudes' })
+        }
+    },
+
 
     async update(req, res, next) {
         let idUser = req.comisiones.usuarios_id;

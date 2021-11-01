@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             validation: {
                 len: {
                     args: [0, 5],
-                    msg: "No puede ser mayor a 5 caracteres"
+                    msg: "No puede ser mayor a 10 caracteres"
                 }
             }
         },
@@ -36,21 +36,17 @@ module.exports = (sequelize, DataTypes) => {
                 len: {
                     args: [0, 12],
                     msg: "no puede contener más de 12 dígitos"
-                },
-                min: {
-                    args: 0,
-                    msg: "La identificación debe contener solo dígitos"
-                },
+                }
             }
         },
 
         nombre: {
             type: DataTypes.STRING,
-            /* allowNull: false, */
+            allowNull: false,
             validation: {
-                /* notNull: {
+                notNull: {
                     msg: "Debe añadir un nombre"
-                }, */
+                },
                 isAlpha: {
                     args: true,
                     msg: "El nombre solo puede contener letras"
@@ -81,16 +77,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING,
+            unique: {
+                args: true,
+                msg: '¡Este email ya se encuentra registrado!'
+            },
             validate: {
                 len: {
                     args: [0, 100],
-                    msg: "El correo debe contener menos de 100 caracteres"
+                    msg: "El correo debe contener menos de 40 caracteres"
                 },
                 isEmail: {
                     args: true,
                     msg: "El campo debe ser un correo valido"
-                },
-
+                }
             }
         },
         // 1 si esta activo 0 si no
@@ -98,6 +97,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 1
         },
+
         contrasena: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -114,7 +114,10 @@ module.exports = (sequelize, DataTypes) => {
         dia_disponible: {
             type: DataTypes.INTEGER,
             defaultValue: 3
-        }
+        },
+        // firma: {
+        //     type: DataTypes.STRING,
+        // }
 
     }, {
         sequelize,

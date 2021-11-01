@@ -79,11 +79,10 @@ module.exports = {
         });
     },
 
-    // Cambio de contraseña
-    async changePassword(req, res) {
+    // Olvidó contraseña
+    async forgotPassword(req, res) {
 
         let { email } = req.body;
-
 
         await Usuario.findOne({
             where: {
@@ -102,10 +101,12 @@ module.exports = {
                     token: token,
                 })
 
+
+
             }
         }).catch(err => {
             res.json("Verifica la bandeja de entrada de tu email");
         });
-    }
+    },
 
 }

@@ -82,7 +82,7 @@ module.exports = {
             nombre: req.body.nombre,
             apellido: req.body.apellido,
             email: req.body.email,
-            contrasena: req.body.contrasena,
+            contrasena: contrasena,
             departamentos_id: req.body.departamentos_id,
             roles_id: req.body.roles_id,
             estado: 1,

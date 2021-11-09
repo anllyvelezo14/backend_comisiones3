@@ -1,6 +1,7 @@
 const authConfig = require('../../config/authConfig');
 const send = require('../middlerwares/email');
 const bcrypt = require('bcrypt');
+const email = require('../middlerwares/email');
 
 const { Usuario, Rol, Departamento, Facultad } = require('../models/index');
 
@@ -87,6 +88,7 @@ module.exports = {
             roles_id: req.body.roles_id,
             estado: 1,
             dia_disponible: 3,
+            
 
         })
 
@@ -106,6 +108,7 @@ module.exports = {
                 });
             })
         req.usuario = usuario;
+        email.sendMail(usuario.email)
         next();
     },
 

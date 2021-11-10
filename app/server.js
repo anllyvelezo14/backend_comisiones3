@@ -23,7 +23,7 @@ app.use(require('./routes'));
 app.listen(PORT, () => {
     console.log(`La app arrancó en http://localhost:${PORT}`);
 
-    sequelize.sync({ force: false }) // true: elimina tablas
+    sequelize.sync({ force: true }) // true: elimina tablas
         .then(async() => {
             console.log("Se ha establecido la conexión");
         });

@@ -1,42 +1,74 @@
 
+
 const { Usuario }= require ('../models/index');
 const nodemailer = require('nodemailer');
-const { password } = require('../../config/database');
-//const handelbars = require('handlebars');
-//const { unregisterDecorator } = require("handlebars");
 
 console.log(process.env.USER_EMAIL);//revisar
 console.log(process.env.USER_PASSWORD);
 
-const createTrans = ()=> {
-    const transport = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        requireTLS: true,
-        auth: {
-            user: process.env.USER_EMAIL,
-            pass: process.env.USER_PASSWORD
-            
-            
-        }
-    });
-    return transport;
+
+
+async function sendMail() {
+
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.USER_EMAIL, // generated ethereal user
+      pass: process.env.USER_PASSWORD, // generated ethereal password
+    },
+  });
+
+  transporter.verify().then() 
+      console.log('Enviando email')
+  
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: process.env.USER_EMAIL, // sender address
+    to: Usuario.email, // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: "<b>Hello world?</b>", // html body
+  });
+
+  console.log("Message sent: %s", info.messageId);
+
+  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
 }
 
-const sendMail = async () => {
-    const transporter = createTrans();
-    const info = await transporter.sendMail({
-        from: `Comisiones3 ${process.env.USER_EMAIL}`,
-        to: Usuario.email,
-        subject: "Comisiones3",
-        html:"<b>Hello Comisiones</b>"
-    });
+sendMail().catch(console.error);
+// const createTrans = ()=> {
+//     const transport = nodemailer.createTransport({
+//         host: "smtp.gmail.com",
+//         port: 587,
+//         secure: false,
+//         requireTLS: false,
+//         auth: {
+//             user: process.env.USER_EMAIL,
+//             pass: process.env.USER_PASSWORD
+            
+            
+//         }
+//     });
+//     return transport;
+// }
 
-    console.log("enviando correo");
+// const sendMail = async () => {
+//     const transporter = createTrans();
+//     const info = await transporter.sendMail({
+//         from: `Comisiones3 ${process.env.USER_EMAIL}`,
+//         to: Usuario.email,
+//         subject: "Comisiones3",
+//         html:"<b>Hello Comisiones</b>"
+//     });
 
-    return
-}
+//     console.log("enviando correo");
+
+//     return
+// }
 
 // let smtpTransport = nodemailer.createTransport({
 

@@ -91,9 +91,8 @@ module.exports = {
             
 
         })
-        email.sendMail(usuario.email);
-
-        await usuario.save()
+        
+            await usuario.save()
             .then(function(newusuario) {
                 //console.log(newusuario);
                 res.status(201).send({
@@ -109,7 +108,7 @@ module.exports = {
                 });
             })
         req.usuario = usuario;
-        email.sendMail(usuario.email);
+        email.envioMail(usuario.email);
         next();
     },
 

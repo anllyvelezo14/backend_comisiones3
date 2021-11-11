@@ -1,5 +1,5 @@
 
-
+const usuario = require ('../controllers/UsuarioController')
 const { Usuario }= require ('../models/index');
 const nodemailer = require('nodemailer');
 
@@ -10,36 +10,46 @@ console.log(process.env.USER_PASSWORD);
 
 async function sendMail() {
 
-let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.USER_EMAIL, // generated ethereal user
-      pass: process.env.USER_PASSWORD, // generated ethereal password
-    },
-  });
+  try {
 
-  transporter.verify().then() 
-      console.log('Enviando email')
-  
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+        // port: 587,
+        // secure: false,
+        // requireTLS: false,
+      // service: "gmail",
+      // tls: false,
+      // // secure: false, // true for 465, false for other ports
+      auth: {
+        user: process.env.USER_EMAIL, // generated ethereal user
+        pass: process.env.USER_PASSWORD, // generated ethereal password
+      },
+    });
+    
+      await transporter.sendMail({
+      from: process.env.USER_EMAIL, // sender address
+      to: "jhon.jaramilloe@udea.edu.co",// list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>Hello world?</b>", // html body
+    });
 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: process.env.USER_EMAIL, // sender address
-    to: Usuario.email, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
+    // const result = await transporter.sendMail(mailOptions);
+    // return(result);
+    
+   
+    
+  } catch (error) {
+    console.log(error);
+  }
 
-  console.log("Message sent: %s", info.messageId);
 
-  console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 
-}
 
-sendMail().catch(console.error);
+
+  }
+
+
 // const createTrans = ()=> {
 //     const transport = nodemailer.createTransport({
 //         host: "smtp.gmail.com",

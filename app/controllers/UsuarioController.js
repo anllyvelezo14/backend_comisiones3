@@ -88,11 +88,11 @@ module.exports = {
             roles_id: req.body.roles_id,
             estado: 1,
             dia_disponible: 3,
-            
+
 
         })
-        
-            await usuario.save()
+
+        await usuario.save()
             .then(function(newusuario) {
                 //console.log(newusuario);
                 res.status(201).send({
@@ -114,7 +114,9 @@ module.exports = {
 
     //UPDATE
     async update(req, res) {
-        const id = req.params.id;
+
+        let contrasena = bcrypt.hashSync(req.body.contrasena, +authConfig.rounds);
+
         const usuario = Usuario.update({
 
             tipo_identificacion: req.body.tipo_identificacion,
@@ -122,6 +124,11 @@ module.exports = {
             nombre: req.body.nombre,
             apellido: req.body.apellido,
             email: req.body.email,
+            contrasena: contrasena,
+            departamentos_id: req.body.departamentos_id,
+            roles_id: req.body.roles_id,
+            estado: 1,
+            dia_disponible: 3,
         }, {
             where: {
                 id: req.params.id,

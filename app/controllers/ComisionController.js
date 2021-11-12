@@ -38,7 +38,7 @@ module.exports = {
                 {
                     model: ComisionHasEstado,
                     as: "intermediate_comisiones",
-                    attributes: ["createdAt", "fecha_actualizacion"],
+                    attributes: ["createdAt", "fecha_actualizacion", "observacion"],
                     include: [{
                         model: Estado,
                         as: "intermediate_estados",

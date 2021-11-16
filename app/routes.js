@@ -54,7 +54,7 @@ router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.sho
 router.get('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.find, ComisionHasEstadoPolicy.show, ComisionHasEstadoController.show);
 router.get('/api/usuarios/:id', auth, UsuarioController.find, UsuariosPolicy.show, UsuarioController.show);
 router.get('/api/facultades/:id', auth, FacultadController.show);
-router.get('/api/roles/:id', auth, RolController.show);
+router.get('/api/roles/:id', auth, RolController.show)
 router.get('/api/departamentos/:id', auth, DepartamentoController.show);
 
 //GET NAME
@@ -67,7 +67,7 @@ router.post('/api/documentos', auth, DocumentoController.create);
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
 router.post('/api/estados', auth, EstadoPolicy.create, EstadoController.create);
-router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create);
+router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create, ComisionHasEstadoController.findComisionbyId);
 router.post('/api/usuarios', auth, UsuariosPolicy.create, UsuarioController.create);
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);

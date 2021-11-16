@@ -53,6 +53,7 @@ module.exports = {
 
     //FIND By ID
     async find(req, res, next) {
+       
         let comisiones = await Comision.findByPk(req.params.id, {
             include: [{
                 model: TipoSolicitud,

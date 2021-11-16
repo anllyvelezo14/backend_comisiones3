@@ -1,5 +1,5 @@
 const { ComisionHasEstado, Comision, Usuario, Departamento, Facultad, Estado } = require('../models/index');
-
+const email = require ('../middlerwares/email')
 
 module.exports = {
 
@@ -39,6 +39,7 @@ module.exports = {
 
     //FIND By ID
     async find(req, res, next) {
+        
         let comisiones_has_estados = await ComisionHasEstado.findByPk(req.params.id, {
             include: [{
                 model: Comision,
@@ -66,6 +67,8 @@ module.exports = {
             }]
         });
 
+
+
         if (!comisiones_has_estados) {
             res.status(404).json({ msg: `No existe la asociación ${req.params.id} entre Estado - Comisión` });
         } else {
@@ -74,18 +77,41 @@ module.exports = {
         }
     },
 
+    //FIND COMISION By ID
+    async findComisionbyId(req, res, next) {
+       console.log(req.comision);
+        let comisiones = await Comision.findByPk(req.comision, {
+            include: [ {
+                model: Usuario,
+                as: 'usuarios',
+                attributes: ["email"],
+                
+            },]
+        });
+
+
+        if (!comisiones) {
+            res.status(404).json({ msg: `¡La Comisión ${req.params.id} no ha sido encontrada! ` });
+        } else {
+            email.envioMail(comisiones.usuarios.email);
+            next();
+        }
+    },
+
+
     //SHOW ID
     async show(req, res) {
         res.json(req.comisiones_has_estados);
     },
 
     //CREATE
-    async create(req, res) {
+    async create(req, res, next) {
         const comisiones_has_estados = await ComisionHasEstado.build({
             createdAt: req.body.createdAt,
             fecha_actualizacion: req.body.fecha_actualizacion,
             comisiones_id: req.body.comisiones_id,
-            estados_id: req.body.estados_id
+            estados_id: req.body.estados_id,
+            observacion : req.body.observacion
         })
 
 
@@ -100,11 +126,16 @@ module.exports = {
                 status: 400,
                 message: error.message
             });
+
         })
 
-
-
+        req.comision = comisiones_has_estados.comisiones_id;
+        
+        next();
+        
     },
+
+
 
     //UPDATE
     async update(req, res) {

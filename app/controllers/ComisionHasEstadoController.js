@@ -94,7 +94,6 @@ module.exports = {
             res.status(404).json({ msg: `¡La Comisión ${req.params.id} no ha sido encontrada! ` });
         } else {
             email.envioMail(comisiones.usuarios.email);
-            next();
         }
     },
 

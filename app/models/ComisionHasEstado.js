@@ -13,9 +13,6 @@ module.exports = (sequelize, DataTypes) => {
 
     };
     ComisionHasEstado.init({
-        createdAt: {
-            type: DataTypes.DATE,
-        },
         observacion: {
             type: DataTypes.STRING,
             defaultValue: 'Su solicitud está siendo evaluada'
@@ -24,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'ComisionHasEstado',
         tableName: 'comisiones_has_estados',
-        timestamps: true,
+        timestamps: true, 
+        createdAt: true,
         updatedAt: 'fecha_actualizacion',
     });
     return ComisionHasEstado;

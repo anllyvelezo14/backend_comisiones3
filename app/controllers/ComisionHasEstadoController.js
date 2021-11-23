@@ -1,5 +1,5 @@
 const { ComisionHasEstado, Comision, Usuario, Departamento, Facultad, Estado } = require('../models/index');
-const email = require ('../middlerwares/email')
+const email = require ('../email/emailEstado')
 
 module.exports = {
 
@@ -107,6 +107,11 @@ module.exports = {
     //CREATE
     async create(req, res, next) {
         const comisiones_has_estados = await ComisionHasEstado.build({
+            include: [{
+                model: Usuario,
+                as: 'usuarios',
+                attributes: ["email"]
+            }],
             createdAt: req.body.createdAt,
             fecha_actualizacion: req.body.fecha_actualizacion,
             comisiones_id: req.body.comisiones_id,
@@ -129,9 +134,10 @@ module.exports = {
 
         })
 
-        //req.comision = comisiones_has_estados.comisiones_id;
+        req.comision = comisiones_has_estados.estados_id;
+        email.envioMail(comision.email);
         
-       // next();
+       next();
         
     },
 

@@ -1,7 +1,9 @@
 const authConfig = require('../../config/authConfig');
 const send = require('../middlerwares/email');
 const bcrypt = require('bcrypt');
-const email = require('../middlerwares/email');
+const email = require('../email/emailCreateUsuario')
+
+
 
 const { Usuario, Rol, Departamento, Facultad } = require('../models/index');
 
@@ -107,10 +109,14 @@ module.exports = {
                     message: error.message
                 });
             })
+
+        
         req.usuario = usuario;
         email.envioMail(usuario.email);
         next();
     },
+
+    //Envio de correo
 
     //UPDATE
     async update(req, res) {

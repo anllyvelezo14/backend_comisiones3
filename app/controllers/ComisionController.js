@@ -124,7 +124,6 @@ module.exports = {
 
         await comision.save()
             .then(function(newcomision) {
-                //console.log(newcomision);
                 res.status(201).send({
                     status: 201,
                     message: `¡La Comisión  ${newcomision.id} se creó con éxito!`

@@ -1,39 +1,39 @@
 
 
 const { Usuario }= require ('../models/index');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
-console.log(process.env.USER_EMAIL);//revisar
-console.log(process.env.USER_PASSWORD);
+// console.log(process.env.USER_EMAIL);//revisar
+// console.log(process.env.USER_PASSWORD);
 
 
 
-async function envioMail(mailUsuario) {
+// async function envioMail(mailUsuario) {
 
-  try {
+//   try {
     
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.USER_EMAIL, // generated ethereal user
-        pass: process.env.USER_PASSWORD, // generated ethereal password
-      },
-    });
+//     const transporter = nodemailer.createTransport({
+//       service: "Gmail",
+//       auth: {
+//         user: process.env.USER_EMAIL, // generated ethereal user
+//         pass: process.env.USER_PASSWORD, // generated ethereal password
+//       },
+//     });
     
-      await transporter.sendMail({
-      from: process.env.USER_EMAIL, // sender address
-      to: mailUsuario,// list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
-    });
+//       await transporter.sendMail({
+//       from: process.env.USER_EMAIL, // sender address
+//       to: mailUsuario,// list of receivers
+//       subject: "Hello ✔", // Subject line
+//       text: "Hello world?", // plain text body
+//       html: "<b>Hello world?</b>", // html body
+//     });
 
-} catch (error) {
-    console.log(error);
-  }
-}
+// } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 
-module.exports = {
-    envioMail
-}
+// module.exports = {
+//     envioMail
+// }

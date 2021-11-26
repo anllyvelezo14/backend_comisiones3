@@ -2,8 +2,10 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+var bodyParser = require('body-parser');
 const { sequelize } = require('./models/index');
 const createinitial = require('./middlerwares/Createinitial');
+var fileRoutes = require('./file');
 
 // PUERTO
 const PORT = process.env.PORT || 3000;
@@ -15,9 +17,21 @@ app.use(express.urlencoded({ extended: false }));
 // conectar api con frontend
 app.use(cors());
 
+
+app.use(bodyParser.json());
+
 //RUTAS
 app.use(require('./routes'));
 
+// UPLOAD
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
+    res.setHeader( 'Authorization', 'Bearer key',)
+    next();
+  });
+app.use('/file',fileRoutes);
 
 //Arrancar el Servidor
 app.listen(PORT, () => {

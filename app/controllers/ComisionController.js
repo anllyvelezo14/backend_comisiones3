@@ -1,5 +1,6 @@
 const { Comision, TipoSolicitud, Usuario, Departamento, Facultad, Documento, Cumplido, Estado, ComisionHasEstado } = require('../models/index');
 const { Op } = require("sequelize");
+const email = require('../email/emailCreateSolicitud')
 
 module.exports = {
 
@@ -120,6 +121,7 @@ module.exports = {
             lugar: req.body.lugar,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
             usuarios_id: req.usuario.id,
+            
         })
 
         await comision.save()
@@ -138,6 +140,7 @@ module.exports = {
                 });
             })
         req.comision = comision;
+        email.envioMail(Usuario.Departamento.Usuario.email);
         next();
     },
 
@@ -149,6 +152,10 @@ module.exports = {
         req.finalEstado = finalEstado;
         next();
     },
+
+    
+    // email.envioMail(usuario.email);
+    // next();
 
     //UPDATE
     async update(req, res) {

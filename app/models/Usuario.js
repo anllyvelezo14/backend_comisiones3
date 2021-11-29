@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             //Un usuario tiene muchas comisiones
             Usuario.hasMany(models.Comision, { as: "comisiones", foreignKey: "usuarios_id" });
 
-            // //Un usuario tiene un rol y un departamento
+            // //Un usuario tiene o pertenece a un rol y un departamento
             Usuario.belongsTo(models.Rol, { as: "roles", foreignKey: "roles_id", targetKey: "id" });
             Usuario.belongsTo(models.Departamento, { as: "departamentos", foreignKey: "departamentos_id", targetKey: "id" });
         }

@@ -23,24 +23,22 @@ module.exports = (sequelize, DataTypes) => {
     Comision.init({
         fecha_inicio: {
             type: DataTypes.DATE,
-            allowNull: true,
-            //defaultValue: '2021-09-01T21:13:19.000Z'
-            // validate: {
-            //     notEmpty: {
-            //         msg: "La fecha de inicio no debe estar en blanco!"
-            //     }
-            // }
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "La fecha de inicio no debe estar en blanco!"
+                }
+            }
         },
 
         fecha_fin: {
             type: DataTypes.DATE,
-            allowNull: true,
-            //defaultValue: '2021-09-01T21:13:19.000Z'
-            // validate: {
-            //     notEmpty: {
-            //         msg: "La fecha de finalización no debe estar en blanco!"
-            //     }
-            // }
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "La fecha de finalización no debe estar en blanco!"
+                }
+            }
         },
 
         fecha_resolucion: DataTypes.DATE,

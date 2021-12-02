@@ -27,6 +27,7 @@ const UsuarioController = require('./controllers/UsuarioController');
 const RolController = require('./controllers/RolController');
 const FacultadController = require('./controllers/FacultadController');
 const ComisionHasEstadoController = require('./controllers/ComisionHasEstadoController');
+const FileController = require('./controllers/FileController');
 
 
 //HOME
@@ -100,6 +101,11 @@ router.delete('/api/comisiones-estados/:id', auth, ComisionHasEstadoController.f
 //Desactive and active users
 router.patch('/api/usuarios/desactive/:id', auth, UsuarioController.desactive);
 router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
+
+// UPLOAD AND DOWNLOAD FILES
+router.post("/upload", auth, FileController.upload);
+router.get("/files",auth, FileController.getListFiles);
+router.get("/files/:name",auth, FileController.download);
 
 
 //Registro y login

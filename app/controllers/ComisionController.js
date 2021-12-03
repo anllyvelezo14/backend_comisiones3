@@ -123,7 +123,7 @@ module.exports = {
             usuarios_id: req.usuario.id,
             
         })
-
+        
         await comision.save()
             .then(function(newcomision) {
                 res.status(201).send({
@@ -138,9 +138,31 @@ module.exports = {
                     message: error.message
                 });
             })
-        req.comision = comision;
-        email.envioMail(Usuario.Departamento.Usuario.email);
-        next();
+
+      
+            let emailCooridinador = await Departamento.findByPk(req.params.id, {
+                include: [, {
+                    model: Usuario,
+                    as: 'usuarios',
+                    attributes: ["nombre", "apellido", "identificacion", "email", "estado", "departamentos_id"],
+                    include: [{
+                        model: Departamento,
+                        as: 'departamentos',
+                        attributes: ["nombre", "facultades_id"],
+                        include: [{
+                            model: Facultad,
+                            as: "facultad",
+                            attributes: ["nombre"],
+                        }]
+                    }]
+                }
+                ]
+            });
+        
+        
+            console.log("este es",emailCooridinador);
+        // email.envioMail(Usuario.Departamento.Usuario.email);
+        // next();
     },
 
     //FIND: ULTIMO ESTADO DE LA COMISION

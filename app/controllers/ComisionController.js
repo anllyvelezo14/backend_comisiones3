@@ -16,7 +16,7 @@ module.exports = {
                 }, {
                     model: Documento,
                     as: "documentos",
-                    attributes: ["id", "nombre", "es_anexo"]
+                    attributes: ["id", "nombre"]
                 }, {
                     model: Cumplido,
                     as: "cumplidos",
@@ -63,7 +63,7 @@ module.exports = {
             }, {
                 model: Documento,
                 as: "documentos",
-                attributes: ["id", "nombre", "es_anexo"]
+                attributes: ["id", "nombre"]
             }, {
                 model: Cumplido,
                 as: "cumplidos",
@@ -139,7 +139,7 @@ module.exports = {
                 });
             })
         req.comision = comision;
-        email.envioMail(Usuario.Departamento.Usuario.email);
+       
         next();
     },
 

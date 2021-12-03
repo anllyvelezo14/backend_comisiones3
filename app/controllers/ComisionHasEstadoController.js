@@ -135,7 +135,7 @@ module.exports = {
         })
 
         req.comision = comisiones_has_estados.estados_id;
-        email.envioMail(comision.email);
+        //email.envioMail(comision.email);
         
        next();
         
@@ -177,13 +177,12 @@ module.exports = {
     },
 
     // CREAR COMISIÓN SOLICITADA
-    async createSolicitada(req, res) {
+    async createSolicitada(req, res, next) {
         const comisiones_has_estados = await ComisionHasEstado.build({
             comisiones_id: req.comision.id,
             estados_id: 1,
             observacion: "Solicitud creada"
         })
-        console.log(comisiones_has_estados);
 
         await comisiones_has_estados.save().then(
             //function(newcomisiones_has_estados) {
@@ -198,5 +197,8 @@ module.exports = {
                 message: error.message
             });
         })
+        req.comision = comisiones_has_estados.comisiones_id
+
+        next();
     }
 }

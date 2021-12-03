@@ -12,17 +12,22 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING(45)
             },
-            es_anexo: {
-                type: Sequelize.BOOLEAN
-            },
-            es_cumplido: {
-                allowNull: false,
-                type: Sequelize.BOOLEAN
-            },
-            enviado: {
-                type: DataTypes.BOOLEAN,
-                defaultValue: false,
+            data: {
+                type: DataTypes.BLOB("long"),
+
             }
+
+            // es_anexo: {
+            //     type: Sequelize.BOOLEAN
+            // },
+            // es_cumplido: {
+            //     allowNull: false,
+            //     type: Sequelize.BOOLEAN
+            // },
+            // enviado: {
+            //     type: DataTypes.BOOLEAN,
+            //     defaultValue: false,
+            // }
         });
     },
     down: async(queryInterface, Sequelize) => {

@@ -1,13 +1,13 @@
 //Servidor de Express
 const express = require('express');
 const app = express();
-const cors = require('cors');
+// const cors = require('cors');
 var bodyParser = require('body-parser');
 const { sequelize } = require('./models/index');
 
 //Middlerwares
-const auth = require('./middlerwares/auth');
-const createinitial = require('./middlerwares/Createinitial');
+// const auth = require('./middlerwares/auth');
+// const createinitial = require('./middlerwares/Createinitial');
 
 // PUERTO
 const PORT = process.env.PORT || 3000;
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // conectar api con frontend
-app.use(cors());
+// app.use(cors());
 
 
 app.use(bodyParser.json());
@@ -33,7 +33,7 @@ global.__basedir = __dirname;
 app.listen(PORT, () => {
     console.log(`La app arrancó en http://localhost:${PORT}`);
 
-    sequelize.sync({ force: true }) // true: elimina tablas
+    sequelize.sync({ force: false }) // true: elimina tablas
         .then(async() => {
             console.log("Se ha establecido la conexión");
         });

@@ -3,7 +3,7 @@ const router = expres.Router();
 
 //Middlerwares
 const auth = require('./middlerwares/auth');
-
+const upload = require('./middlerwares/upload');
 
 //POLICIES
 const ComisionPolicy = require('./policies/ComisionPolicy');
@@ -48,7 +48,6 @@ router.get('/api/departamentos', auth, DepartamentoController.all);
 
 //GET BY ID
 router.get('/api/comisiones/:id', auth, ComisionController.find, ComisionPolicy.show, ComisionController.show);
-router.get('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.show, DocumentoController.show);
 router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.show, CumplidoController.show);
 router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);
 router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.show);
@@ -64,11 +63,10 @@ router.get('/api/tipos-solicitud/:nombre', auth, TipoSolicitudController.showNam
 
 //CREATE
 router.post('/api/comisiones', auth, ComisionPolicy.create, ComisionController.create, ComisionHasEstadoController.createSolicitada);
-router.post('/api/documentos', auth, DocumentoController.create);
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
 router.post('/api/estados', auth, EstadoPolicy.create, EstadoController.create);
-router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create);//, ComisionHasEstadoController.findComisionbyId);
+router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create); //, ComisionHasEstadoController.findComisionbyId);
 router.post('/api/usuarios', auth, UsuariosPolicy.create, UsuarioController.create);
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);
@@ -103,9 +101,11 @@ router.patch('/api/usuarios/desactive/:id', auth, UsuarioController.desactive);
 router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
 
 // UPLOAD AND DOWNLOAD FILES
-router.post("/upload", auth, FileController.upload);
-router.get("/files",auth, FileController.getListFiles);
-router.get("/files/:name",auth, FileController.download);
+//router.post("/upload", auth, FileController.upload);
+router.post("/upload", auth, upload.single("file"), DocumentoController.create)
+router.get('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.show, DocumentoController.show);
+//router.get("/files",auth, FileController.getListFiles);
+// router.get("/files/:name",auth, FileController.download);
 
 
 //Registro y login

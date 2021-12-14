@@ -90,8 +90,6 @@ module.exports = {
             roles_id: req.body.roles_id,
             estado: 1,
             dia_disponible: 3,
-
-
         })
 
         await usuario.save()
@@ -110,9 +108,9 @@ module.exports = {
                 });
             })
 
-        
+
         req.usuario = usuario;
-        email.envioMail(usuario.email);
+        //email.envioMail(usuario.email);
         next();
     },
 
@@ -135,10 +133,17 @@ module.exports = {
             roles_id: req.body.roles_id,
             estado: 1,
             dia_disponible: 3,
+            firma: fs.readFileSync(
+                __basedir + "/assets/uploads/" + req.file.filename
+            ),
         }, {
             where: {
                 id: req.params.id,
             }
+        }).then((doc) => {
+            fs.writeFileSync(
+                __basedir + "/assets/tmp/" + doc.nombre, doc.data
+            );
         });
         if (!usuario) {
             return res.status(200).send({
@@ -150,12 +155,12 @@ module.exports = {
             status: 200,
             message: 'Usuario actualizado con éxito!'
         });
-        not = {
-            email: "raquijuan12@gmail.com",
-            subject: "prueba",
-            text: "<b>Esto es uan prueba!</b>"
-        };
-        send.sendMail(not);
+        // not = {
+        //     email: "raquijuan12@gmail.com",
+        //     subject: "prueba",
+        //     text: "<b>Esto es uan prueba!</b>"
+        // };
+        // send.sendMail(not);
     },
 
     //DELETE

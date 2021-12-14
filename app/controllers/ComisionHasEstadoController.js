@@ -1,5 +1,5 @@
 const { ComisionHasEstado, Comision, Usuario, Departamento, Facultad, Estado } = require('../models/index');
-const email = require ('../email/emailEstado')
+const email = require('../email/emailEstado')
 
 module.exports = {
 
@@ -39,7 +39,7 @@ module.exports = {
 
     //FIND By ID
     async find(req, res, next) {
-        
+
         let comisiones_has_estados = await ComisionHasEstado.findByPk(req.params.id, {
             include: [{
                 model: Comision,
@@ -79,14 +79,14 @@ module.exports = {
 
     //FIND COMISION By ID
     async findComisionbyId(req, res) {
-       console.log(req.comision);
+        console.log(req.comision);
         let comisiones = await Comision.findByPk(req.comision, {
-            include: [ {
+            include: [{
                 model: Usuario,
                 as: 'usuarios',
                 attributes: ["email"],
-                
-            },]
+
+            }, ]
         });
 
 
@@ -116,7 +116,7 @@ module.exports = {
             fecha_actualizacion: req.body.fecha_actualizacion,
             comisiones_id: req.body.comisiones_id,
             estados_id: req.body.estados_id,
-            observacion : req.body.observacion
+            observacion: req.body.observacion
         })
 
 
@@ -135,10 +135,10 @@ module.exports = {
         })
 
         req.comision = comisiones_has_estados.estados_id;
-        email.envioMail(comision.email);
-        
-       next();
-        
+        //email.envioMail(comision.email);
+
+        next();
+
     },
 
 
@@ -177,20 +177,19 @@ module.exports = {
     },
 
     // CREAR COMISIÓN SOLICITADA
-    async createSolicitada(req, res) {
+    async createSolicitada(req, res, next) {
         const comisiones_has_estados = await ComisionHasEstado.build({
             comisiones_id: req.comision.id,
             estados_id: 1,
             observacion: "Solicitud creada"
         })
-        console.log(comisiones_has_estados);
 
         await comisiones_has_estados.save().then(
             //function(newcomisiones_has_estados) {
-        //     res.status(201).send({
-        //         status: 201,
-        //         message: `El estado ${newcomisiones_has_estados.estados_id} para la comisión ${newcomisiones_has_estados.comisiones_id} se creó con éxito!`
-        //     });}
+            //     res.status(201).send({
+            //         status: 201,
+            //         message: `El estado ${newcomisiones_has_estados.estados_id} para la comisión ${newcomisiones_has_estados.comisiones_id} se creó con éxito!`
+            //     });}
         ).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({
@@ -198,5 +197,8 @@ module.exports = {
                 message: error.message
             });
         })
+        req.comisiones_has_estados = comisiones_has_estados.comisiones_id
+        console.log('req.comisiones_has_estados', req.comisiones_has_estados);
+        next();
     }
 }

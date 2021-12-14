@@ -16,7 +16,7 @@ module.exports = {
                 }, {
                     model: Documento,
                     as: "documentos",
-                    attributes: ["id", "nombre", "es_anexo"]
+                    attributes: ["id", "nombre"]
                 }, {
                     model: Cumplido,
                     as: "cumplidos",
@@ -54,7 +54,7 @@ module.exports = {
 
     //FIND By ID
     async find(req, res, next) {
-       
+
         let comisiones = await Comision.findByPk(req.params.id, {
             include: [{
                 model: TipoSolicitud,
@@ -63,7 +63,7 @@ module.exports = {
             }, {
                 model: Documento,
                 as: "documentos",
-                attributes: ["id", "nombre", "es_anexo"]
+                attributes: ["id", "nombre"]
             }, {
                 model: Cumplido,
                 as: "cumplidos",
@@ -121,7 +121,7 @@ module.exports = {
             lugar: req.body.lugar,
             tipos_solicitud_id: req.body.tipos_solicitud_id,
             usuarios_id: req.usuario.id,
-            
+
         })
 
         await comision.save()
@@ -139,7 +139,7 @@ module.exports = {
                 });
             })
         req.comision = comision;
-        email.envioMail(Usuario.Departamento.Usuario.email);
+
         next();
     },
 
@@ -152,7 +152,7 @@ module.exports = {
         next();
     },
 
-    
+
     // email.envioMail(usuario.email);
     // next();
 

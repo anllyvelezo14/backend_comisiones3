@@ -57,7 +57,7 @@ module.exports = (req, res, next) => {
                         }, {
                             model: Documento,
                             as: "documentos",
-                            attributes: ["id", "nombre", "es_anexo"]
+                            attributes: ["id", "nombre"]
                         }, {
                             model: Cumplido,
                             as: "cumplidos",

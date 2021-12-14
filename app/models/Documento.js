@@ -14,24 +14,19 @@ module.exports = (sequelize, DataTypes) => {
         nombre: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {
-                len: {
-                    args: [0, 45],
-                    msg: "El nombre no puede ser mayor de 45 caracteres"
-                },
-                notEmpty: {
-                    msg: "El nombre no debe estar en blanco!"
-                }
-            }
         },
-        es_anexo: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            validate: {
-                notEmpty: {
-                    msg: "Debe verificar si es un anexo"
-                }
-            }
+        // es_anexo: {
+        //     type: DataTypes.BOOLEAN,
+        //     allowNull: true,
+        //     validate: {
+        //         notEmpty: {
+        //             msg: "Debe verificar si es un anexo"
+        //         }
+        //     }
+        // },
+        data: {
+            // Binary Large Objects: para almacenar datos de gran tamaño que cambian de forma dinámica en las BD
+            type: DataTypes.BLOB("long"),
         },
     }, {
         sequelize,

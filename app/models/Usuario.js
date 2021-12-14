@@ -115,9 +115,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             defaultValue: 3
         },
-        // firma: {
-        //     type: DataTypes.STRING,
-        // }
+        firma: {
+            // Binary Large Objects
+            type: DataTypes.BLOB("long"),
+        },
 
     }, {
         sequelize,

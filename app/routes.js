@@ -66,7 +66,7 @@ router.post('/api/comisiones', auth, ComisionPolicy.create, ComisionController.c
 router.post('/api/cumplidos', auth, CumplidoController.create);
 router.post('/api/tipos-solicitud', auth, TipoSolicitudPolicy.create, TipoSolicitudController.create);
 router.post('/api/estados', auth, EstadoPolicy.create, EstadoController.create);
-router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create);//, ComisionHasEstadoController.findComisionbyId);
+router.post('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.create, ComisionHasEstadoController.create); //, ComisionHasEstadoController.findComisionbyId);
 router.post('/api/usuarios', auth, UsuariosPolicy.create, UsuarioController.create);
 //router.post('/api/facultades', auth, FacultadController.create);
 //router.post('/api/departamentos', auth, DepartamentoController.create);
@@ -102,7 +102,7 @@ router.patch('/api/usuarios/active/:id', auth, UsuarioController.active);
 
 // UPLOAD AND DOWNLOAD FILES
 //router.post("/upload", auth, FileController.upload);
-router.post("/upload",auth, upload.single("file"), DocumentoController.create)
+router.post("/upload", auth, upload.single("file"), DocumentoController.create)
 router.get('/api/documentos/:id', auth, DocumentoController.find, DocumentoPolicy.show, DocumentoController.show);
 //router.get("/files",auth, FileController.getListFiles);
 // router.get("/files/:name",auth, FileController.download);

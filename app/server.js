@@ -6,8 +6,8 @@ var bodyParser = require('body-parser');
 const { sequelize } = require('./models/index');
 
 //Middlerwares
-const auth = require('./middlerwares/auth');
-const createinitial = require('./middlerwares/Createinitial');
+// const auth = require('./middlerwares/auth');
+// const createinitial = require('./middlerwares/Createinitial');
 
 // PUERTO
 const PORT = process.env.PORT || 3000;
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // conectar api con frontend
-app.use(cors());
+// app.use(cors());
 
 
 app.use(bodyParser.json());

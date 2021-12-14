@@ -25,8 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         //     }
         // },
         data: {
+            // Binary Large Objects: para almacenar datos de gran tamaño que cambian de forma dinámica en las BD
             type: DataTypes.BLOB("long"),
-          },
+        },
     }, {
         sequelize,
         modelName: 'Documento',

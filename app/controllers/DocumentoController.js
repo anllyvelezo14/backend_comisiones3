@@ -87,34 +87,34 @@ module.exports = {
     async create(req, res) {
         //const documentos = await 
         Documento.create({
-            nombre: req.file.originalname,
-            //es_anexo: req.file.es_anexo,
-            //es_cumplido: req.file.es_cumplido,
-            //enviado: req.file.enviado,
-            //comisiones_id: req.body.comisiones_id,
-            data: fs.readFileSync(
-                __basedir + "/assets/uploads/" + req.file.filename
-              ),
-        }).then((doc) => {
-            fs.writeFileSync(
-              __basedir + "/assets/tmp/" + doc.nombre, doc.data
-            );
-            return res.send(`EL documento se ha subido con éxito`);
-        })
-        // await documentos.save().then(function(newdocumento) {
-        //     console.log(newdocumento);
-        //     res.status(201).send({
-        //         status: 201,
-        //         message: `El Documento ${newdocumento.id} se creó con éxito!`
-        //     })
-        // })
-        .catch(function(error) {
-            console.log(error.message);
-            return res.status(400).send({
-                status: 400,
-                message: error.message
-            });
-        })
+                nombre: req.file.originalname,
+                //es_anexo: req.file.es_anexo,
+                //es_cumplido: req.file.es_cumplido,
+                //enviado: req.file.enviado,
+                //comisiones_id: req.body.comisiones_id,
+                data: fs.readFileSync(
+                    __basedir + "/assets/uploads/" + req.file.filename
+                ),
+            }).then((doc) => {
+                fs.writeFileSync(
+                    __basedir + "/assets/tmp/" + doc.nombre, doc.data
+                );
+                return res.send(`EL documento se ha subido con éxito`);
+            })
+            // await documentos.save().then(function(newdocumento) {
+            //     console.log(newdocumento);
+            //     res.status(201).send({
+            //         status: 201,
+            //         message: `El Documento ${newdocumento.id} se creó con éxito!`
+            //     })
+            // })
+            .catch(function(error) {
+                console.log(error.message);
+                return res.status(400).send({
+                    status: 400,
+                    message: error.message
+                });
+            })
     },
 
     //FIND: ULTIMO ESTADO DE LA COMISION
@@ -134,22 +134,20 @@ module.exports = {
             //es_anexo: req.body.es_anexo,
             // es_cumplido: req.body.es_cumplido,
             // enviado: req.body.enviado,
-            comisiones_id: req.comision
+            comisiones_id: req.comisiones_has_estados
 
-        }, 
-        // {
-        //     where: {
-        //         id: req.params.id,
-        //     }
-        // }
-        ).then(
-        //     function(newdocumento) {
-        //     console.log(newdocumento);
-        //     res.status(201).send({
-        //         status: 201,
-        //         message: `El Documento ${req.params.id} se actualizó con éxito!`
-        //     });
-        // }
+        }, {
+            where: {
+                id: req.params.id,
+            }
+        }).then(
+            //     function(newdocumento) {
+            //     console.log(newdocumento);
+            //     res.status(201).send({
+            //         status: 201,
+            //         message: `El Documento ${req.params.id} se actualizó con éxito!`
+            //     });
+            // }
         ).catch(function(error) {
             console.log(error.message);
             return res.status(400).send({

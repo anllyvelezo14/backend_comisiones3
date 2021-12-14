@@ -1,7 +1,7 @@
 //Servidor de Express
 const express = require('express');
 const app = express();
-const cors = require('cors');
+// const cors = require('cors');
 var bodyParser = require('body-parser');
 const { sequelize } = require('./models/index');
 

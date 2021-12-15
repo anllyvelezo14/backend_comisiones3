@@ -35,10 +35,11 @@ router.get('/', (req, res) => res.json({ hola: "mundo" }));
 
 
 //GET
-router.get('/api/comisiones', 
-// auth, 
-// ComisionPolicy.showAll, 
-ComisionController.all);
+router.get('/api/comisiones' 
+// ,auth 
+// ,ComisionPolicy.showAll 
+,ComisionController.all
+);
 // router.get('/api/documentos', auth, ShowAllDocsCumpl.showAll, DocumentoController.all);
 // router.get('/api/cumplidos', auth, ShowAllDocsCumpl.showAll, CumplidoController.all);
 // router.get('/api/estados', auth, EstadoController.all);
@@ -50,12 +51,12 @@ ComisionController.all);
 // router.get('/api/departamentos', auth, DepartamentoController.all);
 
 //GET BY ID
-router.get('/api/comisiones/:id', 
+// router.get('/api/comisiones/:id', 
 // auth, 
-ComisionController.find 
+// ComisionController.find 
 // ComisionPolicy.show, 
 // ComisionController.show
-);
+// );
 // router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.show, CumplidoController.show);
 // router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);
 // router.get('/api/estados/:id', auth, EstadoController.find, EstadoController.show);

@@ -45,7 +45,10 @@ router.get('/api/comisiones'
 // router.get('/api/estados', auth, EstadoController.all);
 // router.get('/api/comisiones-estados', auth, ComisionHasEstadoPolicy.showAll, ComisionHasEstadoController.all);
 // router.get('/api/tipos-solicitud', auth, TipoSolicitudController.all);
-// router.get('/api/usuarios', auth, UsuariosPolicy.all, UsuarioController.all);
+// router.get('/api/usuarios'
+// , auth
+// , UsuariosPolicy.all
+// , UsuarioController.all);
 // router.get('/api/facultades', auth, FacultadController.all);
 // router.get('/api/roles', auth, RolController.all);
 // router.get('/api/departamentos', auth, DepartamentoController.all);

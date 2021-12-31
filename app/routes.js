@@ -7,7 +7,7 @@ const router = expres.Router()
 // const upload = require('./middlerwares/upload');
 
 const auth = require('./middlerwares/auth')
-const upload = require('./middlerwares/upload')
+//const upload = require('./middlerwares/upload')
 
 // const auth = require('./middlerwares/auth')
 
@@ -43,8 +43,7 @@ router.get('/', (req, res) => res.json({ hola: 'mundo' }))
 router.get('/api/comisiones',
   // auth,
   // ComisionPolicy.showAll,
-  // ComisionPolicy.showAll,
-  // ComisionPolicy.showAll,
+
   ComisionController.all,
 )
 // router.get('/api/documentos', auth, ShowAllDocsCumpl.showAll, DocumentoController.all);
@@ -62,12 +61,9 @@ router.get(
   '/api/comisiones/:id',
   // auth,
   ComisionController.find,
-  ComisionController.find,
-  ComisionController.find,
-  // ComisionPolicy.show,
-  // ComisionPolicy.show,
-  // ComisionPolicy.show,
   ComisionController.show,
+  // ComisionPolicy.show,
+  
 )
 // router.get('/api/cumplidos/:id', auth, CumplidoController.find, CumplidoPolicy.show, CumplidoController.show);
 // router.get('/api/tipos-solicitud/:id', auth, TipoSolicitudController.find, TipoSolicitudController.show);

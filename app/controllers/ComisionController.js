@@ -140,7 +140,7 @@ module.exports = {
             })
         req.comision = comision;
 
-        next();
+        // next();
     },
 
     //FIND: ULTIMO ESTADO DE LA COMISION

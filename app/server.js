@@ -23,7 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //RUTAS
-app.use(require('./routes'));
+// app.use(require('./routes'));
+app.use(require('./routes/comisiones'));
 
 // UPLOAD
 global.__basedir = __dirname;
